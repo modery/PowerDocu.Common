@@ -8,6 +8,7 @@ namespace PowerDocu.Common
     public static class ZipHelper
     {
         public const string FlowDefinitionFile = "definition.json";
+        public const string SolutionDefinitionFile = "solution.xml";
         public const string SolutionPackageWorkflowsPath = "Workflows/";
 
         public static List<ZipArchiveEntry> getWorkflowFilesFromZip(Stream archiveFileStream)
@@ -51,6 +52,10 @@ namespace PowerDocu.Common
                 }
             }
             return null;
+        }
+
+        public static ZipArchiveEntry getSolutionDefinitionFileFromZip(Stream archiveFileStream) {
+            return getFileFromZip(archiveFileStream, SolutionDefinitionFile);
         }
 
         public static void test()
