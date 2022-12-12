@@ -78,7 +78,7 @@ namespace PowerDocu.Common
                     ID = component.Attributes.GetNamedItem("id")?.InnerText,
                     Type = SolutionComponentHelper.GetComponentType(component.Attributes.GetNamedItem("type")?.InnerText)
                 };
-                solution.Components.Add(solutionComponent);
+                solution.Dependencies.Add(solutionComponent);
             }
 
             //todo parse XML
