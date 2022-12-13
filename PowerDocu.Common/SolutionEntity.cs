@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 
 namespace PowerDocu.Common
@@ -11,6 +12,11 @@ namespace PowerDocu.Common
         public SolutionPublisher Publisher;
         public List<SolutionComponent> Components = new List<SolutionComponent>();
         public List<SolutionComponent> Dependencies = new List<SolutionComponent>();
+
+        public List<string> GetComponentTypes()
+        {
+            return Components.GroupBy(p => p.Type).Select(g => g.First()).OrderBy(t => t.Type).Select(t => t.Type).ToList();
+        }
     }
 
     public class SolutionPublisher
