@@ -40,5 +40,6 @@ namespace PowerDocu.Common
         public string Category;
         public string InvariantScript;
         public string RuleProviderType;
+        public string NameMap;
     }
 }
