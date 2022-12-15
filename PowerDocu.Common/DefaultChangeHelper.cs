@@ -9,6 +9,8 @@ namespace PowerDocu.Common
     public static class DefaultChangeHelper
     {
         private static readonly string ControlDefaultsFile = AssemblyHelper.GetExecutablePath() + @"Resources\DefaultSettings\ControlDefaultSetting.json";
+        private static readonly string AppDefaultsFile = AssemblyHelper.GetExecutablePath() + @"Resources\DefaultSettings\AppDefaultSetting.json";
+        private static readonly string ScreenDefaultsFile = AssemblyHelper.GetExecutablePath() + @"Resources\DefaultSettings\ScreenDefaultSetting.json";
         private static List<Entity> entityDefaults;
 
         private static void InitializeEntityDefaults()
