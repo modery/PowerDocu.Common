@@ -428,8 +428,8 @@ namespace PowerDocu.Common
         {
             border.Val = new EnumValue<BorderValues>(borderType);
             border.Size = 12;
-            border.Color = "A6A6A6";
             border.Space = 0;
+            border.Color = "A6A6A6";
             return border;
         }
 
@@ -696,6 +696,20 @@ namespace PowerDocu.Common
                 sb.Append(hashBytes[i].ToString("X2"));
             }
             return sb.ToString();
+        }
+
+        protected Run CreateRunWithLinebreaks(string text)
+        {
+            Run run = new Run();
+            while (text.Contains("\r\n"))
+            {
+                string textToAppend = text.Substring(0, text.IndexOf("\r\n"));
+                run.Append(new Text() { Text = textToAppend, Space = SpaceProcessingModeValues.Preserve });
+                run.Append(new Break());
+                text = text.Substring(text.IndexOf("\r\n") + 2);
+            }
+            run.Append(new Text(text));
+            return run;
         }
     }
 }
