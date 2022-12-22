@@ -116,7 +116,7 @@ namespace PowerDocu.Common
 
                     case "inputs":
                         JObject inputs = (JObject)property.Value;
-                        parseInputObject(inputs.Children(), flow.trigger.Inputs, ref flow.trigger.Connector);
+                        parseInputObject(inputs.Children(), flow.trigger.Inputs, "trigger", ref flow.trigger.Connector);
                         break;
                     default:
                         flow.trigger.TriggerProperties.Add(Expression.parseExpressions(property));
@@ -228,7 +228,7 @@ namespace PowerDocu.Common
                             else if (property.Value.GetType().Equals(typeof(Newtonsoft.Json.Linq.JObject)))
                             {
                                 var inputNodes = property.Value.Children();
-                                parseInputObject(inputNodes, aNode.actionInputs, ref aNode.Connection);
+                                parseInputObject(inputNodes, aNode.actionInputs, aNode.Type, ref aNode.Connection);
                             }
                             break;
                         case "actions":
@@ -333,22 +333,35 @@ namespace PowerDocu.Common
             }
         }
 
-        private void parseInputObject(JEnumerable<JToken> inputNodes, List<Expression> inputList, ref string conn)
+        private void parseInputObject(JEnumerable<JToken> inputNodes, List<Expression> inputList, string Type, ref string conn)
         {
             foreach (JProperty inputNode in inputNodes)
             {
-                inputList.Add(Expression.parseExpressions(inputNode));
-                //If the node's name = host then there are details about the connection used inside
-                if (inputNode.Name == "host")
+                //handling ParseJson action nodes slightly differently. The schema node contains the JSON schema used by the action, so we simply add it directly as content instead of parsing it
+                if (Type.Equals("ParseJson") && inputNode.Name.Equals("schema"))
                 {
-                    //this is not a nice way, but works so far
-                    //exported Flow
-                    JToken connectionToken = (JToken)inputNode.Value["connection"]?["name"];
-                    //seen as part of a solution
-                    connectionToken ??= (JToken)inputNode.Value["apiId"];
-                    if (connectionToken != null)
+                    Expression expression = new Expression()
                     {
-                        conn = extractConnectorName(connectionToken.ToString());
+                        expressionOperator = inputNode.Name
+                    };
+                    expression.expressionOperands.Add(JsonUtil.JsonPrettify(inputNode.Value.ToString()));
+                    inputList.Add(expression);
+                }
+                else
+                {
+                    inputList.Add(Expression.parseExpressions(inputNode));
+                    //If the node's name = host then there are details about the connection used inside
+                    if (inputNode.Name == "host")
+                    {
+                        //this is not a nice way, but works so far
+                        //exported Flow
+                        JToken connectionToken = (JToken)inputNode.Value["connection"]?["name"];
+                        //seen as part of a solution
+                        connectionToken ??= (JToken)inputNode.Value["apiId"];
+                        if (connectionToken != null)
+                        {
+                            conn = extractConnectorName(connectionToken.ToString());
+                        }
                     }
                 }
             }
