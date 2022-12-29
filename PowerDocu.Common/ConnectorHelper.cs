@@ -16,7 +16,7 @@ namespace PowerDocu.Common
     public static class ConnectorHelper
     {
         private static readonly string folderPath = AssemblyHelper.GetExecutablePath() + @"\Resources\ConnectorIcons\";
-        public static List<ConnectorIcon> connectorIcons;
+        private static List<ConnectorIcon> connectorIcons;
 
         public static string getConnectorIconFile(string connectorName)
         {
@@ -29,6 +29,12 @@ namespace PowerDocu.Common
         public static int numberOfConnectorIcons()
         {
             return Directory.GetFiles(folderPath, "*.png").Length;
+        }
+
+        public static int numberOfConnectors()
+        {
+            loadConnectorIcons();
+            return connectorIcons.Count;
         }
 
         public static ConnectorIcon getConnectorIcon(string uniqueName)
