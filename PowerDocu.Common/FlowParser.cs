@@ -338,7 +338,7 @@ namespace PowerDocu.Common
             foreach (JProperty inputNode in inputNodes)
             {
                 //handling ParseJson action nodes slightly differently. The schema node contains the JSON schema used by the action, so we simply add it directly as content instead of parsing it
-                if (Type.Equals("ParseJson") && inputNode.Name.Equals("schema"))
+                if (Type?.Equals("ParseJson") == true && inputNode.Name.Equals("schema"))
                 {
                     Expression expression = new Expression()
                     {
