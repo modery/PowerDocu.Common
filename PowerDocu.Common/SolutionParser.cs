@@ -58,6 +58,7 @@ namespace PowerDocu.Common
                     CustomizationOptionValuePrefix = solutionManifest.SelectSingleNode("Publisher/CustomizationOptionValuePrefix").InnerText
                 }
             };
+            //todo finish parsing the Publisher
             //parsing the components
             foreach (XmlNode component in solutionManifest.SelectSingleNode("RootComponents").ChildNodes)
             {
@@ -70,10 +71,6 @@ namespace PowerDocu.Common
                 solution.Components.Add(solutionComponent);
             }
             //parsing the dependencies
-            //"<MissingDependency>
-            //<Required type=\"1\" schemaName=\"admin_app\" displayName=\"PowerApps App\" solution=\"CenterofExcellenceCoreComponents_Upgrade (2.80)\" />
-            //<Dependent type=\"10\" schemaName=\"admin_ArchiveApproval_AppLookup_admin_App\" displayName=\"admin_ArchiveApproval_AppLookup_admin_App\" parentSchemaName=\"admin_archiveapproval\" parentDisplayName=\"Archive Approval \" />
-            //</MissingDependency>"
             foreach (XmlNode component in solutionManifest.SelectSingleNode("MissingDependencies").ChildNodes)
             {
                 SolutionComponent required = new SolutionComponent()
@@ -101,13 +98,14 @@ namespace PowerDocu.Common
                 solution.Dependencies.Add(new SolutionDependency(required, dependent));
             }
 
-            //todo parse XML
-            // Descriptions
-            // LocalizedNames
-            // Publisher
-            // RootComponents --> https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/reference/solutioncomponent?view=dataverse-latest
-            // MissingDependencies
-            string s = "";
+            //LocalizedNames
+            foreach (XmlNode localizedName in solutionManifest.SelectSingleNode("LocalizedNames").ChildNodes)
+            {
+                solution.LocalizedNames.Add(localizedName.Attributes.GetNamedItem("languagecode")?.InnerText,
+                                            localizedName.Attributes.GetNamedItem("description")?.InnerText);
+            }
+
+            //todo parse Descriptions
         }
     }
 

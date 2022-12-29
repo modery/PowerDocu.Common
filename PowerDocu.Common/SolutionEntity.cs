@@ -12,6 +12,7 @@ namespace PowerDocu.Common
         public SolutionPublisher Publisher;
         public List<SolutionComponent> Components = new List<SolutionComponent>();
         public List<SolutionDependency> Dependencies = new List<SolutionDependency>();
+        public Dictionary<string, string> LocalizedNames = new Dictionary<string, string>();
 
         public List<string> GetComponentTypes()
         {
