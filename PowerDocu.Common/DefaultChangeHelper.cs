@@ -12,6 +12,7 @@ namespace PowerDocu.Common
         private static readonly string AppDefaultsFile = AssemblyHelper.GetExecutablePath() + @"Resources\DefaultSettings\AppDefaultSetting.json";
         private static readonly string ScreenDefaultsFile = AssemblyHelper.GetExecutablePath() + @"Resources\DefaultSettings\ScreenDefaultSetting.json";
         private static List<Entity> entityDefaults;
+        public static string DefaultValueIfUnknown = "";
 
         private static void InitializeEntityDefaults()
         {
