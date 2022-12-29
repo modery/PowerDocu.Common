@@ -70,15 +70,35 @@ namespace PowerDocu.Common
                 solution.Components.Add(solutionComponent);
             }
             //parsing the dependencies
+            //"<MissingDependency>
+            //<Required type=\"1\" schemaName=\"admin_app\" displayName=\"PowerApps App\" solution=\"CenterofExcellenceCoreComponents_Upgrade (2.80)\" />
+            //<Dependent type=\"10\" schemaName=\"admin_ArchiveApproval_AppLookup_admin_App\" displayName=\"admin_ArchiveApproval_AppLookup_admin_App\" parentSchemaName=\"admin_archiveapproval\" parentDisplayName=\"Archive Approval \" />
+            //</MissingDependency>"
             foreach (XmlNode component in solutionManifest.SelectSingleNode("MissingDependencies").ChildNodes)
             {
-                SolutionComponent solutionComponent = new SolutionComponent()
+                SolutionComponent required = new SolutionComponent()
                 {
-                    SchemaName = component.Attributes.GetNamedItem("schemaName")?.InnerText,
-                    ID = component.Attributes.GetNamedItem("id")?.InnerText,
-                    Type = SolutionComponentHelper.GetComponentType(component.Attributes.GetNamedItem("type")?.InnerText)
+                    SchemaName = component["Required"].Attributes.GetNamedItem("schemaName")?.InnerText,
+                    DisplayName = component["Required"].Attributes.GetNamedItem("displayName")?.InnerText,
+                    Solution = component["Required"].Attributes.GetNamedItem("solution")?.InnerText,
+                    ID = component["Required"].Attributes.GetNamedItem("id")?.InnerText,
+                    ParentDisplayName = component["Required"].Attributes.GetNamedItem("parentDisplayName")?.InnerText,
+                    ParentSchemaName = component["Required"].Attributes.GetNamedItem("parentSchemaName")?.InnerText,
+                    IdSchemaName = component["Required"].Attributes.GetNamedItem("id.schemaname")?.InnerText,
+                    Type = SolutionComponentHelper.GetComponentType(component["Required"].Attributes.GetNamedItem("type")?.InnerText)
                 };
-                solution.Dependencies.Add(solutionComponent);
+                SolutionComponent dependent = new SolutionComponent()
+                {
+                    SchemaName = component["Dependent"].Attributes.GetNamedItem("schemaName")?.InnerText,
+                    DisplayName = component["Dependent"].Attributes.GetNamedItem("displayName")?.InnerText,
+                    Type = SolutionComponentHelper.GetComponentType(component["Dependent"].Attributes.GetNamedItem("type")?.InnerText),
+                    ID = component["Dependent"].Attributes.GetNamedItem("id")?.InnerText,
+                    ParentDisplayName = component["Dependent"].Attributes.GetNamedItem("parentDisplayName")?.InnerText,
+                    ParentSchemaName = component["Dependent"].Attributes.GetNamedItem("parentSchemaName")?.InnerText,
+                    IdSchemaName = component["Dependent"].Attributes.GetNamedItem("id.schemaname")?.InnerText,
+                    Solution = component["Dependent"].Attributes.GetNamedItem("solution")?.InnerText
+                };
+                solution.Dependencies.Add(new SolutionDependency(required, dependent));
             }
 
             //todo parse XML
