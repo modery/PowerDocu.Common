@@ -11,7 +11,7 @@ namespace PowerDocu.Common
         public bool isManaged;
         public SolutionPublisher Publisher;
         public List<SolutionComponent> Components = new List<SolutionComponent>();
-        public List<SolutionComponent> Dependencies = new List<SolutionComponent>();
+        public List<SolutionDependency> Dependencies = new List<SolutionDependency>();
 
         public List<string> GetComponentTypes()
         {
@@ -38,11 +38,20 @@ namespace PowerDocu.Common
         public string ID;
         public string DisplayName;
         public string Solution;
+        public string ParentSchemaName;
+        public string ParentDisplayName;
+        public string IdSchemaName;
     }
 
     public class SolutionDependency
     {
         public SolutionComponent Required;
         public SolutionComponent Dependent;
+
+        public SolutionDependency(SolutionComponent req, SolutionComponent dep)
+        {
+            Required = req;
+            Dependent = dep;
+        }
     }
 }
