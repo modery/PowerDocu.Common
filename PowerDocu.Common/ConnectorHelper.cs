@@ -104,6 +104,10 @@ namespace PowerDocu.Common
                 NotificationHelper.SendNotification("An error occured while trying to update the connector list:");
                 NotificationHelper.SendNotification(e.ToString());
             }
+            finally
+            {
+                connectorIcons = null;
+            }
             return true;
         }
 
