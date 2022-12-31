@@ -16,11 +16,23 @@ namespace PowerDocu.Common
 
         private static void InitializeEntityDefaults()
         {
-            using StreamReader reader = new StreamReader(ControlDefaultsFile);
+            //control defaults
+            StreamReader reader = new StreamReader(ControlDefaultsFile);
             string appJSON = reader.ReadToEnd();
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
             var _jsonSerializer = JsonSerializer.Create(settings);
             entityDefaults = JsonConvert.DeserializeObject<List<Entity>>(appJSON, settings);
+            //app defaults
+            reader = new StreamReader(AppDefaultsFile);
+            appJSON = reader.ReadToEnd();
+            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            entityDefaults.Add(JsonConvert.DeserializeObject<Entity>(appJSON, settings));
+            //screen defaults
+            reader = new StreamReader(ScreenDefaultsFile);
+            appJSON = reader.ReadToEnd();
+            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            entityDefaults.Add(JsonConvert.DeserializeObject<Entity>(appJSON, settings));
+            reader.Close();
         }
 
         public static Entity GetEntityDefaults(string entity)
