@@ -27,9 +27,39 @@ namespace PowerDocu.Common
         public string SupportingWebsiteUrl;
         public string CustomizationPrefix;
         public string CustomizationOptionValuePrefix;
-        //Descriptions
-        //LocalizedNames
-        //addresses
+        public string Descriptions;
+        public Dictionary<string, string> LocalizedNames = new Dictionary<string, string>();
+        public List<Address> Addresses = new List<Address>();
+    }
+
+    public class Address
+    {
+        public string AddressNumber;
+        public string AddressTypeCode;
+        public string City;
+        public string County;
+        public string Country;
+        public string Fax;
+        public string FreightTermsCode;
+        public string ImportSequenceNumber;
+        public string Latitude;
+        public string Line1;
+        public string Line2;
+        public string Line3;
+        public string Longitude;
+        public string Name;
+        public string PostalCode;
+        public string PostOfficeBox;
+        public string PrimaryContactName;
+        public string ShippingMethodCode;
+        public string StateOrProvince;
+        public string Telephone1;
+        public string Telephone2;
+        public string Telephone3;
+        public string TimeZoneRuleVersionNumber;
+        public string UPSZone;
+        public string UTCOffset;
+        public string UTCConversionTimeZoneCode;
     }
 
     public class SolutionComponent

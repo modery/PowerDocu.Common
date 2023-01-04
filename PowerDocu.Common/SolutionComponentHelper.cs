@@ -90,6 +90,7 @@ namespace PowerDocu.Common
                 "371" => "Connector",
                 "372" => "Connector",
                 "380" => "Environment Variable Definition",
+                "EnvironmentVariableDefinition" => "Environment Variable Definition",
                 "381" => "Environment Variable Value",
                 "400" => "AI Project Type",
                 "401" => "AI Project",
@@ -97,6 +98,7 @@ namespace PowerDocu.Common
                 "430" => "Entity Analytics Configuration",
                 "431" => "Attribute Image Configuration",
                 "432" => "Entity Image Configuration",
+                "connectionreference" => "Connection Reference",
                 _ => UnknownType()
             };
         }

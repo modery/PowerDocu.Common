@@ -58,7 +58,45 @@ namespace PowerDocu.Common
                     CustomizationOptionValuePrefix = solutionManifest.SelectSingleNode("Publisher/CustomizationOptionValuePrefix").InnerText
                 }
             };
-            //todo finish parsing the Publisher
+            //finish parsing the Publisher
+            foreach (XmlNode localizedName in solutionManifest.SelectSingleNode("Publisher/LocalizedNames").ChildNodes)
+            {
+                solution.Publisher.LocalizedNames.Add(localizedName.Attributes.GetNamedItem("languagecode")?.InnerText,
+                                            localizedName.Attributes.GetNamedItem("description")?.InnerText);
+            }
+            foreach (XmlNode xmlAddress in solutionManifest.SelectSingleNode("Publisher/Addresses").ChildNodes)
+            {
+                Address address = new Address()
+                {
+                    AddressNumber = xmlAddress.SelectSingleNode("AddressNumber")?.InnerText,
+                    AddressTypeCode = xmlAddress.SelectSingleNode("AddressTypeCode")?.InnerText,
+                    City = xmlAddress.SelectSingleNode("City")?.InnerText,
+                    County = xmlAddress.SelectSingleNode("County")?.InnerText,
+                    Country = xmlAddress.SelectSingleNode("Country")?.InnerText,
+                    Fax = xmlAddress.SelectSingleNode("Fax")?.InnerText,
+                    FreightTermsCode = xmlAddress.SelectSingleNode("FreightTermsCode")?.InnerText,
+                    ImportSequenceNumber = xmlAddress.SelectSingleNode("ImportSequenceNumber")?.InnerText,
+                    Latitude = xmlAddress.SelectSingleNode("Latitude")?.InnerText,
+                    Line1 = xmlAddress.SelectSingleNode("Line1")?.InnerText,
+                    Line2 = xmlAddress.SelectSingleNode("Line2")?.InnerText,
+                    Line3 = xmlAddress.SelectSingleNode("Line3")?.InnerText,
+                    Longitude = xmlAddress.SelectSingleNode("Longitude")?.InnerText,
+                    Name = xmlAddress.SelectSingleNode("Name")?.InnerText,
+                    PostalCode = xmlAddress.SelectSingleNode("PostalCode")?.InnerText,
+                    PostOfficeBox = xmlAddress.SelectSingleNode("PostOfficeBox")?.InnerText,
+                    PrimaryContactName = xmlAddress.SelectSingleNode("PrimaryContactName")?.InnerText,
+                    ShippingMethodCode = xmlAddress.SelectSingleNode("ShippingMethodCode")?.InnerText,
+                    StateOrProvince = xmlAddress.SelectSingleNode("StateOrProvince")?.InnerText,
+                    Telephone1 = xmlAddress.SelectSingleNode("Telephone1")?.InnerText,
+                    Telephone2 = xmlAddress.SelectSingleNode("Telephone2")?.InnerText,
+                    Telephone3 = xmlAddress.SelectSingleNode("Telephone3")?.InnerText,
+                    TimeZoneRuleVersionNumber = xmlAddress.SelectSingleNode("TimeZoneRuleVersionNumber")?.InnerText,
+                    UPSZone = xmlAddress.SelectSingleNode("UPSZone")?.InnerText,
+                    UTCOffset = xmlAddress.SelectSingleNode("UTCOffset")?.InnerText,
+                    UTCConversionTimeZoneCode = xmlAddress.SelectSingleNode("UTCConversionTimeZoneCode")?.InnerText
+                };
+                solution.Publisher.Addresses.Add(address);
+            }
             //parsing the components
             foreach (XmlNode component in solutionManifest.SelectSingleNode("RootComponents").ChildNodes)
             {
