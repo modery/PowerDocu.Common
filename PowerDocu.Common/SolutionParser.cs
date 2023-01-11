@@ -97,6 +97,11 @@ namespace PowerDocu.Common
                 };
                 solution.Publisher.Addresses.Add(address);
             }
+            foreach (XmlNode description in solutionManifest.SelectSingleNode("Publisher/Descriptions").ChildNodes)
+            {
+                solution.Descriptions.Add(description.Attributes.GetNamedItem("languagecode")?.InnerText,
+                                            description.Attributes.GetNamedItem("description")?.InnerText);
+            }
             //parsing the components
             foreach (XmlNode component in solutionManifest.SelectSingleNode("RootComponents").ChildNodes)
             {
@@ -142,8 +147,12 @@ namespace PowerDocu.Common
                 solution.LocalizedNames.Add(localizedName.Attributes.GetNamedItem("languagecode")?.InnerText,
                                             localizedName.Attributes.GetNamedItem("description")?.InnerText);
             }
-
-            //todo parse Descriptions
+            //Descriptions
+            foreach (XmlNode description in solutionManifest.SelectSingleNode("Descriptions").ChildNodes)
+            {
+                solution.Descriptions.Add(description.Attributes.GetNamedItem("languagecode")?.InnerText,
+                                            description.Attributes.GetNamedItem("description")?.InnerText);
+            }
         }
     }
 

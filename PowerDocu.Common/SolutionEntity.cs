@@ -13,6 +13,7 @@ namespace PowerDocu.Common
         public List<SolutionComponent> Components = new List<SolutionComponent>();
         public List<SolutionDependency> Dependencies = new List<SolutionDependency>();
         public Dictionary<string, string> LocalizedNames = new Dictionary<string, string>();
+        public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
 
         public List<string> GetComponentTypes()
         {
@@ -27,7 +28,7 @@ namespace PowerDocu.Common
         public string SupportingWebsiteUrl;
         public string CustomizationPrefix;
         public string CustomizationOptionValuePrefix;
-        public string Descriptions;
+        public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
         public Dictionary<string, string> LocalizedNames = new Dictionary<string, string>();
         public List<Address> Addresses = new List<Address>();
     }
