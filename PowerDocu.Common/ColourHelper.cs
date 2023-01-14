@@ -91,7 +91,8 @@ namespace PowerDocu.Common
                     return true;
                 }
             }
-            return false;
+            Color convertedColour = Color.FromName(cssColor);
+            return convertedColour != Color.Black || cssColor.Equals("black", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
