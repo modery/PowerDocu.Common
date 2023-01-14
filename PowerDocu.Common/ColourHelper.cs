@@ -56,6 +56,13 @@ namespace PowerDocu.Common
                     }
                 }
             }
+            else if (!String.IsNullOrEmpty(cssColor))
+            {
+                //using the built-in colour parser to see if we can get a colour back. Default value is black (for invalid strings provided), thus we also check for black separately
+                Color convertedColour = Color.FromName(cssColor);
+                if (convertedColour != Color.Black || cssColor.Equals("black", StringComparison.OrdinalIgnoreCase))
+                    return ColorToHex(convertedColour);
+            }
             return null;
         }
 
