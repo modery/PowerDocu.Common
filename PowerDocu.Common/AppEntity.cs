@@ -8,7 +8,6 @@ namespace PowerDocu.Common
     {
         public string ID;
         public string Name;
-
         public List<ControlEntity> Controls = new List<ControlEntity>();
         public List<Expression> Properties = new List<Expression>();
         public List<DataSource> DataSources = new List<DataSource>();

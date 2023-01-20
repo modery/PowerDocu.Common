@@ -27,6 +27,21 @@ namespace PowerDocu.Common
                     }
                     File.Delete(tempFile);
                 }
+                ZipArchiveEntry customizationsDefinition = ZipHelper.getCustomizationsDefinitionFileFromZip(stream);
+                if (customizationsDefinition != null)
+                {
+                    string tempFile = Path.GetDirectoryName(filename) + @"\" + customizationsDefinition.Name;
+                    customizationsDefinition.ExtractToFile(tempFile, true);
+                    NotificationHelper.SendNotification("  - Processing customizations.xml ");
+                    using (FileStream customizations = new FileStream(tempFile, FileMode.Open))
+                    {
+                        {
+                            //parseSolutionDefinition(appDefinition);
+                            solution.Customizations = CustomizationsParser.parseCustomizationsDefinition(customizations);
+                        }
+                    }
+                    File.Delete(tempFile);
+                }
             }
             else
             {
@@ -58,7 +73,6 @@ namespace PowerDocu.Common
                     CustomizationOptionValuePrefix = solutionManifest.SelectSingleNode("Publisher/CustomizationOptionValuePrefix").InnerText
                 }
             };
-            //finish parsing the Publisher
             foreach (XmlNode localizedName in solutionManifest.SelectSingleNode("Publisher/LocalizedNames").ChildNodes)
             {
                 solution.Publisher.LocalizedNames.Add(localizedName.Attributes.GetNamedItem("languagecode")?.InnerText,
@@ -99,7 +113,7 @@ namespace PowerDocu.Common
             }
             foreach (XmlNode description in solutionManifest.SelectSingleNode("Publisher/Descriptions").ChildNodes)
             {
-                solution.Descriptions.Add(description.Attributes.GetNamedItem("languagecode")?.InnerText,
+                solution.Publisher.Descriptions.Add(description.Attributes.GetNamedItem("languagecode")?.InnerText,
                                             description.Attributes.GetNamedItem("description")?.InnerText);
             }
             //parsing the components
@@ -119,24 +133,24 @@ namespace PowerDocu.Common
                 SolutionComponent required = new SolutionComponent()
                 {
                     SchemaName = component["Required"].Attributes.GetNamedItem("schemaName")?.InnerText,
-                    DisplayName = component["Required"].Attributes.GetNamedItem("displayName")?.InnerText,
-                    Solution = component["Required"].Attributes.GetNamedItem("solution")?.InnerText,
+                    reqdepDisplayName = component["Required"].Attributes.GetNamedItem("displayName")?.InnerText,
+                    reqdepSolution = component["Required"].Attributes.GetNamedItem("solution")?.InnerText,
                     ID = component["Required"].Attributes.GetNamedItem("id")?.InnerText,
-                    ParentDisplayName = component["Required"].Attributes.GetNamedItem("parentDisplayName")?.InnerText,
-                    ParentSchemaName = component["Required"].Attributes.GetNamedItem("parentSchemaName")?.InnerText,
-                    IdSchemaName = component["Required"].Attributes.GetNamedItem("id.schemaname")?.InnerText,
+                    reqdepParentDisplayName = component["Required"].Attributes.GetNamedItem("parentDisplayName")?.InnerText,
+                    reqdepParentSchemaName = component["Required"].Attributes.GetNamedItem("parentSchemaName")?.InnerText,
+                    reqdepIdSchemaName = component["Required"].Attributes.GetNamedItem("id.schemaname")?.InnerText,
                     Type = SolutionComponentHelper.GetComponentType(component["Required"].Attributes.GetNamedItem("type")?.InnerText)
                 };
                 SolutionComponent dependent = new SolutionComponent()
                 {
                     SchemaName = component["Dependent"].Attributes.GetNamedItem("schemaName")?.InnerText,
-                    DisplayName = component["Dependent"].Attributes.GetNamedItem("displayName")?.InnerText,
+                    reqdepDisplayName = component["Dependent"].Attributes.GetNamedItem("displayName")?.InnerText,
                     Type = SolutionComponentHelper.GetComponentType(component["Dependent"].Attributes.GetNamedItem("type")?.InnerText),
                     ID = component["Dependent"].Attributes.GetNamedItem("id")?.InnerText,
-                    ParentDisplayName = component["Dependent"].Attributes.GetNamedItem("parentDisplayName")?.InnerText,
-                    ParentSchemaName = component["Dependent"].Attributes.GetNamedItem("parentSchemaName")?.InnerText,
-                    IdSchemaName = component["Dependent"].Attributes.GetNamedItem("id.schemaname")?.InnerText,
-                    Solution = component["Dependent"].Attributes.GetNamedItem("solution")?.InnerText
+                    reqdepParentDisplayName = component["Dependent"].Attributes.GetNamedItem("parentDisplayName")?.InnerText,
+                    reqdepParentSchemaName = component["Dependent"].Attributes.GetNamedItem("parentSchemaName")?.InnerText,
+                    reqdepIdSchemaName = component["Dependent"].Attributes.GetNamedItem("id.schemaname")?.InnerText,
+                    reqdepSolution = component["Dependent"].Attributes.GetNamedItem("solution")?.InnerText
                 };
                 solution.Dependencies.Add(new SolutionDependency(required, dependent));
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -14,10 +15,30 @@ namespace PowerDocu.Common
         public List<SolutionDependency> Dependencies = new List<SolutionDependency>();
         public Dictionary<string, string> LocalizedNames = new Dictionary<string, string>();
         public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
+        public CustomizationsEntity Customizations;
 
         public List<string> GetComponentTypes()
         {
             return Components.GroupBy(p => p.Type).Select(g => g.First()).OrderBy(t => t.Type).Select(t => t.Type).ToList();
+        }
+
+        public string GetDisplayNameForComponent(SolutionComponent component)
+        {
+            string name;
+            switch (component.Type)
+            {
+                case "Canvas App":
+                    name = Customizations.getAppNameBySchemaName(component.SchemaName); //content.apps.Find(a => a.Filename.Equals(component.SchemaName))?.Name;
+                    break;
+                case "Workflow":
+                    name = Customizations.getFlowNameById(component.ID);
+                    break;
+                default:
+                    name = String.IsNullOrEmpty(component.SchemaName) ? component.ID : component.SchemaName;
+                    break;
+            }
+            name ??= String.IsNullOrEmpty(component.SchemaName) ? component.ID : component.SchemaName;
+            return name;
         }
     }
 
@@ -68,11 +89,13 @@ namespace PowerDocu.Common
         public string Type;
         public string SchemaName;
         public string ID;
-        public string DisplayName;
-        public string Solution;
-        public string ParentSchemaName;
-        public string ParentDisplayName;
-        public string IdSchemaName;
+        //the following properties are only used for items mentioned in MissingDependencies (Required/Dependent components)
+        public string reqdepDisplayName;
+        public string reqdepSolution;
+        public string reqdepParentSchemaName;
+        public string reqdepParentDisplayName;
+        public string reqdepIdSchemaName;
+
     }
 
     public class SolutionDependency
