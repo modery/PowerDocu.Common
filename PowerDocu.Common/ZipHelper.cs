@@ -14,7 +14,7 @@ namespace PowerDocu.Common
 
         public static List<ZipArchiveEntry> getWorkflowFilesFromZip(Stream archiveFileStream)
         {
-            ZipArchive archive = new ZipArchive(archiveFileStream,ZipArchiveMode.Read);
+            ZipArchive archive = new ZipArchive(archiveFileStream, ZipArchiveMode.Read);
             List<ZipArchiveEntry> entries = new List<ZipArchiveEntry>();
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
@@ -30,7 +30,7 @@ namespace PowerDocu.Common
 
         public static List<ZipArchiveEntry> getFilesInPathFromZip(Stream archiveFileStream, string path, string fileExtension)
         {
-            ZipArchive archive = new ZipArchive(archiveFileStream,ZipArchiveMode.Read);
+            ZipArchive archive = new ZipArchive(archiveFileStream, ZipArchiveMode.Read);
             List<ZipArchiveEntry> entries = new List<ZipArchiveEntry>();
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
@@ -44,7 +44,7 @@ namespace PowerDocu.Common
 
         public static ZipArchiveEntry getFileFromZip(Stream archiveFileStream, string fileName)
         {
-            ZipArchive archive = new ZipArchive(archiveFileStream,ZipArchiveMode.Read);
+            ZipArchive archive = new ZipArchive(archiveFileStream, ZipArchiveMode.Read);
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
                 if (entry.FullName.Equals(fileName))
@@ -55,11 +55,13 @@ namespace PowerDocu.Common
             return null;
         }
 
-        public static ZipArchiveEntry getSolutionDefinitionFileFromZip(Stream archiveFileStream) {
+        public static ZipArchiveEntry getSolutionDefinitionFileFromZip(Stream archiveFileStream)
+        {
             return getFileFromZip(archiveFileStream, SolutionDefinitionFile);
         }
 
-        public static ZipArchiveEntry getCustomizationsDefinitionFileFromZip(Stream archiveFileStream) {
+        public static ZipArchiveEntry getCustomizationsDefinitionFileFromZip(Stream archiveFileStream)
+        {
             return getFileFromZip(archiveFileStream, CustomizationsDefinitionFile);
         }
 

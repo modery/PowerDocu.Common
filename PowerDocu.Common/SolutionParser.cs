@@ -13,6 +13,7 @@ namespace PowerDocu.Common
             if (filename.EndsWith(".zip"))
             {
                 using FileStream stream = new FileStream(filename, FileMode.Open);
+                //process solution.xml
                 ZipArchiveEntry solutionDefinition = ZipHelper.getSolutionDefinitionFileFromZip(stream);
                 if (solutionDefinition != null)
                 {
@@ -27,6 +28,7 @@ namespace PowerDocu.Common
                     }
                     File.Delete(tempFile);
                 }
+                //process customizations.xml
                 ZipArchiveEntry customizationsDefinition = ZipHelper.getCustomizationsDefinitionFileFromZip(stream);
                 if (customizationsDefinition != null)
                 {
@@ -36,7 +38,6 @@ namespace PowerDocu.Common
                     using (FileStream customizations = new FileStream(tempFile, FileMode.Open))
                     {
                         {
-                            //parseSolutionDefinition(appDefinition);
                             solution.Customizations = CustomizationsParser.parseCustomizationsDefinition(customizations);
                         }
                     }

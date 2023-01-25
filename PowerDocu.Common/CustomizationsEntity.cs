@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 
 namespace PowerDocu.Common
@@ -9,12 +7,14 @@ namespace PowerDocu.Common
     {
         public XmlNode customizationsXml;
 
-        public string getAppNameBySchemaName(string schemaName) {
-            return customizationsXml.SelectSingleNode("/ImportExportXml/CanvasApps/CanvasApp[Name='"+schemaName+"']/DisplayName")?.InnerText;
+        public string getAppNameBySchemaName(string schemaName)
+        {
+            return customizationsXml.SelectSingleNode("/ImportExportXml/CanvasApps/CanvasApp[Name='" + schemaName + "']/DisplayName")?.InnerText;
         }
 
-        public string getFlowNameById(string ID) {
-            return customizationsXml.SelectSingleNode("/ImportExportXml/Workflows/Workflow[@WorkflowId='"+ID+"']")?.Attributes.GetNamedItem("Name").InnerText;
+        public string getFlowNameById(string ID)
+        {
+            return customizationsXml.SelectSingleNode("/ImportExportXml/Workflows/Workflow[@WorkflowId='" + ID + "']")?.Attributes.GetNamedItem("Name").InnerText;
         }
     }
 }

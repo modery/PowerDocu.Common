@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,8 +14,8 @@ namespace PowerDocu.Common
         public HashSet<string> GlobalVariables = new HashSet<string>();
         public HashSet<string> ContextVariables = new HashSet<string>();
         public HashSet<string> Collections = new HashSet<string>();
-        public Dictionary<string,List<ControlPropertyReference>> VariableCollectionControlReferences = new Dictionary<string, List<ControlPropertyReference>>();
-        public Dictionary<ControlEntity,List<string>> ScreenNavigations = new Dictionary<ControlEntity, List<string>>();
+        public Dictionary<string, List<ControlPropertyReference>> VariableCollectionControlReferences = new Dictionary<string, List<ControlPropertyReference>>();
+        public Dictionary<ControlEntity, List<string>> ScreenNavigations = new Dictionary<ControlEntity, List<string>>();
         public Dictionary<string, MemoryStream> ResourceStreams = new Dictionary<string, MemoryStream>();
         public AppEntity()
         {
@@ -38,7 +37,8 @@ namespace PowerDocu.Common
         public List<Expression> Properties = new List<Expression>();
     }
 
-    public class ControlPropertyReference {
+    public class ControlPropertyReference
+    {
         public ControlEntity Control;
         public string RuleProperty;
     }
