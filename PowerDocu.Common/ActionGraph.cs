@@ -21,6 +21,7 @@ namespace PowerDocu.Common
         public Dictionary<ActionNode, string[]> nodeRunAfterConditions = new Dictionary<ActionNode, string[]>();
         //list of children that are called as part of a switch
         public Dictionary<ActionNode, string> switchRelationship = new Dictionary<ActionNode, string>();
+        public int Order;
 
         public ActionNode(string name)
         {

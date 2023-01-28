@@ -20,6 +20,8 @@ namespace PowerDocu.Common
         private readonly List<FlowEntity> flows = new List<FlowEntity>();
         public PackageType packageType;
 
+        private int orderCounter = 1;
+
         public FlowParser(string filename)
         {
             NotificationHelper.SendNotification(" - Processing " + filename);
@@ -73,6 +75,7 @@ namespace PowerDocu.Common
             parseMetadata(flow);
             parseTrigger(flow);
             parseActions(flow, flowDefinition.properties.definition.actions.Children(), null);
+            updateOrderNumbers(flow.actions.getRootNode());
             parseConnectionReferences(flow);
             return flow;
         }
@@ -278,11 +281,8 @@ namespace PowerDocu.Common
                             aNode.Description = property.Value.ToString();
                             break;
                         case "foreach":
-                            //TODO
-                            //{"foreach": "@outputs('List_Environment_Capacity_information')?['body/value']"}
-                            //{"foreach": "@body('Get_calendar_view_of_events_(V2)')?['value']"}
-                            //{"foreach": "@items('Apply_to_each_Environment')?['properties/capacity']"}
-                            //{"foreach": "@variables('Apps_Editted')"}
+                            // foreach is the "Apply to each" action. We simply add it to the Inputs section
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
                             break;
                         case "runtimeConfiguration":
                             //TODO
@@ -370,6 +370,27 @@ namespace PowerDocu.Common
         public List<FlowEntity> getFlows()
         {
             return flows;
+        }
+
+        private void updateOrderNumbers(ActionNode actionNode)
+        {
+            //only process it if it hasn't been processed already
+            if (actionNode.Order == 0)
+            {
+                actionNode.Order = orderCounter++;
+                foreach (ActionNode action in actionNode.Subactions)
+                {
+                    updateOrderNumbers(action);
+                }
+                foreach (ActionNode action in actionNode.Elseactions)
+                {
+                    updateOrderNumbers(action);
+                }
+                foreach (ActionNode action in actionNode.Neighbours)
+                {
+                    updateOrderNumbers(action);
+                }
+            }
         }
     }
 }
