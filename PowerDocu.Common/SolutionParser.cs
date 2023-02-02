@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Xml;
@@ -37,9 +38,7 @@ namespace PowerDocu.Common
                     NotificationHelper.SendNotification("  - Processing customizations.xml ");
                     using (FileStream customizations = new FileStream(tempFile, FileMode.Open))
                     {
-                        {
-                            solution.Customizations = CustomizationsParser.parseCustomizationsDefinition(customizations);
-                        }
+                        solution.Customizations = CustomizationsParser.parseCustomizationsDefinition(customizations);
                     }
                     File.Delete(tempFile);
                 }
@@ -170,5 +169,4 @@ namespace PowerDocu.Common
             }
         }
     }
-
 }

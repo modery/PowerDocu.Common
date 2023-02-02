@@ -95,7 +95,6 @@ namespace PowerDocu.Common
         public string reqdepParentSchemaName;
         public string reqdepParentDisplayName;
         public string reqdepIdSchemaName;
-
     }
 
     public class SolutionDependency
@@ -109,4 +108,35 @@ namespace PowerDocu.Common
             Dependent = dep;
         }
     }
+
+    public class RoleEntity
+    {
+        public string Name;
+        public string ID;
+        public List<TableAccess> Tables = new List<TableAccess>();
+        public Dictionary<string,string> miscellaneousPrivileges = new Dictionary<string, string>();
+    }
+
+    public class TableAccess
+    {
+        public AccessLevel Create = AccessLevel.None;
+        public AccessLevel Read = AccessLevel.None;
+        public AccessLevel Write = AccessLevel.None;
+        public AccessLevel Delete = AccessLevel.None;
+        public AccessLevel Append = AccessLevel.None;
+        public AccessLevel AppendTo = AccessLevel.None;
+        public AccessLevel Assign = AccessLevel.None;
+        public AccessLevel Share = AccessLevel.None;
+        public string Name;
+    }
+
+    public enum AccessLevel
+    {
+        Global,
+        Deep,
+        Local,
+        Basic,
+        None
+    }
+
 }
