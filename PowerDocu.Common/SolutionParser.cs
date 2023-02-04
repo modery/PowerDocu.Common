@@ -73,12 +73,12 @@ namespace PowerDocu.Common
                     CustomizationOptionValuePrefix = solutionManifest.SelectSingleNode("Publisher/CustomizationOptionValuePrefix").InnerText
                 }
             };
-            foreach (XmlNode localizedName in solutionManifest.SelectSingleNode("Publisher/LocalizedNames").ChildNodes)
+            foreach (XmlNode localizedName in solutionManifest.SelectSingleNode("Publisher/LocalizedNames")?.ChildNodes)
             {
                 solution.Publisher.LocalizedNames.Add(localizedName.Attributes.GetNamedItem("languagecode")?.InnerText,
                                             localizedName.Attributes.GetNamedItem("description")?.InnerText);
             }
-            foreach (XmlNode xmlAddress in solutionManifest.SelectSingleNode("Publisher/Addresses").ChildNodes)
+            foreach (XmlNode xmlAddress in solutionManifest.SelectSingleNode("Publisher/Addresses")?.ChildNodes)
             {
                 Address address = new Address()
                 {
@@ -111,13 +111,13 @@ namespace PowerDocu.Common
                 };
                 solution.Publisher.Addresses.Add(address);
             }
-            foreach (XmlNode description in solutionManifest.SelectSingleNode("Publisher/Descriptions").ChildNodes)
+            foreach (XmlNode description in solutionManifest.SelectSingleNode("Publisher/Descriptions")?.ChildNodes)
             {
                 solution.Publisher.Descriptions.Add(description.Attributes.GetNamedItem("languagecode")?.InnerText,
                                             description.Attributes.GetNamedItem("description")?.InnerText);
             }
             //parsing the components
-            foreach (XmlNode component in solutionManifest.SelectSingleNode("RootComponents").ChildNodes)
+            foreach (XmlNode component in solutionManifest.SelectSingleNode("RootComponents")?.ChildNodes)
             {
                 SolutionComponent solutionComponent = new SolutionComponent()
                 {
@@ -128,7 +128,7 @@ namespace PowerDocu.Common
                 solution.Components.Add(solutionComponent);
             }
             //parsing the dependencies
-            foreach (XmlNode component in solutionManifest.SelectSingleNode("MissingDependencies").ChildNodes)
+            foreach (XmlNode component in solutionManifest.SelectSingleNode("MissingDependencies")?.ChildNodes)
             {
                 SolutionComponent required = new SolutionComponent()
                 {
@@ -156,13 +156,13 @@ namespace PowerDocu.Common
             }
 
             //LocalizedNames
-            foreach (XmlNode localizedName in solutionManifest.SelectSingleNode("LocalizedNames").ChildNodes)
+            foreach (XmlNode localizedName in solutionManifest.SelectSingleNode("LocalizedNames")?.ChildNodes)
             {
                 solution.LocalizedNames.Add(localizedName.Attributes.GetNamedItem("languagecode")?.InnerText,
                                             localizedName.Attributes.GetNamedItem("description")?.InnerText);
             }
             //Descriptions
-            foreach (XmlNode description in solutionManifest.SelectSingleNode("Descriptions").ChildNodes)
+            foreach (XmlNode description in solutionManifest.SelectSingleNode("Descriptions")?.ChildNodes)
             {
                 solution.Descriptions.Add(description.Attributes.GetNamedItem("languagecode")?.InnerText,
                                             description.Attributes.GetNamedItem("description")?.InnerText);
