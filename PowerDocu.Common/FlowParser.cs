@@ -285,32 +285,42 @@ namespace PowerDocu.Common
                             aNode.actionInputs.Add(Expression.parseExpressions(property));
                             break;
                         case "runtimeConfiguration":
-                            //TODO
+                            //TODO review
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
                             // {"runtimeConfiguration": {"paginationPolicy": {"minimumItemCount": 100000}}}
                             break;
                         case "kind":
-                            //TODO
+                            //TODO review
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
                             //{"kind": "GetPastTime"}
                             //{"kind": "PowerApp"}
                             //{"kind": "Http"}
                             break;
                         case "metadata":
-                            //TODO
+                            //TODO review
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
+                            // {"metadata": {   "flowSystemMetadata": {     "swaggerOperationId": "GetEventsCalendarViewV2"   } }}
+                            //{"metadata": {   "operationMetadataId": "052fdf01-b9a6-44b1-8dbd-063aa3663f14" }}
                             break;
                         case "limit":
-                            //TODO
+                            //TODO review
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
                             // {"limit": {"count": 240,"timeout": "P10D"}}
                             //{"limit": {"count": 60,"timeout": "PT1H"}}
                             break;
                         case "operationOptions":
-                            //TODO
+                            //TODO review
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
                             //{"operationOptions": "DisableAsyncPattern"}
                             break;
                         case "trackedProperties":
-                            //TODO
+                            //TODO review
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
                             //{"trackedProperties": {"12": 12,"23": 23}}
                             break;
                         default:
+                            //TODO review
+                            aNode.actionInputs.Add(Expression.parseExpressions(property));
                             break;
                     }
                 }
