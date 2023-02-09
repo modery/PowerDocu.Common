@@ -77,6 +77,62 @@ namespace PowerDocu.Common
                         {
                             priv = "Share";
                         }
+                        else if (privilegeName.StartsWith("Flow"))
+                        {
+                            priv = "Flow";
+                        }
+                        else if (privilegeName.StartsWith("ExportToExcel"))
+                        {
+                            priv = "ExportToExcel";
+                        }
+                        else if (privilegeName.StartsWith("DocumentGeneration"))
+                        {
+                            priv = "DocumentGeneration";
+                        }
+                        else if (privilegeName.StartsWith("GoOffline"))
+                        {
+                            priv = "GoOffline";
+                        }
+                        else if (privilegeName.StartsWith("MailMerge"))
+                        {
+                            priv = "MailMerge";
+                        }
+                        else if (privilegeName.StartsWith("Merge"))
+                        {
+                            priv = "Merge";
+                        }
+                        else if (privilegeName.StartsWith("OneDrive"))
+                        {
+                            priv = "OneDrive";
+                        }
+                        else if (privilegeName.StartsWith("Print"))
+                        {
+                            priv = "Print";
+                        }
+                        else if (privilegeName.StartsWith("SyncToOutlook"))
+                        {
+                            priv = "SyncToOutlook";
+                        }
+                        else if (privilegeName.StartsWith("UseOfficeApps"))
+                        {
+                            priv = "UseOfficeApps";
+                        }
+                        else if (privilegeName.StartsWith("UseTabletApp"))
+                        {
+                            priv = "UseTabletApp";
+                        }
+                        else if (privilegeName.StartsWith("WebMailMerge"))
+                        {
+                            priv = "WebMailMerge";
+                        }
+                        else if (privilegeName.StartsWith("WorkflowExecution"))
+                        {
+                            priv = "WorkflowExecution";
+                        }
+                        else
+                        {
+                            priv = "Other";
+                        }
                         parseAccessLevel(roleEntity, privilegeName.Replace(priv, ""), priv, privilege.Attributes.GetNamedItem("level").InnerText);
                     }
                 }
