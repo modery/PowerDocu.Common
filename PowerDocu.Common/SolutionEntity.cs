@@ -24,19 +24,12 @@ namespace PowerDocu.Common
 
         public string GetDisplayNameForComponent(SolutionComponent component)
         {
-            string name;
-            switch (component.Type)
+            string name = component.Type switch
             {
-                case "Canvas App":
-                    name = Customizations.getAppNameBySchemaName(component.SchemaName); //content.apps.Find(a => a.Filename.Equals(component.SchemaName))?.Name;
-                    break;
-                case "Workflow":
-                    name = Customizations.getFlowNameById(component.ID);
-                    break;
-                default:
-                    name = String.IsNullOrEmpty(component.SchemaName) ? component.ID : component.SchemaName;
-                    break;
-            }
+                "Canvas App" => Customizations.getAppNameBySchemaName(component.SchemaName),
+                "Workflow" => Customizations.getFlowNameById(component.ID),
+                _ => String.IsNullOrEmpty(component.SchemaName) ? component.ID : component.SchemaName,
+            };
             name ??= String.IsNullOrEmpty(component.SchemaName) ? component.ID : component.SchemaName;
             return name;
         }
@@ -138,5 +131,4 @@ namespace PowerDocu.Common
         Basic,
         None
     }
-
 }
