@@ -544,6 +544,10 @@ namespace PowerDocu.Common
                     {
                         tc.Append(new Paragraph(new Run(new Text((expression.expressionOperands.Count == 0) ? "" : expression.expressionOperands[0]?.ToString()))));
                     }
+                    else if (expo.GetType().Equals(typeof(List<object>)))
+                    {
+                        tc.Append(new Paragraph(new Run(new Text(Expression.createStringFromExpressionList((List<object>)expo)))));
+                    }
                     else
                     {
                         tc.Append(AddExpressionTable((Expression)expo, null, factor * factor), new Paragraph());
@@ -703,10 +707,10 @@ namespace PowerDocu.Common
             Run run = new Run();
             while (text.Contains("\r\n"))
             {
-                string textToAppend = text.Substring(0, text.IndexOf("\r\n"));
+                string textToAppend = text[..text.IndexOf("\r\n")];
                 run.Append(new Text() { Text = textToAppend, Space = SpaceProcessingModeValues.Preserve });
                 run.Append(new Break());
-                text = text.Substring(text.IndexOf("\r\n") + 2);
+                text = text[(text.IndexOf("\r\n") + 2)..];
             }
             run.Append(new Text(text));
             return run;
