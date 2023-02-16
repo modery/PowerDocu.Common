@@ -131,4 +131,5 @@ namespace PowerDocu.Common
         Basic,
         None
     }
+
 }
