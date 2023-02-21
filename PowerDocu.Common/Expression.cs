@@ -18,24 +18,24 @@ namespace PowerDocu.Common
             {
                 sb.Append("{");
             }
-            foreach (object eo in expressionOperands)
+            foreach (object expOperand in expressionOperands)
             {
-                if (eo.GetType().Equals(typeof(List<object>)))
+                if (expOperand.GetType().Equals(typeof(List<object>)))
                 {
-                    sb.Append(createStringFromExpressionList((List<object>)eo));
+                    sb.Append(createStringFromExpressionList((List<object>)expOperand));
                 }
                 else
                 {
-                    if (eo.GetType().Equals(typeof(Expression)))
+                    if (expOperand.GetType().Equals(typeof(Expression)))
                     {
-                        sb.Append(eo.ToString());
+                        sb.Append(expOperand.ToString());
                     }
                     else
                     {
-                        bool isNumber = int.TryParse(eo.ToString(), out int i);
+                        bool isNumber = int.TryParse(expOperand.ToString(), out int i);
                         if (!isNumber)
                         {
-                            sb.Append("\"").Append(eo.ToString()).Append("\"");
+                            sb.Append("\"").Append(expOperand.ToString()).Append("\"");
                         }
                         else
                         {
@@ -69,16 +69,13 @@ namespace PowerDocu.Common
                 {
                     if (operandExpression.GetType().Equals(typeof(Newtonsoft.Json.Linq.JValue)))
                     {
-                        //expression.expressionOperands.Add(operandExpression.ToString());
                         operandsArray.Add(operandExpression.ToString());
                     }
                     else if (operandExpression.GetType().Equals(typeof(Newtonsoft.Json.Linq.JObject)))
                     {
-                        //todo this here causes an issue when there are multiple children or so
                         List<object> parsedOperands = new List<object>();
                         foreach (JProperty inputNode in (JEnumerable<JToken>)operandExpression.Children())
                         {
-                            //expression.expressionOperands.Add(parseExpressions(inputNode));
                             parsedOperands.Add(parseExpressions(inputNode));
                         }
                         operandsArray.Add(parsedOperands);
@@ -101,55 +98,58 @@ namespace PowerDocu.Common
             return expression;
         }
 
-        public static string createStringFromExpressionList(List<object> ops)
+        public static string createStringFromExpressionList(List<object> operands)
         {
-            StringBuilder s = new StringBuilder("[");
+            StringBuilder sb = new StringBuilder("[");
             int counter = 0;
-            foreach (object o in ops)
+            foreach (object operand in operands)
             {
-                if (o.GetType().Equals(typeof(List<object>)))
+                if (operand.GetType().Equals(typeof(List<object>)))
                 {
-                    List<object> so = (List<object>)o;
-                    s.Append("{");
-                    int soocounter = 0;
-                    foreach (object soo in so)
+                    List<object> operandlist = (List<object>)operand;
+                    sb.Append("{");
+                    int innerOperandCounter = 0;
+                    foreach (object innerOperand in operandlist)
                     {
-                        if (soo.GetType().Equals(typeof(Expression)))
+                        if (innerOperand.GetType().Equals(typeof(Expression)))
                         {
-                            s.Append(((Expression)soo).ToString());
+                            sb.Append(((Expression)innerOperand).ToString());
                         }
                         else
                         {
                             //todo check
                             string a = "";
                         }
-                        if (so.Count > 1 && ++soocounter != so.Count)
+                        if (operandlist.Count > 1 && ++innerOperandCounter != operandlist.Count)
                         {
-                            s.Append(", ");
+                            sb.Append(", ");
                         }
                     }
-                    s.Append("}");
-                    if (ops.Count > 1 && counter != ops.Count)
-                    {
-                        counter++;
-                        s.Append(",");
-                    }
+                    sb.Append("}");
                 }
-                else if (o.GetType().Equals(typeof(string)))
+                else if (operand.GetType().Equals(typeof(string)))
                 {
-                    s.Append((string)o);
+                    bool isNumber = int.TryParse((string)operand, out int i);
+                    if (!isNumber)
+                    {
+                        sb.Append("\"").Append((string)operand).Append("\"");
+                    }
+                    else
+                    {
+                        sb.Append(i);
+                    }
                 }
                 else
                 {
                     string t = "";
                 }
-                if (ops.Count > 1 && ++counter != ops.Count)
+                if (operands.Count > 1 && ++counter != operands.Count)
                 {
-                    s.Append(", ");
+                    sb.Append(", ");
                 }
             }
-            s.Append("]");
-            return JsonUtil.JsonPrettify(s.ToString());
+            sb.Append("]");
+            return JsonUtil.JsonPrettify(sb.ToString());
         }
     }
 }
