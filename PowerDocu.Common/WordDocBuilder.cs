@@ -520,7 +520,7 @@ namespace PowerDocu.Common
                     {
                         if (expressionOperand.GetType().Equals(typeof(string)))
                         {
-                            operandsTable.Append(CreateRow(new Text((string)expressionOperand)));
+                            operandsTable.Append(CreateRow(CreateRunWithLinebreaks(JsonUtil.JsonPrettify((string)expressionOperand))));
                         }
                         else if (expressionOperand.GetType().Equals(typeof(Expression)))
                         {
@@ -546,7 +546,34 @@ namespace PowerDocu.Common
                     }
                     else if (expo.GetType().Equals(typeof(List<object>)))
                     {
-                        tc.Append(new Paragraph(new Run(new Text(Expression.createStringFromExpressionList((List<object>)expo)))));
+                        //if it is an empty List we still need to add an empty text element, otherwise we end up with an invalid Word document
+                        if (((List<object>)expo).Count == 0)
+                        {
+                            tc.Append(new Paragraph(new Run(new Text(""))));
+                        }
+                        foreach (object obj in (List<object>)expo)
+                        {
+                            if (obj.GetType().Equals(typeof(List<object>)))
+                            {
+                                Table innerTable = CreateTable();
+                                foreach (object o in (List<object>)obj)
+                                {
+                                    AddExpressionTable((Expression)o, innerTable, factor * factor);
+                                }
+                                tc.Append(innerTable, new Paragraph());
+                            }
+                            else if (obj.GetType().Equals(typeof(Expression)))
+                            {
+                                tc.Append(AddExpressionTable((Expression)obj, null, factor * factor), new Paragraph());
+                            }
+                            else
+                            {
+                                //todo currently we separate the individual items here through paragraphs. Could consider using a single cell table instead to have some visual borders between the items (as it was before)
+                                tc.Append(new Paragraph(new Run(new Text(obj.ToString()))));
+                            }
+                        }
+
+                        // tc.Append(new Paragraph(CreateRunWithLinebreaks(Expression.createStringFromExpressionList((List<object>)expo))));
                     }
                     else
                     {

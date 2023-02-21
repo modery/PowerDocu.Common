@@ -109,7 +109,28 @@ namespace PowerDocu.Common
                     {
                         tc.Append((expression.expressionOperands.Count == 0) ? "" : expression.expressionOperands[0]?.ToString());
                     }
-                    else
+                    else if (expo.GetType().Equals(typeof(List<object>)))
+                    {
+                        foreach (object obj in (List<object>)expo)
+                        {
+                            if (obj.GetType().Equals(typeof(List<object>)))
+                            {
+                                foreach (object o in (List<object>)obj)
+                                {
+                                    tc.Append(AddExpressionTable((Expression)o, true));
+                                }
+                            }
+                            else if (obj.GetType().Equals(typeof(Expression)))
+                            {
+                                tc.Append(AddExpressionTable((Expression)obj, true));
+                            }
+                            else
+                            {
+                                tc.Append(obj.ToString()).Append("<br/>");
+                            }
+                        }
+                    }
+                    else if (expo.GetType().Equals(typeof(Expression)))
                     {
                         tc.Append(AddExpressionTable((Expression)expo, true));
                     }
