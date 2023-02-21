@@ -19,6 +19,15 @@ namespace PowerDocu.Common
             return customizationsXml.SelectSingleNode("/ImportExportXml/Workflows/Workflow[@WorkflowId='" + ID + "']")?.Attributes.GetNamedItem("Name").InnerText;
         }
 
+        public XmlNodeList getEntities()
+        {
+            return customizationsXml.SelectNodes("/ImportExportXml/Entities/Entity");
+        }
+
+        public XmlNode getEntityBySchemaName(string schemaName) {
+            return customizationsXml.SelectSingleNode("/ImportExportXml/Entities/Entity[Name='" + schemaName + "']");
+        }
+
         public List<RoleEntity> getRoles()
         {
             List<RoleEntity> roles = new List<RoleEntity>();
