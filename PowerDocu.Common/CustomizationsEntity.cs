@@ -9,6 +9,8 @@ namespace PowerDocu.Common
     {
         public XmlNode customizationsXml;
 
+        private List<TableEntity> tableEntities;
+
         public string getAppNameBySchemaName(string schemaName)
         {
             return customizationsXml.SelectSingleNode("/ImportExportXml/CanvasApps/CanvasApp[Name='" + schemaName + "']/DisplayName")?.InnerText;
@@ -19,9 +21,15 @@ namespace PowerDocu.Common
             return customizationsXml.SelectSingleNode("/ImportExportXml/Workflows/Workflow[@WorkflowId='" + ID + "']")?.Attributes.GetNamedItem("Name").InnerText;
         }
 
-        public XmlNodeList getEntities()
+        public List<TableEntity> getEntities()
         {
-            return customizationsXml.SelectNodes("/ImportExportXml/Entities/Entity");
+            if(tableEntities==null) {
+                tableEntities = new List<TableEntity>();
+                foreach(XmlNode xmlEntity in customizationsXml.SelectNodes("/ImportExportXml/Entities/Entity")) {
+                    tableEntities.Add(new TableEntity(xmlEntity));
+                }
+            }
+            return tableEntities;
         }
 
         public XmlNode getEntityBySchemaName(string schemaName) {
