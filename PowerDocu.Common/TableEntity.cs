@@ -45,8 +45,8 @@ namespace PowerDocu.Common
                 {
                     columns.Add(new ColumnEntity(xmlColumn));
                 }
+                columns.Sort((a, b) => a.getDisplayName().CompareTo(b.getDisplayName()));
             }
-            columns.Sort((a,b) => a.getDisplayName().CompareTo(b.getDisplayName()));
             return columns;
         }
     }

@@ -23,17 +23,20 @@ namespace PowerDocu.Common
 
         public List<TableEntity> getEntities()
         {
-            if(tableEntities==null) {
+            if (tableEntities == null)
+            {
                 tableEntities = new List<TableEntity>();
-                foreach(XmlNode xmlEntity in customizationsXml.SelectNodes("/ImportExportXml/Entities/Entity")) {
+                foreach (XmlNode xmlEntity in customizationsXml.SelectNodes("/ImportExportXml/Entities/Entity"))
+                {
                     tableEntities.Add(new TableEntity(xmlEntity));
                 }
+                tableEntities.Sort((a, b) => a.getLocalizedName().CompareTo(b.getLocalizedName()));
             }
-            tableEntities.Sort((a,b) => a.getLocalizedName().CompareTo(b.getLocalizedName()));
             return tableEntities;
         }
 
-        public XmlNode getEntityBySchemaName(string schemaName) {
+        public XmlNode getEntityBySchemaName(string schemaName)
+        {
             return customizationsXml.SelectSingleNode("/ImportExportXml/Entities/Entity[Name='" + schemaName + "']");
         }
 
