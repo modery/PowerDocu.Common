@@ -27,7 +27,6 @@ namespace PowerDocu.Common
 
         public string getPrimaryColumn()
         {
-            //todo return column where Type=primarykey
             return GetColumns().First(o => o.getDisplayMask().Contains("PrimaryName")).getDisplayName();
         }
 
@@ -47,6 +46,7 @@ namespace PowerDocu.Common
                     columns.Add(new ColumnEntity(xmlColumn));
                 }
             }
+            columns.Sort((a,b) => a.getDisplayName().CompareTo(b.getDisplayName()));
             return columns;
         }
     }
@@ -72,31 +72,37 @@ namespace PowerDocu.Common
         {
             return xmlColumn.SelectSingleNode("Type").InnerText switch
             {
+                "bit" => "Yes/No",
                 "datetime" => "Date and time",
+                "decimal" => "Decimal",
+                "file" => "File",
+                "float" => "Float",
                 "int" => "Whole number",
                 "lookup" => "Lookup",
                 "nvarchar" => "Single line of text",
+                "ntext" => "Multiple lines of text",
                 "owner" => "Owner",
+                "money" => "Currency",
+                "picklist" => "picklist",
                 "primarykey" => "Primary Key",
                 "state" => "Choice",
                 "status" => "Choice",
+                "uniqueidentifier" => "uniqueidentifier",
                 _ => xmlColumn.SelectSingleNode("Type").InnerText
             };
         }
-        public bool isManaged()
-        {
-            //todo implement
-            return false;
-        }
+
         public bool isCustomizable()
         {
             //todo this might not be the right field? Discrepancy in Let's Learn
             return xmlColumn.SelectSingleNode("IsCustomizable").InnerText.Equals("1");
         }
+
         public bool isRequired()
         {
             return xmlColumn.SelectSingleNode("RequiredLevel").InnerText.Equals("required");
         }
+
         public bool isSearchable()
         {
             //todo this might not be the right field? Discrepancy in Let's Learn

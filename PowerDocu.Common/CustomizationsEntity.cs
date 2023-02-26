@@ -29,6 +29,7 @@ namespace PowerDocu.Common
                     tableEntities.Add(new TableEntity(xmlEntity));
                 }
             }
+            tableEntities.Sort((a,b) => a.getLocalizedName().CompareTo(b.getLocalizedName()));
             return tableEntities;
         }
 
