@@ -42,9 +42,32 @@ namespace PowerDocu.Common
                         {
                             operandsCellSB.Append(AddExpressionTable((Expression)input.expressionOperands[0]).Append("</table>"));
                         }
-                        else
+                        else if (input.expressionOperands[0]?.GetType() == typeof(string))
                         {
                             operandsCellSB.Append(input.expressionOperands[0]?.ToString());
+                        }
+                        else if (input.expressionOperands[0]?.GetType() == typeof(List<object>))
+                        {
+                            operandsCellSB.Append("<table>");
+                            foreach (object obj in (List<object>)input.expressionOperands[0])
+                            {
+                                if (obj.GetType().Equals(typeof(Expression)))
+                                {
+                                    operandsCellSB.Append(AddExpressionTable((Expression)obj, false));
+                                }
+                                else if (obj.GetType().Equals(typeof(List<object>)))
+                                {
+                                    foreach (object o in (List<object>)obj)
+                                    {
+                                        operandsCellSB.Append(AddExpressionTable((Expression)o, false));
+                                    }
+                                }
+                                else
+                                {
+                                    string s = "";
+                                }
+                            }
+                            operandsCellSB.Append("</table>");
                         }
                     }
                     else
