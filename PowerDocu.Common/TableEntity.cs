@@ -95,7 +95,9 @@ namespace PowerDocu.Common
         public bool isCustomizable()
         {
             //todo this might not be the right field? Discrepancy in Let's Learn
-            return xmlColumn.SelectSingleNode("IsCustomizable").InnerText.Equals("1");
+            if (xmlColumn.SelectSingleNode("IsCustomizable") != null)
+                return xmlColumn.SelectSingleNode("IsCustomizable").InnerText.Equals("1");
+            return false;
         }
 
         public bool isRequired()
