@@ -133,7 +133,7 @@ namespace PowerDocu.Common
                         {
                             AddExpressionTable((Expression)actionInputOperand, operandsTable);
                         }
-                        else
+                        else if (actionInputOperand.GetType() == typeof(string))
                         {
                             operandsTable.Append(CreateRow(new Text(actionInputOperand.ToString())));
                         }
@@ -148,9 +148,34 @@ namespace PowerDocu.Common
                         {
                             operandsCell.Append(AddExpressionTable((Expression)input.expressionOperands[0]), new Paragraph());
                         }
-                        else
+                        else if (input.expressionOperands[0]?.GetType() == typeof(string))
                         {
                             operandsCell.Append(new Paragraph(new Run(new Text(input.expressionOperands[0]?.ToString()))));
+                        }
+                        else if (input.expressionOperands[0]?.GetType() == typeof(List<object>))
+                        {
+                            Table outerOperandsTable = CreateTable();
+                            foreach (object obj in (List<object>)input.expressionOperands[0])
+                            {
+                                if (obj.GetType().Equals(typeof(Expression)))
+                                {
+                                    AddExpressionTable((Expression)obj, outerOperandsTable);
+                                }
+                                else if (obj.GetType().Equals(typeof(List<object>)))
+                                {
+                                    Table innerOperandsTable = CreateTable();
+                                    foreach (object o in (List<object>)obj)
+                                    {
+                                        AddExpressionTable((Expression)o, innerOperandsTable);
+                                    }
+                                    operandsCell.Append(innerOperandsTable, new Paragraph());
+                                }
+                                else
+                                {
+                                    string s = "";
+                                }
+                            }
+                            operandsCell.Append(outerOperandsTable, new Paragraph());
                         }
                     }
                     else
