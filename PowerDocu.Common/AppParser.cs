@@ -309,9 +309,12 @@ namespace PowerDocu.Common
                 List<int> indexes = findAllIndexesOf(codeWithSpacesRemoved, "UpdateContext(");
                 foreach (int index in indexes)
                 {
-                    foreach (string var in extractContextVariableNames(codeWithSpacesRemoved[index..]))
+                    if (!isWithinCodeComment(codeWithSpacesRemoved[0..index]))
                     {
-                        currentApp.ContextVariables.Add(var);
+                        foreach (string var in extractContextVariableNames(codeWithSpacesRemoved[index..]))
+                        {
+                            currentApp.ContextVariables.Add(var);
+                        }
                     }
                 }
             }
@@ -321,36 +324,40 @@ namespace PowerDocu.Common
                 List<int> indexes = findAllIndexesOf(codeWithSpacesRemoved, "Navigate(");
                 foreach (int index in indexes)
                 {
-                    string firstParam = "";
-                    string secondParam = "";
-                    string thirdParam = "";
-                    string navigateString = codeWithSpacesRemoved[index..];
-                    navigateString = navigateString[0..(findClosingCharacter(navigateString, '(', ')'))].Replace("Navigate(", "");
-
-                    firstParam = extractNavigateParam(navigateString);
-                    if (firstParam != navigateString)
+                    //only proceed if it is not within a comment
+                    if (!isWithinCodeComment(codeWithSpacesRemoved[0..index]))
                     {
-                        string navigateStringWithoutFirstParam = navigateString[(firstParam.Length + 1)..];
-                        secondParam = extractNavigateParam(navigateStringWithoutFirstParam);
-                        if (secondParam != navigateStringWithoutFirstParam)
+                        string firstParam = "";
+                        string secondParam = "";
+                        string thirdParam = "";
+                        string navigateString = codeWithSpacesRemoved[index..];
+                        navigateString = navigateString[0..(findClosingCharacter(navigateString, '(', ')'))].Replace("Navigate(", "");
+
+                        firstParam = extractNavigateParam(navigateString);
+                        if (firstParam != navigateString)
                         {
-                            //there's a third parameter!
-                            thirdParam = navigateStringWithoutFirstParam[(secondParam.Length + 1)..];
-                            foreach (string var in extractContextVariableNames(thirdParam))
+                            string navigateStringWithoutFirstParam = navigateString[(firstParam.Length + 1)..];
+                            secondParam = extractNavigateParam(navigateStringWithoutFirstParam);
+                            if (secondParam != navigateStringWithoutFirstParam)
                             {
-                                currentApp.ContextVariables.Add(var);
+                                //there's a third parameter!
+                                thirdParam = navigateStringWithoutFirstParam[(secondParam.Length + 1)..];
+                                foreach (string var in extractContextVariableNames(thirdParam))
+                                {
+                                    currentApp.ContextVariables.Add(var);
+                                }
+                            }
+                            else
+                            {
+                                //only 2 parameters; nothing to do here at the moment
                             }
                         }
                         else
                         {
-                            //only 2 parameters; nothing to do here at the moment
+                            //a single parameter only; nothing to do here at the moment
                         }
+                        addScreenNavigation(controlEntity, firstParam);
                     }
-                    else
-                    {
-                        //a single parameter only; nothing to do here at the moment
-                    }
-                    addScreenNavigation(controlEntity, firstParam);
                 }
             }
             //check for Collections
@@ -518,6 +525,16 @@ namespace PowerDocu.Common
                 }
             }
             return currentClosingBracketIndex;
+        }
+
+        private bool isWithinCodeComment(string code)
+        {
+            int lastOpeningCommentBrackets = code.LastIndexOf("/*");
+            int lastClosingCommentBrackets = code.LastIndexOf("*/");
+            //only proceed if the code is not within a comment
+            // case 1: no opening comment brackets (/*), thus we return false
+            // case 2: there is an opening bracket. if there is no matching closing bracket, that means we are within a comment and need to return true
+            return !(lastOpeningCommentBrackets == -1 || lastOpeningCommentBrackets < lastClosingCommentBrackets);
         }
 
         private void parseAppDataSources(Stream appArchive)
