@@ -27,7 +27,10 @@ namespace PowerDocu.Common
 
         public string getPrimaryColumn()
         {
-            return GetColumns().First(o => o.getDisplayMask().Contains("PrimaryName"))?.getDisplayName() ?? "";
+            ColumnEntity primaryColumn = GetColumns().Find(o => o.getDisplayMask().Contains("PrimaryName"));
+            return (primaryColumn != null)
+                ? primaryColumn.getDisplayName()
+                : "";
         }
 
         public string getDescription()
