@@ -75,7 +75,7 @@ namespace PowerDocu.Common
             parseMetadata(flow);
             parseTrigger(flow);
             parseActions(flow, flowDefinition.properties.definition.actions.Children(), null);
-            updateOrderNumbers(flow.actions.getRootNode());
+            updateOrderNumbers(flow.actions.getRootNodes());
             parseConnectionReferences(flow);
             return flow;
         }
@@ -248,11 +248,9 @@ namespace PowerDocu.Common
                             parseActions(flow, property.Value["actions"].Children(), aNode, false, "default");
                             break;
                         case "runAfter":
-                            //TODO: runfter can be based on different conditions, such as succeeded, failed?, others. Review if current effort is enough, or if more things need to be done
-                            if (!property.Value.HasValues && parentAction == null && !flow.actions.hasRoot())
+                            if (!property.Value.HasValues && parentAction == null)
                             {
-                                //root node does not run after another node and is not inside
-                                flow.actions.setRootNode(aNode);
+                                flow.actions.addRootNode(aNode);
                             }
                             else
                             {
@@ -382,23 +380,17 @@ namespace PowerDocu.Common
             return flows;
         }
 
-        private void updateOrderNumbers(ActionNode actionNode)
+        private void updateOrderNumbers(List<ActionNode> actionNodes)
         {
             //only process it if it hasn't been processed already
-            if (actionNode.Order == 0)
+            foreach (ActionNode actionNode in actionNodes)
             {
-                actionNode.Order = orderCounter++;
-                foreach (ActionNode action in actionNode.Subactions)
+                if (actionNode.Order == 0)
                 {
-                    updateOrderNumbers(action);
-                }
-                foreach (ActionNode action in actionNode.Elseactions)
-                {
-                    updateOrderNumbers(action);
-                }
-                foreach (ActionNode action in actionNode.Neighbours)
-                {
-                    updateOrderNumbers(action);
+                    actionNode.Order = orderCounter++;
+                    updateOrderNumbers(actionNode.Subactions);
+                    updateOrderNumbers(actionNode.Elseactions);
+                    updateOrderNumbers(actionNode.Neighbours);
                 }
             }
         }

@@ -73,7 +73,8 @@ namespace PowerDocu.Common
     public class ActionGraph
     {
         private readonly List<ActionNode> myActionNodes = new List<ActionNode>();
-        private ActionNode rootNode = null;
+        //root nodes are nodes that run right after the trigger. Usually there is one, but occasionally there are more (parallel branches)
+        private List<ActionNode> rootNodes = new List<ActionNode>();
 
         public ActionGraph()
         {
@@ -108,7 +109,7 @@ namespace PowerDocu.Common
 
         public bool hasRoot()
         {
-            return rootNode != null;
+            return rootNodes.Count > 0;
         }
 
         public bool AddEdge(ActionNode gn1, ActionNode gn2, string[] runAfterConditions)
@@ -166,27 +167,27 @@ namespace PowerDocu.Common
             return nodeString.ToString();
         }
 
-        //What if we have 2 preceding nodes? To review at some point
-        public ActionNode getPrecedingNeighbour(ActionNode currentNode)
+        public List<ActionNode> getPrecedingNeighbours(ActionNode currentNode)
         {
+            List<ActionNode> precedingNeighbours = new List<ActionNode>();
             foreach (ActionNode node in myActionNodes)
             {
                 if (node.Neighbours.Contains(currentNode))
                 {
-                    return node;
+                    precedingNeighbours.Add(node);
                 }
             }
-            return null;
+            return precedingNeighbours;
         }
 
-        public ActionNode getRootNode()
+        public List<ActionNode> getRootNodes()
         {
-            return rootNode;
+            return rootNodes;
         }
 
-        public void setRootNode(ActionNode root)
+        public void addRootNode(ActionNode root)
         {
-            rootNode = root;
+            rootNodes.Add(root);
         }
     }
 }
