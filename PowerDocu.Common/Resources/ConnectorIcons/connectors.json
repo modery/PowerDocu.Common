@@ -12,12 +12,12 @@
     {
         "Name": "Azure AD Identity and Access",
         "Uniquename": "aadinvitationmanager",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/aadinvitationmanager/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/aadinvitationmanager/icon.png"
     },
     {
         "Name": "absentify",
         "Uniquename": "absentify",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/7NovTrain/1.0.1611.3096/absentify/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/absentify/icon.png"
     },
     {
         "Name": "Azure Container Instance",
@@ -27,17 +27,22 @@
     {
         "Name": "Azure Communication Services Chat",
         "Uniquename": "acschat",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/acschat/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1619/1.0.1619.3185/acschat/icon.png"
     },
     {
         "Name": "Azure Communication Services Email",
         "Uniquename": "acsemail",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/acsemail/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1619/1.0.1619.3185/acsemail/icon.png"
     },
     {
         "Name": "Azure Communication Services Identity",
         "Uniquename": "acsidentity",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/acsidentity/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1619/1.0.1619.3185/acsidentity/icon.png"
+    },
+    {
+        "Name": "Azure Communication Services SMS Events",
+        "Uniquename": "acssmsevents",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/acssmsevents/icon.png"
     },
     {
         "Name": "Act!",
@@ -47,7 +52,7 @@
     {
         "Name": "TeamWherx",
         "Uniquename": "actsoft",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1593/1.0.1593.2980/actsoft/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1619/1.0.1619.3185/actsoft/icon.png"
     },
     {
         "Name": "Acumatica",
@@ -62,22 +67,22 @@
     {
         "Name": "Adobe Experience Manager",
         "Uniquename": "adobeexperiencemanag",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/900Train/1.0.1614.3131/adobeexperiencemanag/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/adobeexperiencemanag/icon.png"
     },
     {
         "Name": "Adobe PDF Services",
         "Uniquename": "adobepdftools",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3077/adobepdftools/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/adobepdftools/icon.png"
     },
     {
         "Name": "Adobe Acrobat Sign",
         "Uniquename": "adobesign",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1591/1.0.1591.2961/adobesign/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/adobesign/icon.png"
     },
     {
         "Name": "Advanced Data Operations",
         "Uniquename": "advanceddataoperatio",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/advanceddataoperatio/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/advanceddataoperatio/icon.png"
     },
     {
         "Name": "Africa's Talking Airtime",
@@ -102,7 +107,7 @@
     {
         "Name": "Agilite",
         "Uniquename": "agilite",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1551/1.0.1551.2693/agilite/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/agilite/icon.png"
     },
     {
         "Name": "Ahead",
@@ -110,19 +115,24 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1554/1.0.1554.2707/ahead/icon.png"
     },
     {
+        "Name": "Ahead (Intranet)",
+        "Uniquename": "aheadintranet",
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainFeb10/1.0.1623.3201/aheadintranet/icon.png"
+    },
+    {
         "Name": "AIForged",
         "Uniquename": "aiforged",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3077/aiforged/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1619/1.0.1619.3185/aiforged/icon.png"
     },
     {
         "Name": "AikiDocs",
         "Uniquename": "aikidocs",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1591/1.0.1591.2961/aikidocs/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1621/1.0.1621.3191/aikidocs/icon.png"
     },
     {
         "Name": "Airmeet",
         "Uniquename": "airmeet",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1589/1.0.1589.2945/airmeet/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainFeb10/1.0.1623.3201/airmeet/icon.png"
     },
     {
         "Name": "airSlate",
@@ -162,17 +172,22 @@
     {
         "Name": "Amazon Redshift",
         "Uniquename": "amazonredshift",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/amazonredshift/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/amazonredshift/icon.png"
     },
     {
         "Name": "Amazon S3",
         "Uniquename": "amazons3",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/amazons3/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/amazons3/icon.png"
     },
     {
         "Name": "Amazon SQS",
         "Uniquename": "amazonsqs",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/amazonsqs/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/amazonsqs/icon.png"
+    },
+    {
+        "Name": "Annature (Independent Publisher)",
+        "Uniquename": "annatureip",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/annatureip/icon.png"
     },
     {
         "Name": "Appfigures",
@@ -182,7 +197,7 @@
     {
         "Name": "Azure Application Insights",
         "Uniquename": "applicationinsights",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1591/1.0.1591.2961/applicationinsights/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/applicationinsights/icon.png"
     },
     {
         "Name": "App Power Forms",
@@ -192,7 +207,7 @@
     {
         "Name": "Approvals",
         "Uniquename": "approvals",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1599/1.0.1599.3017/approvals/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3209/approvals/icon.png"
     },
     {
         "Name": "AppsForOps Timeline",
@@ -217,17 +232,17 @@
     {
         "Name": "Aquaforest PDF",
         "Uniquename": "aquaforest",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/aquaforest/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/aquaforest/icon.png"
     },
     {
         "Name": "ArcGIS",
         "Uniquename": "arcgis",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1592/1.0.1592.2970/arcgis/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/arcgis/icon.png"
     },
     {
         "Name": "ArcGIS PaaS",
         "Uniquename": "arcgispaas",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1592/1.0.1592.2970/arcgispaas/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/arcgispaas/icon.png"
     },
     {
         "Name": "Azure Resource Manager",
@@ -242,7 +257,7 @@
     {
         "Name": "Asite",
         "Uniquename": "asite",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1593/1.0.1593.2980/asite/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/asite/icon.png"
     },
     {
         "Name": "Asite (KSA)",
@@ -267,12 +282,12 @@
     {
         "Name": "Dynamics 365 Sales Insights",
         "Uniquename": "assistantstudio",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1514/1.0.1514.2551/assistantstudio/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/assistantstudio/icon.png"
     },
     {
-        "Name": "Autodesk Forge Data Exchange",
+        "Name": "Autodesk Data Exchange",
         "Uniquename": "autodeskforgedataexc",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/autodeskforgedataexc/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/autodeskforgedataexc/icon.png"
     },
     {
         "Name": "AvePoint Cloud Governance",
@@ -287,22 +302,22 @@
     {
         "Name": "AXtension Content Gate",
         "Uniquename": "axtensioncontentgate",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1593/1.0.1593.2980/axtensioncontentgate/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/axtensioncontentgate/icon.png"
     },
     {
         "Name": "Azure AD",
         "Uniquename": "azuread",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1600/1.0.1600.3026/azuread/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/azuread/icon.png"
     },
     {
         "Name": "Azure AD App Registrations",
         "Uniquename": "azureadapplications",
-        "Url": "https://connectoricons-prod.azureedge.net/release-test-new/1.0.1588.2932/azureadapplications/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/azureadapplications/icon.png"
     },
     {
         "Name": "Azure AD Identity Protection",
         "Uniquename": "azureadip",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1554/1.0.1554.2707/azureadip/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/azureadip/icon.png"
     },
     {
         "Name": "Azure App Service",
@@ -312,17 +327,17 @@
     {
         "Name": "Azure Automation",
         "Uniquename": "azureautomation",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1592/1.0.1592.2970/azureautomation/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/azureautomation/icon.png"
     },
     {
         "Name": "Azure Blob Storage",
         "Uniquename": "azureblob",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/azureblob/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/azureblob/icon.png"
     },
     {
         "Name": "Azure Communication Services SMS",
         "Uniquename": "azurecommunicationservicessms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1563/1.0.1563.2732/azurecommunicationservicessms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/azurecommunicationservicessms/icon.png"
     },
     {
         "Name": "Azure Data Factory",
@@ -342,52 +357,52 @@
     {
         "Name": "Azure Event Grid",
         "Uniquename": "azureeventgrid",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1538/1.0.1538.2619/azureeventgrid/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3209/azureeventgrid/icon.png"
     },
     {
         "Name": "Azure Event Grid Publish",
         "Uniquename": "azureeventgridpublish",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1538/1.0.1538.2619/azureeventgridpublish/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/azureeventgridpublish/icon.png"
     },
     {
         "Name": "Azure File Storage",
         "Uniquename": "azurefile",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1596/1.0.1596.2995/azurefile/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3220/azurefile/icon.png"
     },
     {
         "Name": "Azure IoT Central V3",
         "Uniquename": "azureiotcentral",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/azureiotcentral/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/azureiotcentral/icon.png"
     },
     {
         "Name": "Azure Log Analytics",
         "Uniquename": "azureloganalytics",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1591/1.0.1591.2961/azureloganalytics/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/laborbol/releases/ase-v3/1.0.1622.3202/azureloganalytics/icon.png"
     },
     {
         "Name": "Azure Log Analytics Data Collector",
         "Uniquename": "azureloganalyticsdatacollector",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2678/azureloganalyticsdatacollector/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/azureloganalyticsdatacollector/icon.png"
     },
     {
         "Name": "Azure Monitor Logs",
         "Uniquename": "azuremonitorlogs",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/azuremonitorlogs/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/azuremonitorlogs/icon.png"
     },
     {
         "Name": "Azure Database for MySQL",
         "Uniquename": "azuremysql",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/azuremysql/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/azuremysql/icon.png"
     },
     {
         "Name": "Azure Queues",
         "Uniquename": "azurequeues",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/azurequeues/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/azurequeues/icon.png"
     },
     {
         "Name": "Azure Table Storage",
         "Uniquename": "azuretables",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/azuretables/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/azuretables/icon.png"
     },
     {
         "Name": "Azure VM",
@@ -415,11 +430,6 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1555/1.0.1555.2715/bentley/icon.png"
     },
     {
-        "Name": "ProjectWise Design Integration-dev",
-        "Uniquename": "bentley-dev",
-        "Url": "https://connectoricons-prod.azureedge.net/bentley-dev/icon_1.0.1064.1284.png"
-    },
-    {
         "Name": "BillsPLS",
         "Uniquename": "billspls",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1555/1.0.1555.2715/billspls/icon.png"
@@ -427,12 +437,12 @@
     {
         "Name": "Bing Maps",
         "Uniquename": "bingmaps",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1567/1.0.1567.2748/bingmaps/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/bingmaps/icon.png"
     },
     {
         "Name": "Bing Search",
         "Uniquename": "bingsearch",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1516/1.0.1516.2558/bingsearch/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/bingsearch/icon.png"
     },
     {
         "Name": "Bitbucket",
@@ -443,6 +453,11 @@
         "Name": "Bitly",
         "Uniquename": "bitly",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1555/1.0.1555.2715/bitly/icon.png"
+    },
+    {
+        "Name": "Bitskout",
+        "Uniquename": "bitskout",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/bitskout/icon.png"
     },
     {
         "Name": "Bitvore Cellenus",
@@ -472,7 +487,7 @@
     {
         "Name": "Blackbaud Raisers Edge NXT Constituents",
         "Uniquename": "blackbaudconstituent",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/7NovTrain/1.0.1611.3096/blackbaudconstituent/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/blackbaudconstituent/icon.png"
     },
     {
         "Name": "Blackbaud Raisers Edge NXT Documents",
@@ -487,7 +502,7 @@
     {
         "Name": "Blackbaud Raisers Edge NXT Fundraising",
         "Uniquename": "blackbaudfundraising",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/blackbaudfundraising/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/blackbaudfundraising/icon.png"
     },
     {
         "Name": "Blackbaud Raisers Edge NXT Gifts",
@@ -497,7 +512,7 @@
     {
         "Name": "Blackbaud Raisers Edge NXT Interactions",
         "Uniquename": "blackbaudinteraction",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/blackbaudinteraction/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/blackbaudinteraction/icon.png"
     },
     {
         "Name": "Blackbaud Raisers Edge NXT Lists",
@@ -507,7 +522,7 @@
     {
         "Name": "Blackbaud Raisers Edge NXT Prospects",
         "Uniquename": "blackbaudprospects",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1596/1.0.1596.2995/blackbaudprospects/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/blackbaudprospects/icon.png"
     },
     {
         "Name": "Blackbaud Raisers Edge NXT",
@@ -522,12 +537,12 @@
     {
         "Name": "Corda Blockchain",
         "Uniquename": "blockchaincorda",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/blockchaincorda/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/blockchaincorda/icon.png"
     },
     {
         "Name": "Ethereum Blockchain",
         "Uniquename": "blockchainethereum",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/blockchainethereum/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/blockchainethereum/icon.png"
     },
     {
         "Name": "Blogger",
@@ -542,7 +557,7 @@
     {
         "Name": "Box",
         "Uniquename": "box",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/releases/v1.0.1609-localization/1.0.1609.3085/box/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/box/icon.png"
     },
     {
         "Name": "bttn",
@@ -567,7 +582,7 @@
     {
         "Name": "BulkSMS",
         "Uniquename": "bulksms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/bulksms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/bulksms/icon.png"
     },
     {
         "Name": "Business Assist",
@@ -577,37 +592,42 @@
     {
         "Name": "Calendar Pro",
         "Uniquename": "calendarpro",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1596/1.0.1596.2995/calendarpro/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1619/1.0.1619.3185/calendarpro/icon.png"
     },
     {
         "Name": "Calendly",
         "Uniquename": "calendly",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/calendly/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/calendly/icon.png"
     },
     {
         "Name": "Campfire",
         "Uniquename": "campfire",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/campfire/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/campfire/icon.png"
     },
     {
         "Name": "CandidateZip Resume/Job Parser",
         "Uniquename": "candidatezip",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/candidatezip/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/candidatezip/icon.png"
     },
     {
         "Name": "Capsule CRM",
         "Uniquename": "capsulecrm",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/capsulecrm/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/capsulecrm/icon.png"
     },
     {
         "Name": "Captisa Forms",
         "Uniquename": "captisaforms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/captisaforms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/captisaforms/icon.png"
     },
     {
         "Name": "CardPlatform Adaptive Cards",
         "Uniquename": "cardplatform",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1518/1.0.1518.2564/cardplatform/icon.png"
+    },
+    {
+        "Name": "Cards for Power Apps",
+        "Uniquename": "cardsforpowerapps",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1628/1.0.1628.3245/cardsforpowerapps/icon.png"
     },
     {
         "Name": "Cascade",
@@ -617,12 +637,12 @@
     {
         "Name": "Cascade Strategy New",
         "Uniquename": "cascadestrategynew",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/cascadestrategynew/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/cascadestrategynew/icon.png"
     },
     {
         "Name": "Casper365 for Education",
         "Uniquename": "casper365",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/casper365/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/casper365/icon.png"
     },
     {
         "Name": "CDK Drive Customer",
@@ -637,7 +657,7 @@
     {
         "Name": "Elead Product Reference Data",
         "Uniquename": "cdkeleadproductreferencedata",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2678/cdkeleadproductreferencedata/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/cdkeleadproductreferencedata/icon.png"
     },
     {
         "Name": "Elead Sales Customers",
@@ -647,17 +667,22 @@
     {
         "Name": "Elead Sales Opportunities",
         "Uniquename": "cdkeleadsalesopportunities",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2678/cdkeleadsalesopportunities/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/cdkeleadsalesopportunities/icon.png"
     },
     {
         "Name": "Centrical",
         "Uniquename": "centrical",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1595/1.0.1595.2986/centrical/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/centrical/icon.png"
+    },
+    {
+        "Name": "Certopus",
+        "Uniquename": "certopus",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/certopus/icon.png"
     },
     {
         "Name": "CGTrader",
         "Uniquename": "cgtrader",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1563/1.0.1563.2730/cgtrader/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1563/1.0.1563.2732/cgtrader/icon.png"
     },
     {
         "Name": "Chatter",
@@ -682,7 +707,7 @@
     {
         "Name": "CivicPlus Transform",
         "Uniquename": "civicplustransform",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1599/1.0.1599.3017/civicplustransform/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/civicplustransform/icon.png"
     },
     {
         "Name": "ClickSend Postcards",
@@ -697,7 +722,7 @@
     {
         "Name": "Defender for Cloud Apps",
         "Uniquename": "cloudappsecurity",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1563/1.0.1563.2730/cloudappsecurity/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1563/1.0.1563.2732/cloudappsecurity/icon.png"
     },
     {
         "Name": "Cloud BOT",
@@ -707,12 +732,12 @@
     {
         "Name": "CloudConvert",
         "Uniquename": "cloudconvert",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1595/1.0.1595.2986/cloudconvert/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/cloudconvert/icon.png"
     },
     {
         "Name": "Cloudmersive Virus Scan",
         "Uniquename": "cloudmersive",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1566/1.0.1566.2741/cloudmersive/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/cloudmersive/icon.png"
     },
     {
         "Name": "Cloudmersive Barcode",
@@ -742,7 +767,7 @@
     {
         "Name": "Cloudmersive Image Processing",
         "Uniquename": "cloudmersiveimagepr",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1566/1.0.1566.2741/cloudmersiveimagepr/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/cloudmersiveimagepr/icon.png"
     },
     {
         "Name": "Cloudmersive NLP",
@@ -762,7 +787,7 @@
     {
         "Name": "Cloudmersive Video and Media",
         "Uniquename": "cloudmersivevideoandmedia",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2678/cloudmersivevideoandmedia/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/cloudmersivevideoandmedia/icon.png"
     },
     {
         "Name": "Cloud PKI Management",
@@ -772,67 +797,67 @@
     {
         "Name": "CobbleStone Contract Insight",
         "Uniquename": "cobblestonecontracti",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/TrainDec21/1.0.1615.3146/cobblestonecontracti/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3209/cobblestonecontracti/icon.png"
     },
     {
         "Name": "Computer Vision API",
         "Uniquename": "cognitiveservicescomputervision",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/cognitiveservicescomputervision/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/cognitiveservicescomputervision/icon.png"
     },
     {
         "Name": "Content Moderator",
         "Uniquename": "cognitiveservicescontentmoderator",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/cognitiveservicescontentmoderator/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/cognitiveservicescontentmoderator/icon.png"
     },
     {
         "Name": "Custom Vision",
         "Uniquename": "cognitiveservicescustomvision",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/cognitiveservicescustomvision/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/cognitiveservicescustomvision/icon.png"
     },
     {
         "Name": "QnA Maker",
         "Uniquename": "cognitiveservicesqnamaker",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/cognitiveservicesqnamaker/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/cognitiveservicesqnamaker/icon.png"
     },
     {
-        "Name": "CognitiveServicesSpeechToText",
+        "Name": "Azure Batch Speech-to-text",
         "Uniquename": "cognitiveservicesspe",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/cognitiveservicesspe/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/cognitiveservicesspe/icon.png"
     },
     {
         "Name": "Azure Cognitive Service for Language",
         "Uniquename": "cognitiveservicestextanalytics",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/cognitiveservicestextanalytics/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/cognitiveservicestextanalytics/icon.png"
     },
     {
         "Name": "Cognito Forms",
         "Uniquename": "cognitoforms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/cognitoforms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/cognitoforms/icon.png"
     },
     {
         "Name": "Cognizant Automation Center",
         "Uniquename": "cognizantautomationc",
-        "Url": "https://connectoricons-prod.azureedge.net/release-test-new/1.0.1588.2931/cognizantautomationc/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/cognizantautomationc/icon.png"
     },
     {
         "Name": "Dynamics 365 Commerce Merchandising",
         "Uniquename": "commercemerchandising",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/commercemerchandising/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/commercemerchandising/icon.png"
     },
     {
         "Name": "Commercient",
         "Uniquename": "commercientcpq",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2678/commercientcpq/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/commercientcpq/icon.png"
     },
     {
         "Name": "Microsoft Dataverse (legacy)",
         "Uniquename": "commondataservice",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/commondataservice/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/commondataservice/icon.png"
     },
     {
         "Name": "Microsoft Dataverse",
         "Uniquename": "commondataserviceforapps",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/commondataserviceforapps/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1628/1.0.1628.3245/commondataserviceforapps/icon.png"
     },
     {
         "Name": "Company Connect",
@@ -842,12 +867,12 @@
     {
         "Name": "Connect2All",
         "Uniquename": "connect2all",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1601/1.0.1601.3047/connect2all/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/connect2all/icon.png"
     },
     {
         "Name": "Connect2All on-premises",
         "Uniquename": "connect2allonpremises",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1601/1.0.1601.3047/connect2allonpremises/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/connect2allonpremises/icon.png"
     },
     {
         "Name": "Connective eSignatures",
@@ -857,27 +882,27 @@
     {
         "Name": "connpass (Independent Publisher)",
         "Uniquename": "connpassip",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/connpassip/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/connpassip/icon.png"
     },
     {
-        "Name": "ConsenSys Ethereum",
+        "Name": "ConsenSys Ethereum (Deprecated)",
         "Uniquename": "consensysethereum",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/consensysethereum/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/consensysethereum/icon.png"
     },
     {
         "Name": "Contacts Pro",
         "Uniquename": "contactspro",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1596/1.0.1596.2995/contactspro/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/contactspro/icon.png"
     },
     {
         "Name": "Content Conversion",
         "Uniquename": "conversionservice",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1595/1.0.1595.2986/conversionservice/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/conversionservice/icon.png"
     },
     {
         "Name": "Converter by Power2Apps",
         "Uniquename": "converterbypower2apps",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/converterbypower2apps/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/converterbypower2apps/icon.png"
     },
     {
         "Name": "COSMO Bot",
@@ -897,17 +922,17 @@
     {
         "Name": "Dynamics 365 Customer Insights",
         "Uniquename": "customerinsights",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1595/1.0.1595.2986/customerinsights/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/customerinsights/icon.png"
     },
     {
         "Name": "Cyberday",
         "Uniquename": "cyberday",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/cyberday/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/cyberday/icon.png"
     },
     {
         "Name": "CyberProof",
         "Uniquename": "cyberproof",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/cyberproof/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/cyberproof/icon.png"
     },
     {
         "Name": "D7SMS",
@@ -917,12 +942,12 @@
     {
         "Name": "Data8 Data Enrichment",
         "Uniquename": "data8",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1586/1.0.1586.2912/data8/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/data8/icon.png"
     },
     {
         "Name": "Datablend",
         "Uniquename": "datablend",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/datablend/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/datablend/icon.png"
     },
     {
         "Name": "Power Query Dataflows",
@@ -932,12 +957,12 @@
     {
         "Name": "DataScope Forms",
         "Uniquename": "datascopeforms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/datascopeforms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/datascopeforms/icon.png"
     },
     {
         "Name": "DB2",
         "Uniquename": "db2",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/db2/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/db2/icon.png"
     },
     {
         "Name": "DBF2XML",
@@ -947,7 +972,12 @@
     {
         "Name": "DeepL",
         "Uniquename": "deepl",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/Nov22Train/1.0.1613.3113/deepl/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3220/deepl/icon.png"
+    },
+    {
+        "Name": "Desk365",
+        "Uniquename": "desk365",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/desk365/icon.png"
     },
     {
         "Name": "DeskDirector",
@@ -977,12 +1007,12 @@
     {
         "Name": "DocJuris",
         "Uniquename": "docjuris",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1593/1.0.1593.2979/docjuris/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/docjuris/icon.png"
     },
     {
         "Name": "Docparser",
         "Uniquename": "docparser",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/docparser/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/docparser/icon.png"
     },
     {
         "Name": "}exghts gen. Document & more",
@@ -992,7 +1022,7 @@
     {
         "Name": "Doc To PDF",
         "Uniquename": "doctopdf",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1587/1.0.1587.2924/doctopdf/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/doctopdf/icon.png"
     },
     {
         "Name": "Document AI Konfuzio",
@@ -1002,7 +1032,7 @@
     {
         "Name": "Azure Cosmos DB",
         "Uniquename": "documentdb",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1604/1.0.1604.3062/documentdb/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/documentdb/icon.png"
     },
     {
         "Name": "Document Merge",
@@ -1012,7 +1042,7 @@
     {
         "Name": "DocumentsCorePack",
         "Uniquename": "documentscorepackapi",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3077/documentscorepackapi/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainMarch8/1.0.1626.3232/documentscorepackapi/icon.png"
     },
     {
         "Name": "Docurain",
@@ -1022,27 +1052,27 @@
     {
         "Name": "DocuSign",
         "Uniquename": "docusign",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-amjedayoub/preview0006/1.0.1612.3106/docusign/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-amjedayoub/ga0018/1.0.1627.3238/docusign/icon.png"
     },
     {
         "Name": "DocuSign Demo",
         "Uniquename": "docusigndemo",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1609/1.0.1609.3084/docusigndemo/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainFeb10/1.0.1623.3201/docusigndemo/icon.png"
     },
     {
         "Name": "Dokobit Portal",
         "Uniquename": "dokobitportal",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1599/1.0.1599.3017/dokobitportal/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/dokobitportal/icon.png"
     },
     {
         "Name": "DomainTools Iris Enrich",
         "Uniquename": "domaintoolsirisenric",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1601/1.0.1601.3047/domaintoolsirisenric/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/domaintoolsirisenric/icon.png"
     },
     {
         "Name": "DomainTools Iris Investigate",
         "Uniquename": "domaintoolsirisinves",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1601/1.0.1601.3047/domaintoolsirisinves/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/domaintoolsirisinves/icon.png"
     },
     {
         "Name": "dox42",
@@ -1057,32 +1087,32 @@
     {
         "Name": "Dropbox",
         "Uniquename": "dropbox",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/dropbox/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3220/dropbox/icon.png"
     },
     {
         "Name": "d.velop",
         "Uniquename": "dvelop",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1589/1.0.1589.2945/dvelop/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/dvelop/icon.png"
     },
     {
         "Name": "Dynamics 365 Commerce - Ratings and Reviews",
         "Uniquename": "dynamics365ratingsre",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/releases/v1.0.1609-localization/1.0.1609.3085/dynamics365ratingsre/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/dynamics365ratingsre/icon.png"
     },
     {
         "Name": "Fin & Ops Apps (Dynamics 365)",
         "Uniquename": "dynamicsax",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/dynamicsax/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/dynamicsax/icon.png"
     },
     {
         "Name": "Dynamics 365 (deprecated)",
         "Uniquename": "dynamicscrmonline",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1611/1.0.1611.3104/dynamicscrmonline/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1631/1.0.1631.3268/dynamicscrmonline/icon.png"
     },
     {
         "Name": "Dynamics 365 Fraud Protection",
         "Uniquename": "dynamicsfraudprotect",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1586/1.0.1586.2912/dynamicsfraudprotect/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/dynamicsfraudprotect/icon.png"
     },
     {
         "Name": "Dynamic Signal",
@@ -1092,17 +1122,17 @@
     {
         "Name": "Dynamics NAV",
         "Uniquename": "dynamicsnavision",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/dynamicsnavision/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/dynamicsnavision/icon.png"
     },
     {
         "Name": "Dynamics 365 Business Central (on-premises)",
         "Uniquename": "dynamicssmbonprem",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/dynamicssmbonprem/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/dynamicssmbonprem/icon.png"
     },
     {
         "Name": "Dynamics 365 Business Central",
         "Uniquename": "dynamicssmbsaas",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/dynamicssmbsaas/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3220/dynamicssmbsaas/icon.png"
     },
     {
         "Name": "Dynatrace",
@@ -1132,7 +1162,7 @@
     {
         "Name": "Eduframe",
         "Uniquename": "eduframe",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1570/1.0.1570.2764/eduframe/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/eduframe/icon.png"
     },
     {
         "Name": "Egnyte",
@@ -1167,7 +1197,7 @@
     {
         "Name": "Elfsquad Data",
         "Uniquename": "elfsquaddata",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1602/1.0.1602.3056/elfsquaddata/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/elfsquaddata/icon.png"
     },
     {
         "Name": "emfluence Marketing Platform",
@@ -1177,7 +1207,7 @@
     {
         "Name": "Emigo",
         "Uniquename": "emigo",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/emigo/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/emigo/icon.png"
     },
     {
         "Name": "Enadoc",
@@ -1187,7 +1217,7 @@
     {
         "Name": "Encodian",
         "Uniquename": "encodiandocumentmanager",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/encodiandocumentmanager/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/encodiandocumentmanager/icon.png"
     },
     {
         "Name": "Engagement Cloud",
@@ -1207,7 +1237,7 @@
     {
         "Name": "Envoy",
         "Uniquename": "envoy",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1589/1.0.1589.2945/envoy/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/envoy/icon.png"
     },
     {
         "Name": "Ephesoft Semantik For Invoices",
@@ -1227,7 +1257,7 @@
     {
         "Name": "Event Hubs",
         "Uniquename": "eventhubs",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/releases/v1.0.1609-localization/1.0.1609.3085/eventhubs/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-amism/eventhubs/mi-fix/1.0.1628.3244/eventhubs/icon.png"
     },
     {
         "Name": "Evocom",
@@ -1237,17 +1267,17 @@
     {
         "Name": "Exasol",
         "Uniquename": "exasol",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1601/1.0.1601.3047/exasol/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/exasol/icon.png"
     },
     {
         "Name": "Excel Online (OneDrive)",
         "Uniquename": "excelonline",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/excelonline/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/excelonline/icon.png"
     },
     {
         "Name": "Excel Online (Business)",
         "Uniquename": "excelonlinebusiness",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1600/1.0.1600.3026/excelonlinebusiness/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/laborbol/releases/ase-v3/1.0.1622.3202/excelonlinebusiness/icon.png"
     },
     {
         "Name": "Expensya",
@@ -1257,12 +1287,12 @@
     {
         "Name": "Experlogix Smart Flows",
         "Uniquename": "experlogixsmartflows",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/experlogixsmartflows/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/experlogixsmartflows/icon.png"
     },
     {
         "Name": "Expiration Reminder",
         "Uniquename": "expirationreminder",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/expirationreminder/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/expirationreminder/icon.png"
     },
     {
         "Name": "EXPOCAD",
@@ -1272,17 +1302,17 @@
     {
         "Name": "Face API",
         "Uniquename": "faceapi",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1551/1.0.1551.2693/faceapi/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/faceapi/icon.png"
     },
     {
         "Name": "FactSet",
         "Uniquename": "factset",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1592/1.0.1592.2970/factset/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/factset/icon.png"
     },
     {
         "Name": "Fantasy Premier League (Independent Publisher)",
         "Uniquename": "fantasypremierleagueip",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/12SepTrain/1.0.1601.3035/fantasypremierleagueip/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/fantasypremierleagueip/icon.png"
     },
     {
         "Name": "Farsight DNSDB",
@@ -1292,57 +1322,62 @@
     {
         "Name": "FHIRBase",
         "Uniquename": "fhirbase",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1573/1.0.1573.2770/fhirbase/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/fhirbase/icon.png"
     },
     {
         "Name": "FHIRClinical",
         "Uniquename": "fhirclinical",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2780/fhirclinical/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/fhirclinical/icon.png"
     },
     {
         "Name": "File System",
         "Uniquename": "filesystem",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/filesystem/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/filesystem/icon.png"
     },
     {
         "Name": "FireText",
         "Uniquename": "firetext",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/firetext/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/firetext/icon.png"
     },
     {
         "Name": "Flic",
         "Uniquename": "flic",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2780/flic/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2781/flic/icon.png"
+    },
+    {
+        "Name": "Fliplet",
+        "Uniquename": "fliplet",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/fliplet/icon.png"
     },
     {
         "Name": "Flotiq headless CMS",
         "Uniquename": "flotiqheadlesscms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2780/flotiqheadlesscms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2781/flotiqheadlesscms/icon.png"
     },
     {
         "Name": "FlowForma",
         "Uniquename": "flowforma",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2780/flowforma/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2781/flowforma/icon.png"
     },
     {
         "Name": "FlowForma V2",
         "Uniquename": "flowformav2",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/flowformav2/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/flowformav2/icon.png"
     },
     {
         "Name": "Power Automate Management",
         "Uniquename": "flowmanagement",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/flowmanagement/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/flowmanagement/icon.png"
     },
     {
         "Name": "Notifications",
         "Uniquename": "flowpush",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1599/1.0.1599.3017/flowpush/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3209/flowpush/icon.png"
     },
     {
         "Name": "Fluid Kinnectorz for Procore",
         "Uniquename": "fluidkinnectorzforpr",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1600/1.0.1600.3026/fluidkinnectorzforpr/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1628/1.0.1628.3245/fluidkinnectorzforpr/icon.png"
     },
     {
         "Name": "FORCAM FORCE Bridge",
@@ -1372,22 +1407,22 @@
     {
         "Name": "Freshservice",
         "Uniquename": "freshservice",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2780/freshservice/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2781/freshservice/icon.png"
     },
     {
         "Name": "FTP",
         "Uniquename": "ftp",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/ftp/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/ftp/icon.png"
     },
     {
         "Name": "Pitney Bowes Tax Calculator",
         "Uniquename": "geotax",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2780/geotax/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2781/geotax/icon.png"
     },
     {
         "Name": "GetAccept",
         "Uniquename": "getaccept",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1590/1.0.1590.2954/getaccept/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainFeb10/1.0.1623.3201/getaccept/icon.png"
     },
     {
         "Name": "GetMyInvoices",
@@ -1395,14 +1430,19 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1529/1.0.1529.2589/getmyinvoices/icon.png"
     },
     {
+        "Name": "GIS Cloud",
+        "Uniquename": "giscloud",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1631/1.0.1631.3267/giscloud/icon.png"
+    },
+    {
         "Name": "GitHub",
         "Uniquename": "github",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2678/github/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/github/icon.png"
     },
     {
         "Name": "GoFileRoom",
         "Uniquename": "gofileroom",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1593/1.0.1593.2979/gofileroom/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1593/1.0.1593.2980/gofileroom/icon.png"
     },
     {
         "Name": "Google Calendar",
@@ -1417,12 +1457,12 @@
     {
         "Name": "Google Drive",
         "Uniquename": "googledrive",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/googledrive/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/googledrive/icon.png"
     },
     {
         "Name": "Google Sheets",
         "Uniquename": "googlesheet",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/googlesheet/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/googlesheet/icon.png"
     },
     {
         "Name": "Google Tasks",
@@ -1457,7 +1497,7 @@
     {
         "Name": "GroupMgr",
         "Uniquename": "groupmgr",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2781/groupmgr/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2782/groupmgr/icon.png"
     },
     {
         "Name": "Harness PDFx",
@@ -1488,6 +1528,11 @@
         "Name": "Holopin",
         "Uniquename": "holopinip",
         "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/TrainDec21/1.0.1615.3146/holopinip/icon.png"
+    },
+    {
+        "Name": "Honeywell Forge",
+        "Uniquename": "honeywellforge",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1628/1.0.1628.3245/honeywellforge/icon.png"
     },
     {
         "Name": "HotProfile",
@@ -1527,7 +1572,7 @@
     {
         "Name": "HYAS Insight",
         "Uniquename": "hyasinsight",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3079/hyasinsight/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/hyasinsight/icon.png"
     },
     {
         "Name": "IA-Connect Dynamic Code",
@@ -1542,7 +1587,7 @@
     {
         "Name": "IA-Connect JML",
         "Uniquename": "iaconnectjml",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1596/1.0.1596.2995/iaconnectjml/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/iaconnectjml/icon.png"
     },
     {
         "Name": "IA-Connect Mainframe",
@@ -1557,12 +1602,12 @@
     {
         "Name": "IA-Connect SAP GUI",
         "Uniquename": "iaconnectsapgui",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1578/1.0.1578.2813/iaconnectsapgui/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/iaconnectsapgui/icon.png"
     },
     {
         "Name": "IA-Connect Session",
         "Uniquename": "iaconnectsession",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/iaconnectsession/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/iaconnectsession/icon.png"
     },
     {
         "Name": "IA-Connect UI",
@@ -1595,14 +1640,19 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/imanageworkforadmins/icon.png"
     },
     {
+        "Name": "iMIS",
+        "Uniquename": "imis",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/imis/icon.png"
+    },
+    {
         "Name": "Apache Impala",
         "Uniquename": "impala",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/impala/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/impala/icon.png"
     },
     {
         "Name": "Impexium",
         "Uniquename": "impexium",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/impexium/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/impexium/icon.png"
     },
     {
         "Name": "Impower",
@@ -1632,7 +1682,7 @@
     {
         "Name": "IN-D Invoice Data Capture",
         "Uniquename": "indinvoicedatacapture",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/12SepTrain/1.0.1601.3035/indinvoicedatacapture/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/indinvoicedatacapture/icon.png"
     },
     {
         "Name": "IN-D KYC India",
@@ -1647,7 +1697,7 @@
     {
         "Name": "Industrial App Store",
         "Uniquename": "industrialappstore",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3079/industrialappstore/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/industrialappstore/icon.png"
     },
     {
         "Name": "InEight",
@@ -1662,17 +1712,17 @@
     {
         "Name": "InfoQuery",
         "Uniquename": "infoquery",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/infoquery/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/infoquery/icon.png"
     },
     {
         "Name": "Informix",
         "Uniquename": "informix",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/informix/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/informix/icon.png"
     },
     {
         "Name": "InfoShare",
         "Uniquename": "infoshare",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/infoshare/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/infoshare/icon.png"
     },
     {
         "Name": "Infusionsoft",
@@ -1687,7 +1737,7 @@
     {
         "Name": "inQuba Journey",
         "Uniquename": "inqubajourney",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1602/1.0.1602.3056/inqubajourney/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/inqubajourney/icon.png"
     },
     {
         "Name": "Insightly",
@@ -1712,7 +1762,7 @@
     {
         "Name": "intelliHR",
         "Uniquename": "intellihr",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1579/1.0.1579.2824/intellihr/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/intellihr/icon.png"
     },
     {
         "Name": "Intercom",
@@ -1722,7 +1772,7 @@
     {
         "Name": "iObeya",
         "Uniquename": "iobeya",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1595/1.0.1595.2986/iobeya/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/iobeya/icon.png"
     },
     {
         "Name": "Azure IoT Central V2",
@@ -1732,7 +1782,7 @@
     {
         "Name": "IPQS Fraud and Risk Scoring",
         "Uniquename": "ipqsfraudandriskscor",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/ipqsfraudandriskscor/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/ipqsfraudandriskscor/icon.png"
     },
     {
         "Name": "ITautomate",
@@ -1740,14 +1790,24 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1611/1.0.1611.3104/itautomate/icon.png"
     },
     {
+        "Name": "JBHunt",
+        "Uniquename": "jbhunt",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/jbhunt/icon.png"
+    },
+    {
         "Name": "Jedox OData Hub",
         "Uniquename": "jedoxodatahub",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1602/1.0.1602.3056/jedoxodatahub/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/jedoxodatahub/icon.png"
+    },
+    {
+        "Name": "JG Integrations",
+        "Uniquename": "jgintegrations",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/jgintegrations/icon.png"
     },
     {
         "Name": "JIRA",
         "Uniquename": "jira",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/jira/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/jira/icon.png"
     },
     {
         "Name": "JotForm",
@@ -1755,14 +1815,19 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1443/1.0.1443.2341/jotform/icon.png"
     },
     {
-        "Name": "JotForm Enterprise",
+        "Name": "Jotform Enterprise",
         "Uniquename": "jotformenterprise",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1580/1.0.1580.2838/jotformenterprise/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/jotformenterprise/icon.png"
     },
     {
         "Name": "JungleMail 365",
         "Uniquename": "junglemail365",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/junglemail365/icon.png"
+    },
+    {
+        "Name": "Jupyrest",
+        "Uniquename": "jupyrest",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/jupyrest/icon.png"
     },
     {
         "Name": "K2 Workflow",
@@ -1777,7 +1842,7 @@
     {
         "Name": "Kanbanize",
         "Uniquename": "kanbanize",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/Oct4thTrain/1.0.1604.3058/kanbanize/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/kanbanize/icon.png"
     },
     {
         "Name": "Kanban Tool",
@@ -1787,7 +1852,7 @@
     {
         "Name": "Azure Key Vault",
         "Uniquename": "keyvault",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/keyvault/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/keyvault/icon.png"
     },
     {
         "Name": "kintone",
@@ -1807,7 +1872,7 @@
     {
         "Name": "Azure Data Explorer",
         "Uniquename": "kusto",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/kusto/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3239/kusto/icon.png"
     },
     {
         "Name": "Lang.ai",
@@ -1817,7 +1882,7 @@
     {
         "Name": "Language - Question Answering",
         "Uniquename": "languagequestionansw",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3077/languagequestionansw/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/languagequestionansw/icon.png"
     },
     {
         "Name": "Lansweeper App For Sentinel",
@@ -1848,6 +1913,11 @@
         "Name": "Lawlift",
         "Uniquename": "lawlift",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1574/1.0.1574.2780/lawlift/icon.png"
+    },
+    {
+        "Name": "LCP - iCordis",
+        "Uniquename": "lcpicordis",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/lcpicordis/icon.png"
     },
     {
         "Name": "LeadDesk",
@@ -1882,7 +1952,7 @@
     {
         "Name": "LIFX",
         "Uniquename": "lifx",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1542/1.0.1542.2635/lifx/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/lifx/icon.png"
     },
     {
         "Name": "LinkedIn",
@@ -1892,7 +1962,7 @@
     {
         "Name": "LinkedIn V2",
         "Uniquename": "linkedinv2",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1604/1.0.1604.3062/linkedinv2/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/linkedinv2/icon.png"
     },
     {
         "Name": "LINK Mobility",
@@ -1912,7 +1982,7 @@
     {
         "Name": "LMS365",
         "Uniquename": "lms365",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1534/1.0.1534.2605/lms365/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/lms365/icon.png"
     },
     {
         "Name": "Lnk.Bio",
@@ -1922,7 +1992,7 @@
     {
         "Name": "LUIS",
         "Uniquename": "luis",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1534/1.0.1534.2605/luis/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/luis/icon.png"
     },
     {
         "Name": "Microsoft 365 message center",
@@ -1932,7 +2002,7 @@
     {
         "Name": "Updates App (Microsoft 365)",
         "Uniquename": "m365updatesapp",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/TrainDec21/1.0.1615.3146/m365updatesapp/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/m365updatesapp/icon.png"
     },
     {
         "Name": "MailChimp",
@@ -1947,12 +2017,12 @@
     {
         "Name": "Mandrill",
         "Uniquename": "mandrill",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1479/1.0.1479.2452/mandrill/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/mandrill/icon.png"
     },
     {
         "Name": "Mapbox (Independent Publisher)",
         "Uniquename": "mapboxip",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1599/1.0.1599.3017/mapboxip/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/mapboxip/icon.png"
     },
     {
         "Name": "Map Pro",
@@ -1972,7 +2042,7 @@
     {
         "Name": "Marketo",
         "Uniquename": "marketo",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/marketo/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/marketo/icon.png"
     },
     {
         "Name": "Mavim-iMprove",
@@ -1982,7 +2052,7 @@
     {
         "Name": "Medallia",
         "Uniquename": "medallia",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/medallia/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/medallia/icon.png"
     },
     {
         "Name": "Medium",
@@ -1997,7 +2067,7 @@
     {
         "Name": "Meisterplan",
         "Uniquename": "meisterplan",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/meisterplan/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainMarch8/1.0.1626.3232/meisterplan/icon.png"
     },
     {
         "Name": "Mensagia",
@@ -2017,7 +2087,7 @@
     {
         "Name": "Microsoft 365 compliance",
         "Uniquename": "microsoft365compliance",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1593/1.0.1593.2980/microsoft365compliance/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/microsoft365compliance/icon.png"
     },
     {
         "Name": "Microsoft Bookings",
@@ -2027,7 +2097,7 @@
     {
         "Name": "Power Automate for Admins",
         "Uniquename": "microsoftflowforadmins",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1551/1.0.1551.2693/microsoftflowforadmins/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1631/1.0.1631.3268/microsoftflowforadmins/icon.png"
     },
     {
         "Name": "Microsoft Forms",
@@ -2045,14 +2115,24 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1583/1.0.1583.2865/microsoftgraphsecurity/icon.png"
     },
     {
+        "Name": "Microsoft Partner Center",
+        "Uniquename": "microsoftpartnercent",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/microsoftpartnercent/icon.png"
+    },
+    {
         "Name": "Microsoft School Data Sync",
         "Uniquename": "microsoftschooldatasync",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1535/1.0.1535.2607/microsoftschooldatasync/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/microsoftschooldatasync/icon.png"
+    },
+    {
+        "Name": "Microsoft Search",
+        "Uniquename": "microsoftsearch",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/microsoftsearch/icon.png"
     },
     {
         "Name": "Microsoft Translator",
         "Uniquename": "microsofttranslator",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1445/1.0.1445.2347/microsofttranslator/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/microsofttranslator/icon.png"
     },
     {
         "Name": "Mitto",
@@ -2085,6 +2165,11 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1536/1.0.1536.2611/moduleq/icon.png"
     },
     {
+        "Name": "MongoDB",
+        "Uniquename": "mongodb",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/mongodb/icon.png"
+    },
+    {
         "Name": "Morf",
         "Uniquename": "morf",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/morf/icon.png"
@@ -2107,12 +2192,12 @@
     {
         "Name": "MSN Weather",
         "Uniquename": "msnweather",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1586/1.0.1586.2912/msnweather/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/msnweather/icon.png"
     },
     {
         "Name": "Mtarget SMS",
         "Uniquename": "mtarget",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/mtarget/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/mtarget/icon.png"
     },
     {
         "Name": "Muhimbi PDF",
@@ -2132,12 +2217,17 @@
     {
         "Name": "MySQL",
         "Uniquename": "mysql",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/mysql/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/mysql/icon.png"
     },
     {
         "Name": "N-able Cloud User Hub",
         "Uniquename": "nableclouduserhub",
         "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/7NovTrain/1.0.1611.3096/nableclouduserhub/icon.png"
+    },
+    {
+        "Name": "Narvar",
+        "Uniquename": "narvar",
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainFeb10/1.0.1623.3201/narvar/icon.png"
     },
     {
         "Name": "NetDocuments",
@@ -2192,27 +2282,27 @@
     {
         "Name": "Office 365 Outlook",
         "Uniquename": "office365",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/office365/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/office365/icon.png"
     },
     {
         "Name": "Office 365 Groups",
         "Uniquename": "office365groups",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/releases/v1.0.1609-localization/1.0.1609.3085/office365groups/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/office365groups/icon.png"
     },
     {
         "Name": "Office 365 Groups Mail",
         "Uniquename": "office365groupsmail",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/releases/v1.0.1609-localization/1.0.1609.3085/office365groupsmail/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/office365groupsmail/icon.png"
     },
     {
         "Name": "Office 365 Users",
         "Uniquename": "office365users",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1611/1.0.1611.3104/office365users/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/office365users/icon.png"
     },
     {
         "Name": "Office 365 Video",
         "Uniquename": "office365video",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/office365video/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/office365video/icon.png"
     },
     {
         "Name": "OneBlink",
@@ -2232,7 +2322,7 @@
     {
         "Name": "Oneflow",
         "Uniquename": "oneflow",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3077/oneflow/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/oneflow/icon.png"
     },
     {
         "Name": "OneNote (Business)",
@@ -2242,7 +2332,7 @@
     {
         "Name": "Oodrive Sign",
         "Uniquename": "oodrivesign",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/oodrivesign/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainFeb10/1.0.1623.3201/oodrivesign/icon.png"
     },
     {
         "Name": "Open Experience",
@@ -2250,19 +2340,29 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3079/openexperience/icon.png"
     },
     {
+        "Name": "OpenLegacy IBM I (AS400)",
+        "Uniquename": "openlegacyibmias400",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3219/openlegacyibmias400/icon.png"
+    },
+    {
+        "Name": "OpenLegacy IBM Mainframe",
+        "Uniquename": "openlegacyibmmainframe",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/openlegacyibmmainframe/icon.png"
+    },
+    {
         "Name": "OpenText Core Share by One Fox",
         "Uniquename": "opentextcoreshare",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3079/opentextcoreshare/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/opentextcoreshare/icon.png"
     },
     {
         "Name": "OpenText Content Server by One Fox",
         "Uniquename": "opentextcsbyonefox",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-amjedayoub/govclouds0/1.0.1591.2959/opentextcsbyonefox/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/opentextcsbyonefox/icon.png"
     },
     {
         "Name": "OpenText eDOCS by One Fox",
         "Uniquename": "opentextedocsbyonefox",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-amjedayoub/govclouds0/1.0.1591.2959/opentextedocsbyonefox/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/opentextedocsbyonefox/icon.png"
     },
     {
         "Name": "OptiAPI",
@@ -2272,7 +2372,7 @@
     {
         "Name": "Oracle Database",
         "Uniquename": "oracle",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/oracle/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/oracle/icon.png"
     },
     {
         "Name": "Ordnance Survey Places",
@@ -2282,12 +2382,12 @@
     {
         "Name": "Otto.bot",
         "Uniquename": "ottobot",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1537/1.0.1537.2613/ottobot/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1621/1.0.1621.3191/ottobot/icon.png"
     },
     {
         "Name": "Outlook.com",
         "Uniquename": "outlook",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/outlook/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/outlook/icon.png"
     },
     {
         "Name": "Outlook Tasks",
@@ -2302,7 +2402,7 @@
     {
         "Name": "Panviva",
         "Uniquename": "panviva",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/panviva/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/panviva/icon.png"
     },
     {
         "Name": "Parserr",
@@ -2312,7 +2412,7 @@
     {
         "Name": "Parseur",
         "Uniquename": "parseur",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/parseur/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/parseur/icon.png"
     },
     {
         "Name": "Partner Center Events",
@@ -2323,6 +2423,11 @@
         "Name": "Partner Center Referrals",
         "Uniquename": "partnercenterref",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/partnercenterref/icon.png"
+    },
+    {
+        "Name": "PartnerLinq",
+        "Uniquename": "partnerlinq",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3225/partnerlinq/icon.png"
     },
     {
         "Name": "Paylocity",
@@ -2337,27 +2442,27 @@
     {
         "Name": "PDF4me Connect",
         "Uniquename": "pdf4meconnect",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3079/pdf4meconnect/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/pdf4meconnect/icon.png"
     },
     {
         "Name": "PDF4me SwissQR",
         "Uniquename": "pdf4meswissqr",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1538/1.0.1538.2619/pdf4meswissqr/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1630/1.0.1630.3261/pdf4meswissqr/icon.png"
     },
     {
         "Name": "PDF Blocks",
         "Uniquename": "pdfblocks",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/pdfblocks/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/pdfblocks/icon.png"
     },
     {
         "Name": "PDFco",
         "Uniquename": "pdfco",
-        "Url": "https://connectoricons-prod.azureedge.net/release-test-new/1.0.1588.2932/pdfco/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1621/1.0.1621.3191/pdfco/icon.png"
     },
     {
         "Name": "PDFcross",
         "Uniquename": "pdfcross",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/pdfcross/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/pdfcross/icon.png"
     },
     {
         "Name": "Peltarion AI",
@@ -2382,7 +2487,7 @@
     {
         "Name": "PIPware KPIs",
         "Uniquename": "pipwarekpis",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/pipwarekpis/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/pipwarekpis/icon.png"
     },
     {
         "Name": "Pitney Bowes Data Validation",
@@ -2417,7 +2522,7 @@
     {
         "Name": "Plumsail Documents",
         "Uniquename": "plumsail",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1608/1.0.1608.3079/plumsail/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/plumsail/icon.png"
     },
     {
         "Name": "Plumsail Forms",
@@ -2427,12 +2532,12 @@
     {
         "Name": "Plumsail HelpDesk",
         "Uniquename": "plumsailhelpdesk",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1542/1.0.1542.2635/plumsailhelpdesk/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/plumsailhelpdesk/icon.png"
     },
     {
         "Name": "Plumsail SP",
         "Uniquename": "plumsailsp",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1517/1.0.1517.2563/plumsailsp/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/plumsailsp/icon.png"
     },
     {
         "Name": "Poka",
@@ -2447,12 +2552,12 @@
     {
         "Name": "PoliteMail",
         "Uniquename": "politemail",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/politemail/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/politemail/icon.png"
     },
     {
         "Name": "PostgreSQL",
         "Uniquename": "postgresql",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/postgresql/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/postgresql/icon.png"
     },
     {
         "Name": "Powell Teams",
@@ -2462,22 +2567,22 @@
     {
         "Name": "Power Apps for Admins",
         "Uniquename": "powerappsforadmins",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1591/1.0.1591.2961/powerappsforadmins/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/powerappsforadmins/icon.png"
     },
     {
         "Name": "Power Apps for Makers",
         "Uniquename": "powerappsforappmakers",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1551/1.0.1551.2693/powerappsforappmakers/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/powerappsforappmakers/icon.png"
     },
     {
         "Name": "Power Apps Notification",
         "Uniquename": "powerappsnotification",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1604/1.0.1604.3062/powerappsnotification/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3209/powerappsnotification/icon.png"
     },
     {
         "Name": "Power Apps Notification V2",
         "Uniquename": "powerappsnotificationv2",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1609/1.0.1609.3084/powerappsnotificationv2/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3209/powerappsnotificationv2/icon.png"
     },
     {
         "Name": "Power Assist",
@@ -2517,7 +2622,7 @@
     {
         "Name": "Priority Matrix",
         "Uniquename": "prioritymatrix",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/prioritymatrix/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/prioritymatrix/icon.png"
     },
     {
         "Name": "Priority Matrix HIPAA",
@@ -2547,7 +2652,7 @@
     {
         "Name": "Project Roadmap",
         "Uniquename": "projectroadmap",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1542/1.0.1542.2635/projectroadmap/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/projectroadmap/icon.png"
     },
     {
         "Name": "Projectum Present It",
@@ -2587,7 +2692,7 @@
     {
         "Name": "RAPID Platform",
         "Uniquename": "rapidplatform",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/rapidplatform/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/rapidplatform/icon.png"
     },
     {
         "Name": "Recorded Future",
@@ -2597,12 +2702,17 @@
     {
         "Name": "Recorded Future Identity",
         "Uniquename": "recordedfutureidenti",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1610/1.0.1610.3093/recordedfutureidenti/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1621/1.0.1621.3191/recordedfutureidenti/icon.png"
+    },
+    {
+        "Name": "Recorded Future Sandbox",
+        "Uniquename": "recordedfuturesandbo",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/recordedfuturesandbo/icon.png"
     },
     {
         "Name": "Recorded Future V2",
         "Uniquename": "recordedfuturev2",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1610/1.0.1610.3093/recordedfuturev2/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1621/1.0.1621.3191/recordedfuturev2/icon.png"
     },
     {
         "Name": "Redmine",
@@ -2610,9 +2720,14 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/redmine/icon.png"
     },
     {
+        "Name": "Redque",
+        "Uniquename": "redquesmartinvoiceca",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1631/1.0.1631.3267/redquesmartinvoiceca/icon.png"
+    },
+    {
         "Name": "RegexFlow Regular Expression",
         "Uniquename": "regexflowregularexpr",
-        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/Oct4thTrain/1.0.1604.3058/regexflowregularexpr/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1619/1.0.1619.3185/regexflowregularexpr/icon.png"
     },
     {
         "Name": "RegoLink for Clarity PPM",
@@ -2638,6 +2753,11 @@
         "Name": "Resco Cloud",
         "Uniquename": "rescocloud",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1610/1.0.1610.3093/rescocloud/icon.png"
+    },
+    {
+        "Name": "Resco Reports",
+        "Uniquename": "rescoreports",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/rescoreports/icon.png"
     },
     {
         "Name": "Revelation helpdesk",
@@ -2677,7 +2797,7 @@
     {
         "Name": "RSS",
         "Uniquename": "rss",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/rss/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/rss/icon.png"
     },
     {
         "Name": "iAuditor",
@@ -2687,22 +2807,22 @@
     {
         "Name": "Salesforce",
         "Uniquename": "salesforce",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/salesforce/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3220/salesforce/icon.png"
     },
     {
         "Name": "SAP ERP",
         "Uniquename": "saperp",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/saperp/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/saperp/icon.png"
     },
     {
         "Name": "SAS Decisioning",
         "Uniquename": "sasdecisioning",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1543/1.0.1543.2638/sasdecisioning/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1622/1.0.1622.3199/sasdecisioning/icon.png"
     },
     {
         "Name": "Scrive eSign",
         "Uniquename": "scriveesign",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/scriveesign/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/scriveesign/icon.png"
     },
     {
         "Name": "SECIB",
@@ -2740,9 +2860,34 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1544/1.0.1544.2640/seismic/icon.png"
     },
     {
+        "Name": "Seismic Configuration",
+        "Uniquename": "seismicconfiguration",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3219/seismicconfiguration/icon.png"
+    },
+    {
+        "Name": "Seismic Content Discovery",
+        "Uniquename": "seismiccontentdiscov",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3219/seismiccontentdiscov/icon.png"
+    },
+    {
+        "Name": "Seismic Engagement",
+        "Uniquename": "seismicengagement",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3225/seismicengagement/icon.png"
+    },
+    {
+        "Name": "Seismic Library",
+        "Uniquename": "seismiclibrary",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/seismiclibrary/icon.png"
+    },
+    {
+        "Name": "Seismic Livedoc",
+        "Uniquename": "seismiclivedoc",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3220/seismiclivedoc/icon.png"
+    },
+    {
         "Name": "SendGrid",
         "Uniquename": "sendgrid",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1597/1.0.1597.3005/sendgrid/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/sendgrid/icon.png"
     },
     {
         "Name": "Sendmode",
@@ -2762,7 +2907,7 @@
     {
         "Name": "Service Bus",
         "Uniquename": "servicebus",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/releases/v1.0.1609-localization/1.0.1609.3085/servicebus/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/servicebus/icon.png"
     },
     {
         "Name": "Service Objects",
@@ -2777,12 +2922,12 @@
     {
         "Name": "SFTP",
         "Uniquename": "sftp",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/sftp/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/sftp/icon.png"
     },
     {
         "Name": "SFTP - SSH",
         "Uniquename": "sftpwithssh",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1611/1.0.1611.3104/sftpwithssh/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/sftpwithssh/icon.png"
     },
     {
         "Name": "Share-Effect",
@@ -2792,7 +2937,7 @@
     {
         "Name": "SharePoint",
         "Uniquename": "sharepointonline",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/sharepointonline/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/sharepointonline/icon.png"
     },
     {
         "Name": "Shifts for Microsoft Teams",
@@ -2837,7 +2982,7 @@
     {
         "Name": "Skype for Business Online",
         "Uniquename": "skypeforbiz",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/skypeforbiz/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/skypeforbiz/icon.png"
     },
     {
         "Name": "SkyPoint Cloud",
@@ -2862,12 +3007,12 @@
     {
         "Name": "SmartCOMM Doc-Gen ap10-sb",
         "Uniquename": "smartcommondemanddoc",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1601/1.0.1601.3046/smartcommondemanddoc/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/smartcommondemanddoc/icon.png"
     },
     {
         "Name": "SmartDialog",
         "Uniquename": "smartdialog",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/smartdialog/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/smartdialog/icon.png"
     },
     {
         "Name": "Smartsheet",
@@ -2877,7 +3022,7 @@
     {
         "Name": "sms77io",
         "Uniquename": "sms77io",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/sms77io/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/sms77io/icon.png"
     },
     {
         "Name": "SMSAPI",
@@ -2892,7 +3037,7 @@
     {
         "Name": "SMTP",
         "Uniquename": "smtp",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/smtp/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/smtp/icon.png"
     },
     {
         "Name": "Sociabble",
@@ -2927,12 +3072,12 @@
     {
         "Name": "SQL Server",
         "Uniquename": "sql",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/sql/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/sql/icon.png"
     },
     {
         "Name": "Azure SQL Data Warehouse",
         "Uniquename": "sqldw",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/sqldw/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/sqldw/icon.png"
     },
     {
         "Name": "Staffbase",
@@ -2960,6 +3105,16 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1516/1.0.1516.2558/stripe/icon.png"
     },
     {
+        "Name": "Survalyzer EU",
+        "Uniquename": "survalyzereu",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/survalyzereu/icon.png"
+    },
+    {
+        "Name": "Survalyzer Swiss",
+        "Uniquename": "survalyzerswiss",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/survalyzerswiss/icon.png"
+    },
+    {
         "Name": "Survey123",
         "Uniquename": "survey123",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/survey123/icon.png"
@@ -2967,7 +3122,7 @@
     {
         "Name": "SurveyMonkey",
         "Uniquename": "surveymonkey",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/surveymonkey/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/surveymonkey/icon.png"
     },
     {
         "Name": "Tago",
@@ -2982,7 +3137,7 @@
     {
         "Name": "Tallyfy",
         "Uniquename": "tallyfy",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1588/1.0.1588.2938/tallyfy/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/tallyfy/icon.png"
     },
     {
         "Name": "TALXIS Data Feed",
@@ -3002,12 +3157,12 @@
     {
         "Name": "Team Forms",
         "Uniquename": "teamforms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1615/1.0.1615.3163/teamforms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/teamforms/icon.png"
     },
     {
         "Name": "Microsoft Teams",
         "Uniquename": "teams",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/teams/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1628/1.0.1628.3245/teams/icon.png"
     },
     {
         "Name": "Teams-Spirit",
@@ -3037,7 +3192,7 @@
     {
         "Name": "Teradata",
         "Uniquename": "teradata",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/teradata/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/teradata/icon.png"
     },
     {
         "Name": "Tesseron ASM Basic Data",
@@ -3050,9 +3205,19 @@
         "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/7NovTrain/1.0.1611.3096/tesseronasmticket/icon.png"
     },
     {
+        "Name": "Tesseron Invoice",
+        "Uniquename": "tesseroninvoice",
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/tesseroninvoice/icon.png"
+    },
+    {
         "Name": "Text Request",
         "Uniquename": "textrequest",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1601/1.0.1601.3046/textrequest/icon.png"
+    },
+    {
+        "Name": "The Bot Platform",
+        "Uniquename": "thebotplatform",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/thebotplatform/icon.png"
     },
     {
         "Name": "Ticketing.events",
@@ -3077,7 +3242,12 @@
     {
         "Name": "Microsoft To-Do (Business)",
         "Uniquename": "todo",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1589/1.0.1589.2945/todo/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/todo/icon.png"
+    },
+    {
+        "Name": "Microsoft To-Do (Consumer)",
+        "Uniquename": "todoconsumer",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/todoconsumer/icon.png"
     },
     {
         "Name": "Todoist",
@@ -3107,17 +3277,17 @@
     {
         "Name": "Microsoft Translator V2",
         "Uniquename": "translatorv2",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1481/1.0.1481.2460/translatorv2/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/translatorv2/icon.png"
     },
     {
         "Name": "Trello",
         "Uniquename": "trello",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1610/1.0.1610.3093/trello/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/trello/icon.png"
     },
     {
         "Name": "Tribal",
         "Uniquename": "tribal",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1595/1.0.1595.2986/tribal/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1624/1.0.1624.3221/tribal/icon.png"
     },
     {
         "Name": "TRIGGERcmd",
@@ -3135,6 +3305,11 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1546/1.0.1546.2665/trustual/icon.png"
     },
     {
+        "Name": "Tulip",
+        "Uniquename": "tulip",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/tulip/icon.png"
+    },
+    {
         "Name": "TuxMailer",
         "Uniquename": "tuxmailer",
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/tuxmailer/icon.png"
@@ -3142,47 +3317,47 @@
     {
         "Name": "Twilio",
         "Uniquename": "twilio",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1450/1.0.1450.2361/twilio/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/twilio/icon.png"
     },
     {
         "Name": "Twitter",
         "Uniquename": "twitter",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1607/1.0.1607.3068/twitter/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/nikitazotov/v1.0.1624-twitter-remove-shared-app/1.0.1624.3228/twitter/icon.png"
     },
     {
         "Name": "TxtSync",
         "Uniquename": "txtsync",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/txtsync/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2676/txtsync/icon.png"
     },
     {
         "Name": "tyntec 2FA",
         "Uniquename": "tyntec2fa",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/tyntec2fa/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2676/tyntec2fa/icon.png"
     },
     {
-        "Name": "tyntec Portability Check",
+        "Name": "tyntec Phone Verification",
         "Uniquename": "tyntecportabilitycheck",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/tyntecportabilitycheck/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/tyntecportabilitycheck/icon.png"
     },
     {
         "Name": "tyntec SMS Business",
         "Uniquename": "tyntecsms",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/tyntecsms/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/tyntecsms/icon.png"
     },
     {
         "Name": "tyntec Viber Business",
         "Uniquename": "tyntecviber",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/tyntecviber/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/tyntecviber/icon.png"
     },
     {
         "Name": "tyntec WhatsApp Business",
         "Uniquename": "tyntecwa",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1542/1.0.1542.2635/tyntecwa/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrackTrainFeb10/1.0.1623.3201/tyntecwa/icon.png"
     },
     {
         "Name": "Typeform",
         "Uniquename": "typeform",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/typeform/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2676/typeform/icon.png"
     },
     {
         "Name": "Uber Freight",
@@ -3192,12 +3367,12 @@
     {
         "Name": "Ubiqod by Skiply",
         "Uniquename": "ubiqodbyskiply",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/ubiqodbyskiply/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/ubiqodbyskiply/icon.png"
     },
     {
         "Name": "Desktop flows",
         "Uniquename": "uiflow",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/uiflow/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1625/1.0.1625.3226/uiflow/icon.png"
     },
     {
         "Name": "UiPath Orchestrator",
@@ -3212,12 +3387,12 @@
     {
         "Name": "UserVoice",
         "Uniquename": "uservoice",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/uservoice/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/uservoice/icon.png"
     },
     {
         "Name": "Vantage 365 Imaging",
         "Uniquename": "vantage365imaging",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/vantage365imaging/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2676/vantage365imaging/icon.png"
     },
     {
         "Name": "Varuna",
@@ -3227,12 +3402,12 @@
     {
         "Name": "Vena Solutions",
         "Uniquename": "vena",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/vena/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2676/vena/icon.png"
     },
     {
         "Name": "Ventipix Asset and Inventory",
         "Uniquename": "ventipixassetandinventory",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1547/1.0.1547.2675/ventipixassetandinventory/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1618/1.0.1618.3179/ventipixassetandinventory/icon.png"
     },
     {
         "Name": "Verified",
@@ -3257,7 +3432,7 @@
     {
         "Name": "Vineforce",
         "Uniquename": "vineforce",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1613/1.0.1613.3125/vineforce/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/vineforce/icon.png"
     },
     {
         "Name": "Virus Total",
@@ -3267,7 +3442,12 @@
     {
         "Name": "Azure DevOps",
         "Uniquename": "visualstudioteamservices",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1604/1.0.1604.3062/vsts/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/vsts/icon.png"
+    },
+    {
+        "Name": "VitaCloud Quotes",
+        "Uniquename": "vitacloudquotes",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1632/1.0.1632.3274/vitacloudquotes/icon.png"
     },
     {
         "Name": "Vocean",
@@ -3282,12 +3462,12 @@
     {
         "Name": "Waaila",
         "Uniquename": "waaila",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/waaila/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/waaila/icon.png"
     },
     {
         "Name": "Way We Do",
         "Uniquename": "waywedo",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/waywedo/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/waywedo/icon.png"
     },
     {
         "Name": "Microsoft Defender ATP",
@@ -3297,12 +3477,12 @@
     {
         "Name": "HTTP with Azure AD",
         "Uniquename": "webcontents",
-        "Url": "https://connectoricons-prod.azureedge.net/u/juanq/gateway/greyhound/3000.150.11/1.0.1613.3116/webcontents/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/webcontents/icon.png"
     },
     {
         "Name": "Webex",
         "Uniquename": "webex",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/webex/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/webex/icon.png"
     },
     {
         "Name": "Formstack Documents",
@@ -3312,7 +3492,7 @@
     {
         "Name": "WenDocs Linker",
         "Uniquename": "wendocslinker",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/wendocslinker/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/wendocslinker/icon.png"
     },
     {
         "Name": "WithoutWire Inventory Platform",
@@ -3332,7 +3512,7 @@
     {
         "Name": "Word Online (Business)",
         "Uniquename": "wordonlinebusiness",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1591/1.0.1591.2961/wordonlinebusiness/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1628/1.0.1628.3245/wordonlinebusiness/icon.png"
     },
     {
         "Name": "WordPress",
@@ -3355,34 +3535,39 @@
         "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1584/1.0.1584.2879/workspan/icon.png"
     },
     {
+        "Name": "WQRM Risk Forecast Services",
+        "Uniquename": "wqrmriskforecastserv",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1631/1.0.1631.3267/wqrmriskforecastserv/icon.png"
+    },
+    {
         "Name": "Xbridger Document Manager",
         "Uniquename": "xbridgerdocumentmanager",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1580/1.0.1580.2837/xbridgerdocumentmanager/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1580/1.0.1580.2838/xbridgerdocumentmanager/icon.png"
     },
     {
         "Name": "Xooa Blockchain Database",
         "Uniquename": "xooablockchain",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/xooablockchain/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/xooablockchain/icon.png"
     },
     {
         "Name": "Xooa Blockchain Smart Contract",
         "Uniquename": "xooadb",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/xooadb/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/xooadb/icon.png"
     },
     {
-        "Name": "Xpertdoc",
+        "Name": "Xpertdoc (Deprecated)",
         "Uniquename": "xpertdoc",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1542/1.0.1542.2635/xpertdoc/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1623/1.0.1623.3210/xpertdoc/icon.png"
     },
     {
         "Name": "YakChat",
         "Uniquename": "yakchat",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1573/1.0.1573.2770/yakchat/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/u/v-sriyen/FastrakTrainApril11/1.0.1631.3265/yakchat/icon.png"
     },
     {
         "Name": "Yammer",
         "Uniquename": "yammer",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3109/yammer/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1612/1.0.1612.3112/yammer/icon.png"
     },
     {
         "Name": "Yarado",
@@ -3392,12 +3577,12 @@
     {
         "Name": "Yeeflow",
         "Uniquename": "yeeflow",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2722/yeeflow/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1559/1.0.1559.2723/yeeflow/icon.png"
     },
     {
         "Name": "Yeelight",
         "Uniquename": "yeelight",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/yeelight/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/yeelight/icon.png"
     },
     {
         "Name": "Zahara",
@@ -3407,17 +3592,22 @@
     {
         "Name": "Zanran Scaffolder",
         "Uniquename": "zanranscaffolder",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/zanranscaffolder/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/zanranscaffolder/icon.png"
     },
     {
         "Name": "Zendesk",
         "Uniquename": "zendesk",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1617/1.0.1617.3171/zendesk/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1629/1.0.1629.3253/zendesk/icon.png"
     },
     {
         "Name": "Zenkraft",
         "Uniquename": "zenkraft",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/zenkraft/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/zenkraft/icon.png"
+    },
+    {
+        "Name": "Zoho ZeptoMail",
+        "Uniquename": "zeptomail",
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/zeptomail/icon.png"
     },
     {
         "Name": "ZIPPYDOC",
@@ -3432,7 +3622,7 @@
     {
         "Name": "zReports",
         "Uniquename": "zreports",
-        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2679/zreports/icon.png"
+        "Url": "https://connectoricons-prod.azureedge.net/releases/v1.0.1549/1.0.1549.2680/zreports/icon.png"
     },
     {
         "Name": "Zuva DocAI",
