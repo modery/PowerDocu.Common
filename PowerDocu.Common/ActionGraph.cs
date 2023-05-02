@@ -22,6 +22,7 @@ namespace PowerDocu.Common
         //list of children that are called as part of a switch
         public Dictionary<ActionNode, string> switchRelationship = new Dictionary<ActionNode, string>();
         public int Order;
+        public ActionNode parent;
 
         public ActionNode(string name)
         {
@@ -49,6 +50,7 @@ namespace PowerDocu.Common
             else
             {
                 Subactions.Add(subaction);
+                subaction.parent = this;
                 return true;
             }
         }
@@ -61,6 +63,7 @@ namespace PowerDocu.Common
             else
             {
                 Elseactions.Add(elseaction);
+                elseaction.parent = this;
                 return true;
             }
         }
