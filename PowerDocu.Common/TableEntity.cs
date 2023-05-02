@@ -52,6 +52,12 @@ namespace PowerDocu.Common
             }
             return columns;
         }
+
+        public bool containsNonDefaultLookupColumns()
+        {
+            List<string> defaultLookupColumns = new List<string> { "createdby", "createdonbehalfby", "modifiedby", "modifiedonbehalfby", "ownerid", "owningbusinessunit", "owningteam", "owninguser" };
+            return GetColumns().Count(o => o.getDataType().Equals("Lookup") && !defaultLookupColumns.Contains(o.getLogicalName())) > 0;
+        }
     }
 
     public class ColumnEntity
@@ -67,10 +73,17 @@ namespace PowerDocu.Common
         {
             return xmlColumn.SelectSingleNode("displaynames/displayname").Attributes.GetNamedItem("description").InnerText;
         }
+
         public string getName()
         {
             return xmlColumn.Attributes.GetNamedItem("PhysicalName").InnerText;
         }
+
+        public string getLogicalName()
+        {
+            return xmlColumn.SelectSingleNode("LogicalName").InnerText;
+        }
+
         public string getDataType()
         {
             return xmlColumn.SelectSingleNode("Type").InnerText switch
