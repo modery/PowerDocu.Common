@@ -291,6 +291,10 @@ namespace PowerDocu.Common
 
         private void CheckForVariables(ControlEntity controlEntity, string input)
         {
+            if (hasCodeComments(input))
+            {
+                input = stripCodeComments(input);
+            }
             //Reference: https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/working-with-variables#types-of-variables
             string code = input.Replace("\n", "").Replace("\r", "");
             MatchCollection matches;
@@ -506,7 +510,7 @@ namespace PowerDocu.Common
             return extractedVariables;
         }
 
-        private int findClosingCharacter(string content, char open, char close)
+        public int findClosingCharacter(string content, char open, char close)
         {
             bool closingBracketFound = false;
             int currentClosingBracketIndex = content.IndexOf(close);
@@ -535,6 +539,18 @@ namespace PowerDocu.Common
             // case 1: no opening comment brackets (/*), thus we return false
             // case 2: there is an opening bracket. if there is no matching closing bracket, that means we are within a comment and need to return true
             return !(lastOpeningCommentBrackets == -1 || lastOpeningCommentBrackets < lastClosingCommentBrackets);
+        }
+
+        private bool hasCodeComments(string code)
+        {
+            var regex = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
+            return Regex.Match(code, regex).Success;
+        }
+
+        private string stripCodeComments(string code)
+        {
+            var regex = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
+            return Regex.Replace(code, regex, "$1");
         }
 
         private void parseAppDataSources(Stream appArchive)
