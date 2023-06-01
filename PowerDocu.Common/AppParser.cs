@@ -510,7 +510,7 @@ namespace PowerDocu.Common
             return extractedVariables;
         }
 
-        public int findClosingCharacter(string content, char open, char close)
+        private int findClosingCharacter(string content, char open, char close)
         {
             bool closingBracketFound = false;
             int currentClosingBracketIndex = content.IndexOf(close);
