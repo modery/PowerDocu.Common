@@ -40,7 +40,7 @@ namespace PowerDocu.Common
                     FlowEntity flow = parseFlow(definitionContent);
                     if (String.IsNullOrEmpty(flow.Name))
                     {
-                        flow.Name = definition.Name.Replace(".json", "");
+                        flow.Name = definition.Name.Replace(".json", "").Trim();
                     }
                     flows.Add(flow);
                 }
@@ -86,7 +86,7 @@ namespace PowerDocu.Common
         private void parseMetadata(FlowEntity flow)
         {
             flow.ID = flowDefinition.name;
-            flow.Name = flowDefinition.properties.displayName;
+            flow.Name = ((string)flowDefinition.properties.displayName).Trim();
         }
 
         /**
