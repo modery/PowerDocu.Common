@@ -86,7 +86,7 @@ namespace PowerDocu.Common
         private void parseMetadata(FlowEntity flow)
         {
             flow.ID = flowDefinition.name;
-            flow.Name = ((string)flowDefinition.properties.displayName).Trim();
+            flow.Name = ((string)flowDefinition.properties.displayName)?.Trim();
         }
 
         /**
