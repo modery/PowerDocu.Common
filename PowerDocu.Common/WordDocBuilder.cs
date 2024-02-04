@@ -78,7 +78,7 @@ namespace PowerDocu.Common
                 {
                     wordDocument.ChangeDocumentType(WordprocessingDocumentType.MacroEnabledDocument);
                 }
-                wordDocument.Close();
+                wordDocument.Dispose();
             }
             return filename;
         }
@@ -430,7 +430,11 @@ namespace PowerDocu.Common
             pPr.ParagraphStyleId = new ParagraphStyleId() { Val = styleid };
         }
 
-        protected Table CreateTable(BorderValues borderType = BorderValues.Single, double factor = 1)
+        protected Table CreateTable() {
+            return CreateTable(BorderValues.Single, 1);
+        }
+
+        protected Table CreateTable(BorderValues borderType, double factor = 1)
         {
             Table table = new Table();
             TableProperties props = new TableProperties(
