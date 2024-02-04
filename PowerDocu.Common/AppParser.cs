@@ -291,10 +291,10 @@ namespace PowerDocu.Common
 
         private void CheckForVariables(ControlEntity controlEntity, string input)
         {
-            if (hasCodeComments(input))
-            {
-                input = stripCodeComments(input);
-            }
+            //removed hasCodeComments as it wasn't working properly. We strip the comments always, even if there are none
+            //if (hasCodeComments(input)) {}
+            input = stripCodeComments(input);
+
             //Reference: https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/working-with-variables#types-of-variables
             string code = input.Replace("\n", "").Replace("\r", "");
             MatchCollection matches;
@@ -541,16 +541,40 @@ namespace PowerDocu.Common
             return !(lastOpeningCommentBrackets == -1 || lastOpeningCommentBrackets < lastClosingCommentBrackets);
         }
 
+        //function wasn't working properly for some scenarios (see e.g. CenterofExcellenceAuditComponents_2.6_managed.zip), thus no longer in use. May be removed again in the future
         private bool hasCodeComments(string code)
         {
             var regex = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
-            return Regex.Match(code, regex).Success;
+            return Regex.Match(code.Replace("\"", "").Replace("\n", "").Replace("\r", ""), regex).Success;
         }
 
         private string stripCodeComments(string code)
         {
-            var regex = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
-            return Regex.Replace(code, regex, "$1");
+            //reference: https://stackoverflow.com/questions/3524317/regex-to-strip-line-comments-from-c-sharp#comment5176909_3524689
+            var list = new List<string>();
+            var blockComments = @"/\*(.*?)\*/";
+            var lineComments = @"//(.*?)(\r?\n|$)";
+            var strings = @"""((\\[^\n]|[^""\n])*)""";
+            var verbatimStrings = @"@(""[^""]*"")+";
+
+            string noComments = Regex.Replace(code,
+                blockComments + "|" + lineComments + "|" + strings + "|" + verbatimStrings,
+                me =>
+                {
+                    if (me.Value.StartsWith("/*") || me.Value.StartsWith("//"))
+                    {
+                        // Put the contents of comments into the list
+                        list.Add(me.Groups[1].Value + me.Groups[2].Value);
+                        // Replace the comments with empty, i.e. remove them
+                        return me.Value.StartsWith("//") ? me.Groups[3].Value : "";
+                    }
+                    // Keep the literal strings
+                    return me.Value;
+                },
+                RegexOptions.Singleline);
+            return noComments;
+            //var regex = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
+            //return Regex.Replace(code.Replace("\"", "").Replace("\n", "").Replace("\r", ""), regex, "$1");
         }
 
         private void parseAppDataSources(Stream appArchive)
