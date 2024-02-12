@@ -17,7 +17,7 @@
     <!-- to convert the SVG into a PNG -->
     <PackageReference Include="Svg" Version="3.4.6" />
     <!-- To create graphs -->
-    <PackageReference Include="Rubjerg.Graphviz" Version="2.0.1" />
+    <PackageReference Include="Rubjerg.Graphviz" Version="2.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
 
     <Content Include="Resources\*.*">
