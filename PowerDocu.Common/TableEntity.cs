@@ -17,12 +17,12 @@ namespace PowerDocu.Common
 
         public string getLocalizedName()
         {
-            return xmlEntity.SelectSingleNode("Name").Attributes.GetNamedItem("LocalizedName").InnerText;
+            return xmlEntity.SelectSingleNode("Name")?.Attributes.GetNamedItem("LocalizedName")?.InnerText ?? "";
         }
 
         public string getName()
         {
-            return xmlEntity.SelectSingleNode("Name").InnerText;
+            return xmlEntity.SelectSingleNode("Name")?.InnerText ?? "";
         }
 
         public string getPrimaryColumn()
@@ -71,17 +71,17 @@ namespace PowerDocu.Common
 
         public string getDisplayName()
         {
-            return xmlColumn.SelectSingleNode("displaynames/displayname").Attributes.GetNamedItem("description").InnerText;
+            return xmlColumn.SelectSingleNode("displaynames/displayname")?.Attributes.GetNamedItem("description")?.InnerText ?? "";
         }
 
         public string getName()
         {
-            return xmlColumn.Attributes.GetNamedItem("PhysicalName").InnerText;
+            return xmlColumn.Attributes.GetNamedItem("PhysicalName")?.InnerText ?? "";
         }
 
         public string getLogicalName()
         {
-            return xmlColumn.SelectSingleNode("LogicalName").InnerText;
+            return xmlColumn.SelectSingleNode("LogicalName")?.InnerText ?? "";
         }
 
         public string getDataType()
@@ -112,19 +112,19 @@ namespace PowerDocu.Common
         {
             //todo this might not be the right field? Discrepancy in Let's Learn
             if (xmlColumn.SelectSingleNode("IsCustomizable") != null)
-                return xmlColumn.SelectSingleNode("IsCustomizable").InnerText.Equals("1");
+                return xmlColumn.SelectSingleNode("IsCustomizable")?.InnerText.Equals("1") ?? false;
             return false;
         }
 
         public bool isRequired()
         {
-            return xmlColumn.SelectSingleNode("RequiredLevel").InnerText.Equals("required");
+            return xmlColumn.SelectSingleNode("RequiredLevel")?.InnerText.Equals("required") ?? false;
         }
 
         public bool isSearchable()
         {
             //todo this might not be the right field? Discrepancy in Let's Learn
-            return xmlColumn.SelectSingleNode("IsSearchable").InnerText.Equals("1");
+            return xmlColumn.SelectSingleNode("IsSearchable").InnerText?.Equals("1") ?? false;
         }
 
         public string getDisplayMask()
