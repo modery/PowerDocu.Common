@@ -15,7 +15,8 @@ namespace PowerDocu.Common
     };
     public static class ConnectorHelper
     {
-        private static readonly string folderPath = AssemblyHelper.GetExecutablePath() + @"\Resources\ConnectorIcons\";
+        private static readonly string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\ConnectorIcons\";
+        private static readonly string defaultConnectorJsonFolderPath = AssemblyHelper.GetExecutablePath() + @"\Resources\ConnectorIcons\";
         private static List<ConnectorIcon> connectorIcons;
 
         public static string getConnectorIconFile(string connectorName)
@@ -47,8 +48,10 @@ namespace PowerDocu.Common
         {
             if (connectorIcons == null)
             {
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+                if (!File.Exists(folderPath + "connectors.json")) File.Copy(defaultConnectorJsonFolderPath + "connectors.json", folderPath + "connectors.json");
                 String JSONtxt = File.ReadAllText(folderPath + "connectors.json");
-                connectorIcons = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ConnectorIcon>>(JSONtxt);
+                connectorIcons = JsonConvert.DeserializeObject<List<ConnectorIcon>>(JSONtxt);
             }
         }
 

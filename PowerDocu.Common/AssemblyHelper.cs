@@ -24,5 +24,11 @@ namespace PowerDocu.Common
             var mainModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
             return mainModule.FileName.Replace(mainModule.ModuleName, "");
         }
+
+        public static string GetApplicationName()
+        {
+            return Assembly.GetEntryAssembly().GetName().Name;
+        }
+
     }
 }
