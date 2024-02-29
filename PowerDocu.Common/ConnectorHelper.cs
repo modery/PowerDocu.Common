@@ -17,6 +17,7 @@ namespace PowerDocu.Common
     {
         private static readonly string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\ConnectorIcons\";
         private static readonly string defaultConnectorJsonFolderPath = AssemblyHelper.GetExecutablePath() + @"\Resources\ConnectorIcons\";
+        private const string connectorList = "https://powerautomate.microsoft.com/en-us/api/connectors/all/";
         private static List<ConnectorIcon> connectorIcons;
 
         public static string getConnectorIconFile(string connectorName)
@@ -55,12 +56,11 @@ namespace PowerDocu.Common
             }
         }
 
-        private const string connectorList = "https://powerautomate.microsoft.com/en-us/api/connectors/all/";
-
         public static async Task<bool> UpdateConnectorIcons()
         {
             try
             {
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
                 NotificationHelper.SendNotification("Updating Connectors list, please wait.");
                 List<ConnectorIcon> connectorIcons = new List<ConnectorIcon>();
                 var client = new HttpClient();
