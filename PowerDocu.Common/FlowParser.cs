@@ -87,6 +87,7 @@ namespace PowerDocu.Common
         {
             flow.ID = flowDefinition.name;
             flow.Name = ((string)flowDefinition.properties.displayName)?.Trim();
+            flow.Description = ((string)flowDefinition.properties.definition?.description)??"";
         }
 
         /**

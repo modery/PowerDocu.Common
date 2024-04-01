@@ -6,6 +6,7 @@ namespace PowerDocu.Common
     {
         public string ID;
         public string Name;
+        public string Description;
         public Trigger trigger;
         public ActionGraph actions = new ActionGraph();
         public List<ConnectionReference> connectionReferences = new List<ConnectionReference>();
