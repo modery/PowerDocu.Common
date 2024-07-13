@@ -4,7 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using HtmlAgilityPack;
 
 namespace PowerDocu.Common
 {
@@ -17,7 +17,7 @@ namespace PowerDocu.Common
     {
         private static readonly string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\ConnectorIcons\";
         private static readonly string defaultConnectorJsonFolderPath = AssemblyHelper.GetExecutablePath() + @"\Resources\ConnectorIcons\";
-        private const string connectorList = "https://powerautomate.microsoft.com/en-us/api/connectors/all/";
+        private const string connectorList = "https://learn.microsoft.com/en-us/connectors/connector-reference/";
         private static List<ConnectorIcon> connectorIcons;
 
         public static string getConnectorIconFile(string connectorName)
@@ -67,38 +67,24 @@ namespace PowerDocu.Common
                 client.DefaultRequestHeaders.UserAgent.ParseAdd(
                     "Mozilla/5.0 (compatible; PowerDocu " + PowerDocuReleaseHelper.currentVersion.ToString() + ")"
                 );
-                var result = await client.GetAsync(
-                    connectorList
-                );
-                var connectorListJson = await result.Content.ReadAsStringAsync();
-                JObject connectorListObject = JsonConvert.DeserializeObject<JObject>(connectorListJson);
-                connectorListObject.TryGetValue(
-                    "value",
-                    StringComparison.CurrentCultureIgnoreCase,
-                    out JToken value
-                );
-                foreach (JToken connector in value.Children())
+
+                HtmlWeb web = new HtmlWeb();
+                //this isn't an ideal approach, as we rely on the second table containing all connectors
+                var htmlDoc = web.Load(connectorList);
+                var connectors = htmlDoc.DocumentNode.SelectNodes("//table")[1].SelectNodes(".//td");
+                foreach (HtmlNode connector in connectors)
                 {
-                    ConnectorIcon connectorIcon = new ConnectorIcon();
-                    var expressionNodes = connector.Children();
-                    foreach (JProperty inputNode in expressionNodes)
+                    ConnectorIcon connectorIcon = new ConnectorIcon
                     {
-                        switch (inputNode.Name)
-                        {
-                            case "name":
-                                connectorIcon.Uniquename = inputNode.Value.ToString().Replace("shared_", "");
-                                break;
-                            case "properties":
-                                parseConnectorProperties(inputNode.Value.Children(), connectorIcon);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                        Url = connector.SelectSingleNode(".//img").GetAttributeValue("src", ""),
+                        Uniquename = connector.SelectSingleNode(".//a").GetAttributeValue("href", "").Replace("../", "").Replace("/", ""),
+                        Name = connector.SelectSingleNode(".//a/b").InnerText
+                    };
                     connectorIcons.Add(connectorIcon);
                     var response = await client.GetAsync(connectorIcon.Url);
                     File.WriteAllBytesAsync(folderPath + connectorIcon.Uniquename + ".png", await response.Content.ReadAsByteArrayAsync());
                 }
+
                 File.WriteAllText(folderPath + "connectors.json", JsonConvert.SerializeObject(connectorIcons));
                 NotificationHelper.SendNotification($"Update complete. A total of {connectorIcons.Count} connectors were found.");
             }
@@ -114,23 +100,6 @@ namespace PowerDocu.Common
             return true;
         }
 
-        private static void parseConnectorProperties(JEnumerable<JToken> properties, ConnectorIcon connectorIcon)
-        {
-            foreach (JProperty property in properties)
-            {
-                switch (property.Name)
-                {
-                    case "displayName":
-                        connectorIcon.Name = property.Value.ToString();
-                        break;
-                    case "iconUri":
-                        connectorIcon.Url = property.Value.ToString();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
     }
 
     public class ConnectorIcon
