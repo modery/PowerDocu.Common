@@ -9,7 +9,7 @@ namespace PowerDocu.Common
 {
     public static class PowerDocuReleaseHelper
     {
-        public static Version currentVersion = new Version(2, 0, 0);
+        public static Version currentVersion = new Version(2, 0, 1);
         public static string latestVersionTag = currentVersion.ToString();
         public static string latestVersionUrl;
         private static bool hasReleaseBeenChecked = false;
