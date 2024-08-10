@@ -90,7 +90,7 @@ namespace PowerDocu.Common
             }
             catch (Exception e)
             {
-                NotificationHelper.SendNotification("An error occured while trying to update the connector list:");
+                NotificationHelper.SendNotification("An error occured while trying to update the connector list");
                 NotificationHelper.SendNotification(e.ToString());
             }
             finally

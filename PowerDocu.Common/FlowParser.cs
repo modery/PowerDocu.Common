@@ -87,7 +87,7 @@ namespace PowerDocu.Common
         {
             flow.ID = flowDefinition.name;
             flow.Name = ((string)flowDefinition.properties.displayName)?.Trim();
-            flow.Description = ((string)flowDefinition.properties.definition?.description)??"";
+            flow.Description = ((string)flowDefinition.properties.definition?.description) ?? "";
         }
 
         /**
@@ -96,36 +96,42 @@ namespace PowerDocu.Common
         private void parseTrigger(FlowEntity flow)
         {
             JProperty trigger = (JProperty)((JObject)flowDefinition.properties.definition.triggers).First;
-
-            flow.addTrigger(trigger.Name);
-            JObject triggerDetails = (JObject)trigger.Value;
-            foreach (JProperty property in triggerDetails.Children())
+            try
             {
-                switch (property.Name)
+                flow.addTrigger(trigger.Name);
+                JObject triggerDetails = (JObject)trigger.Value;
+                foreach (JProperty property in triggerDetails.Children())
                 {
-                    case "description":
-                        flow.trigger.Description = property.Value.ToString();
-                        break;
+                    switch (property.Name)
+                    {
+                        case "description":
+                            flow.trigger.Description = property.Value.ToString();
+                            break;
 
-                    case "type":
-                        flow.trigger.Type = property.Value.ToString();
-                        break;
+                        case "type":
+                            flow.trigger.Type = property.Value.ToString();
+                            break;
 
-                    case "recurrence":
-                        foreach (JProperty recurrenceitem in property.Value.Children())
-                        {
-                            flow.trigger.Recurrence.Add(recurrenceitem.Name, recurrenceitem.Value.ToString());
-                        }
-                        break;
+                        case "recurrence":
+                            foreach (JProperty recurrenceitem in property.Value.Children())
+                            {
+                                flow.trigger.Recurrence.Add(recurrenceitem.Name, recurrenceitem.Value.ToString());
+                            }
+                            break;
 
-                    case "inputs":
-                        JObject inputs = (JObject)property.Value;
-                        parseInputObject(inputs.Children(), flow.trigger.Inputs, "trigger", ref flow.trigger.Connector);
-                        break;
-                    default:
-                        flow.trigger.TriggerProperties.Add(Expression.parseExpressions(property));
-                        break;
+                        case "inputs":
+                            JObject inputs = (JObject)property.Value;
+                            parseInputObject(inputs.Children(), flow.trigger.Inputs, "trigger", ref flow.trigger.Connector);
+                            break;
+                        default:
+                            flow.trigger.TriggerProperties.Add(Expression.parseExpressions(property));
+                            break;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error parsing trigger:\n" + trigger.ToString() + "\n\n" + e.Message);
             }
         }
 

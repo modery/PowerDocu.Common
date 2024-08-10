@@ -9,11 +9,18 @@ namespace PowerDocu.Common
     {
         public static void ConvertImageTo32(string imagepath, string destinationpath)
         {
-            Bitmap bmp = new Bitmap(imagepath);
-            Bitmap resized = new Bitmap(bmp, new Size(32, (int)(32 * (bmp.Height / bmp.Width))));
-            resized.Save(destinationpath, ImageFormat.Png);
-            resized.Dispose();
-            bmp.Dispose();
+            try
+            {
+                Bitmap bmp = new Bitmap(imagepath);
+                Bitmap resized = new Bitmap(bmp, new Size(32, (int)(32 * (bmp.Height / bmp.Width))));
+                resized.Save(destinationpath, ImageFormat.Png);
+                resized.Dispose();
+                bmp.Dispose();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Image conversion failed for " + imagepath + ", " + destinationpath + "\n\n" + e.Message);
+            }
         }
 
         public static string GetBase64(string filepath)

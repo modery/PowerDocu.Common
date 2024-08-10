@@ -446,66 +446,72 @@ namespace PowerDocu.Common
         private List<string> extractContextVariableNames(string code)
         {
             //todo: issue: code="If(2>1,{e:12},{e:43244})";
-            //code = "UpdateContext({Person:{Name:\"Milton\",Address:\"1MainSt\",Phone:123456789},Cat:{Name:\"Fluffy\",Age:11,Owner:{Name:\"Rene\",Phone:\"+6512334\"}}})";
             List<string> extractedVariables = new List<string>();
-            string checkVariable = code;
-            if (code.StartsWith("UpdateContext"))
+            try
             {
-                string variableStart = code[code.IndexOf('{')..];
-                //need to find the closing bracket for UpdateContext
-                int closingBracketIndex = findClosingCharacter(variableStart, '{', '}');
-
-                //we found the end of the current UpdateContext/Navigate. Time to extract the variable names defined here
-                checkVariable = (closingBracketIndex > 0) ? variableStart[..(closingBracketIndex + 1)] : variableStart;
-            }
-            if (checkVariable[0] == '{' && checkVariable[checkVariable.Length - 1] == '}')
-            {
-                checkVariable = checkVariable[1..(checkVariable.Length - 1)];
-            }
-
-            while (checkVariable.Contains(":"))
-            {
-                if (checkVariable.Contains('{') || checkVariable.Contains('('))
+                string checkVariable = code;
+                if (code.StartsWith("UpdateContext"))
                 {
-                    int firstCurlyBracketIndex = checkVariable.IndexOf('{');
-                    int firstRoundBracketIndex = checkVariable.IndexOf('(');
-                    int firstCommaIndex = checkVariable.IndexOf(',');
-                    int closingCharacterIndex;
-                    if (firstCurlyBracketIndex > -1 && ((firstRoundBracketIndex == -1) || (firstCurlyBracketIndex < firstRoundBracketIndex)))
+                    string variableStart = code[code.IndexOf('{')..];
+                    //need to find the closing bracket for UpdateContext
+                    int closingBracketIndex = findClosingCharacter(variableStart, '{', '}');
+
+                    //we found the end of the current UpdateContext/Navigate. Time to extract the variable names defined here
+                    checkVariable = (closingBracketIndex > 0) ? variableStart[..(closingBracketIndex + 1)] : variableStart;
+                }
+                if (checkVariable[0] == '{' && checkVariable[checkVariable.Length - 1] == '}')
+                {
+                    checkVariable = checkVariable[1..(checkVariable.Length - 1)];
+                }
+
+                while (checkVariable.Contains(":"))
+                {
+                    if (checkVariable.Contains('{') || checkVariable.Contains('('))
                     {
-                        if ((firstCommaIndex == -1) || (firstCommaIndex > -1 && (firstCurlyBracketIndex < firstCommaIndex)))
+                        int firstCurlyBracketIndex = checkVariable.IndexOf('{');
+                        int firstRoundBracketIndex = checkVariable.IndexOf('(');
+                        int firstCommaIndex = checkVariable.IndexOf(',');
+                        int closingCharacterIndex;
+                        if (firstCurlyBracketIndex > -1 && ((firstRoundBracketIndex == -1) || (firstCurlyBracketIndex < firstRoundBracketIndex)))
                         {
-                            closingCharacterIndex = findClosingCharacter(checkVariable, '{', '}');
+                            if ((firstCommaIndex == -1) || (firstCommaIndex > -1 && (firstCurlyBracketIndex < firstCommaIndex)))
+                            {
+                                closingCharacterIndex = findClosingCharacter(checkVariable, '{', '}');
+                            }
+                            else
+                            {
+                                closingCharacterIndex = firstCommaIndex;
+                            }
                         }
                         else
                         {
-                            closingCharacterIndex = firstCommaIndex;
+                            if ((firstCommaIndex == -1) || (firstCommaIndex > -1 && (firstRoundBracketIndex < firstCommaIndex)))
+                            {
+                                closingCharacterIndex = findClosingCharacter(checkVariable, '(', ')');
+                            }
+                            else
+                            {
+                                closingCharacterIndex = firstCommaIndex;
+                            }
                         }
+                        extractedVariables.Add(checkVariable[0..closingCharacterIndex].Split(":")[0].Trim().Replace("{", ""));
+                        checkVariable = checkVariable[(closingCharacterIndex + ((closingCharacterIndex >= firstCommaIndex) ? 1 : 2))..];
+                        if (checkVariable.Length > 0 && checkVariable[0] == ',') checkVariable = checkVariable[1..];
                     }
                     else
                     {
-                        if ((firstCommaIndex == -1) || (firstCommaIndex > -1 && (firstRoundBracketIndex < firstCommaIndex)))
+                        foreach (string variableSection in checkVariable.Split(','))
                         {
-                            closingCharacterIndex = findClosingCharacter(checkVariable, '(', ')');
+                            //direct assignment of variables, they can be extracted right away
+                            extractedVariables.Add(variableSection.Split(':')[0].Trim().Replace("{", ""));
                         }
-                        else
-                        {
-                            closingCharacterIndex = firstCommaIndex;
-                        }
+                        checkVariable = "";
                     }
-                    extractedVariables.Add(checkVariable[0..closingCharacterIndex].Split(":")[0].Trim().Replace("{", ""));
-                    checkVariable = checkVariable[(closingCharacterIndex + ((closingCharacterIndex >= firstCommaIndex) ? 1 : 2))..];
-                    if (checkVariable.Length > 0 && checkVariable[0] == ',') checkVariable = checkVariable[1..];
                 }
-                else
-                {
-                    foreach (string variableSection in checkVariable.Split(','))
-                    {
-                        //direct assignment of variables, they can be extracted right away
-                        extractedVariables.Add(variableSection.Split(':')[0].Trim().Replace("{", ""));
-                    }
-                    checkVariable = "";
-                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Couldn't extract context variables from code snippet: \n" + code + "\n\n" + e.Message);
             }
             return extractedVariables;
         }
