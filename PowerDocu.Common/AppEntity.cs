@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PowerDocu.Common
 {
@@ -27,6 +28,11 @@ namespace PowerDocu.Common
         public string Name;
         public string Type;
         public List<Expression> Properties = new List<Expression>();
+
+        public bool isSampleDataSource()
+        {
+            return ((string)Properties.FirstOrDefault(o => o.expressionOperator.Equals("IsSampleData"))?.expressionOperands[0]) == "True";
+        }
     }
 
     public class Resource
@@ -35,6 +41,11 @@ namespace PowerDocu.Common
         public string Content;
         public string ResourceKind;
         public List<Expression> Properties = new List<Expression>();
+
+        public bool isSampleResource()
+        {
+            return ((string)Properties.First(o => o.expressionOperator.Equals("IsSampleData")).expressionOperands[0]) == "True";
+        }
     }
 
     public class ControlPropertyReference
