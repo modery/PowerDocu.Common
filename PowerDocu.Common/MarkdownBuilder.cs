@@ -108,7 +108,7 @@ namespace PowerDocu.Common
                     {
                         if (expressionOperand.GetType().Equals(typeof(string)))
                         {
-                            operandsTable.Append("<tr><td>").Append((string)expressionOperand).Append("</td></tr>");
+                            operandsTable.Append("<tr><td>").Append(getCodeBlock((string)expressionOperand)).Append("</td></tr>");
                         }
                         else if (expressionOperand.GetType().Equals(typeof(Expression)))
                         {
@@ -130,7 +130,7 @@ namespace PowerDocu.Common
                     object expo = expression.expressionOperands[0];
                     if (expo.GetType().Equals(typeof(string)))
                     {
-                        tc.Append((expression.expressionOperands.Count == 0) ? "" : expression.expressionOperands[0]?.ToString());
+                        tc.Append((expression.expressionOperands.Count == 0) ? "" : getCodeBlock(expression.expressionOperands[0]?.ToString()));
                     }
                     else if (expo.GetType().Equals(typeof(List<object>)))
                     {
@@ -167,5 +167,15 @@ namespace PowerDocu.Common
             }
             return table;
         }
+
+        protected string getCodeBlock(string code)
+        {
+            if (String.IsNullOrEmpty(code))
+            {
+                return "";
+            }
+            return $"`{code}`";
+        }
+
     }
 }
