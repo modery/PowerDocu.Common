@@ -16,6 +16,7 @@ namespace PowerDocu.Common
         public Dictionary<string, string> LocalizedNames = new Dictionary<string, string>();
         public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
         public CustomizationsEntity Customizations;
+        public List<EnvironmentVariableEntity> EnvironmentVariables = new List<EnvironmentVariableEntity>();
 
         public List<string> GetComponentTypes()
         {
