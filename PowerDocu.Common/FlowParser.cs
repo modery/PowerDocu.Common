@@ -72,12 +72,33 @@ namespace PowerDocu.Common
             var _jsonSerializer = JsonSerializer.Create(settings);
             flowDefinition = JsonConvert.DeserializeObject<JObject>(flowJSON, settings).ToObject(typeof(object), _jsonSerializer);
             FlowEntity flow = new FlowEntity();
+            checkFlowType(flow);
             parseMetadata(flow);
-            parseTrigger(flow);
-            parseActions(flow, flowDefinition.properties.definition.actions.Children(), null);
-            updateOrderNumbers(flow.actions.getRootNodes());
-            parseConnectionReferences(flow);
+            if (flow.flowType == FlowEntity.FlowType.CloudFlow)
+            {
+                parseTrigger(flow);
+                parseActions(flow, flowDefinition.properties.definition.actions.Children(), null);
+                updateOrderNumbers(flow.actions.getRootNodes());
+                parseConnectionReferences(flow);
+            }
             return flow;
+        }
+
+        private void checkFlowType(FlowEntity flow)
+        {
+            if ((flowDefinition.schemaVersion != null && flowDefinition.schemaVersion == "1.0.0.0") ||
+            (flowDefinition.type != null && flowDefinition.type == "Microsoft.Flow/flows"))
+            {
+                flow.flowType = FlowEntity.FlowType.CloudFlow;
+            }
+            else if (flowDefinition.schemaversion != null && flowDefinition.schemaversion.ToString().Contains("ROBIN"))
+            {
+                flow.flowType = FlowEntity.FlowType.DesktopFlow;
+            }
+            else
+            {
+                flow.flowType = FlowEntity.FlowType.BusinessProcessFlow;
+            }
         }
 
         /**
