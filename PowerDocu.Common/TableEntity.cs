@@ -27,10 +27,15 @@ namespace PowerDocu.Common
 
         public string getPrimaryColumn()
         {
-            ColumnEntity primaryColumn = GetColumns().Find(o => o.getDisplayMask().Contains("PrimaryName"));
+            ColumnEntity primaryColumn = getPrimaryColumnEntity();
             return (primaryColumn != null)
                 ? primaryColumn.getDisplayName()
                 : "";
+        }
+
+        public ColumnEntity getPrimaryColumnEntity()
+        {
+            return GetColumns().Find(o => o.getDisplayMask().Contains("PrimaryName"));
         }
 
         public string getDescription()
@@ -55,14 +60,40 @@ namespace PowerDocu.Common
 
         public bool containsNonDefaultLookupColumns()
         {
-            List<string> defaultLookupColumns = new List<string> { "createdby", "createdonbehalfby", "modifiedby", "modifiedonbehalfby", "ownerid", "owningbusinessunit", "owningteam", "owninguser" };
-            return GetColumns().Count(o => o.getDataType().Equals("Lookup") && !defaultLookupColumns.Contains(o.getLogicalName())) > 0;
+            return GetColumns().Count(o => o.isNonDefaultLookUpColumn()) > 0;
+        }
+
+        public bool IsAuditEnabled()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IsAuditEnabled")?.InnerText.Equals("1") ?? false;
+        }
+
+        public List<FormEntity> GetForms()
+        {
+            var forms = new List<FormEntity>();
+            //todo how can we take into account the type of form?
+            foreach (XmlNode form in xmlEntity.SelectNodes("FormXml/forms/systemform"))
+            {
+                forms.Add(new FormEntity(form));
+            }
+            return forms;
+        }
+
+        public List<ViewEntity> GetViews()
+        {
+            var views = new List<ViewEntity>();
+            foreach (XmlNode view in xmlEntity.SelectNodes("SavedQueries/savedqueries/savedquery"))
+            {
+                views.Add(new ViewEntity(view));
+            }
+            return views;
         }
     }
 
     public class ColumnEntity
     {
         private readonly XmlNode xmlColumn;
+        public static List<string> defaultLookupColumns = new List<string> { "createdby", "createdonbehalfby", "modifiedby", "modifiedonbehalfby", "ownerid", "owningbusinessunit", "owningteam", "owninguser" };
 
         public ColumnEntity(XmlNode xmlColumn)
         {
@@ -78,6 +109,17 @@ namespace PowerDocu.Common
         {
             return xmlColumn.Attributes.GetNamedItem("PhysicalName")?.InnerText ?? "";
         }
+
+        public bool isDefaultLookUpColumn()
+        {
+            return getDataType().Equals("Lookup") && defaultLookupColumns.Contains(getLogicalName());
+        }
+
+        public bool isNonDefaultLookUpColumn()
+        {
+            return getDataType().Equals("Lookup") && !defaultLookupColumns.Contains(getLogicalName());
+        }
+
 
         public string getLogicalName()
         {
@@ -131,5 +173,69 @@ namespace PowerDocu.Common
         {
             return xmlColumn.SelectSingleNode("DisplayMask")?.InnerText ?? "";
         }
+
+        public bool IsAuditEnabled()
+        {
+            return xmlColumn.SelectSingleNode("IsAuditEnabled")?.InnerText.Equals("1") ?? false;
+        }
+    }
+
+    public class FormEntity
+    {
+        private readonly XmlNode xmlForm;
+
+        public FormEntity(XmlNode xmlForm)
+        {
+            this.xmlForm = xmlForm;
+        }
+
+        public string GetFormId()
+        {
+            return xmlForm.SelectSingleNode("formid")?.InnerText ?? "";
+        }
+
+        public string GetFormName()
+        {
+            return xmlForm.SelectSingleNode("LocalizedNames/LocalizedName")?.Attributes.GetNamedItem("description")?.InnerText ?? "";
+        }
+
+        public XmlNode FormXml
+        {
+            get { return xmlForm.SelectSingleNode("form"); }
+        }
+
+        // Add more methods as needed to retrieve other form details
+    }
+
+    public class ViewEntity
+    {
+        private readonly XmlNode xmlView;
+
+        public ViewEntity(XmlNode xmlView)
+        {
+            this.xmlView = xmlView;
+        }
+
+        public string GetViewId()
+        {
+            return xmlView.SelectSingleNode("savedqueryid")?.InnerText ?? "";
+        }
+
+        public string GetViewName()
+        {
+            return xmlView.SelectSingleNode("LocalizedNames/LocalizedName")?.Attributes.GetNamedItem("description")?.InnerText ?? "";
+        }
+
+        public string GetFetchXml()
+        {
+            return xmlView.SelectSingleNode("fetchxml")?.InnerText ?? "";
+        }
+
+        public string GetLayoutXml()
+        {
+            return xmlView.SelectSingleNode("layoutxml")?.InnerText ?? "";
+        }
+
+        // Add more methods as needed to retrieve other view details
     }
 }
