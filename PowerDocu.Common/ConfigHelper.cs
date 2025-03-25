@@ -13,7 +13,14 @@ namespace PowerDocu.Common
         public string flowActionSortOrder = FlowActionSortOrderHelper.ByName;
         public string wordTemplate = null;
         public bool documentSampleData = false;
-
+        public bool documentSolution = false;
+        public bool documentFlows = false;
+        public bool documentApps = false;
+        public bool documentAppProperties = false;
+        public bool documentAppVariables = false;
+        public bool documentAppDataSources = false;
+        public bool documentAppResources = false;
+        public bool documentAppControls = false;
         private string configFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\powerdocu.config.json";
 
         public ConfigHelper()
@@ -28,12 +35,23 @@ namespace PowerDocu.Common
                 var config = JsonConvert.DeserializeObject<ConfigHelper>(json);
                 if (config != null)
                 {
+                    // Load existing properties
                     outputFormat = config.outputFormat;
                     documentChangesOnlyCanvasApps = config.documentChangesOnlyCanvasApps;
                     documentDefaultValuesCanvasApps = config.documentDefaultValuesCanvasApps;
                     flowActionSortOrder = config.flowActionSortOrder;
                     wordTemplate = config.wordTemplate;
                     documentSampleData = config.documentSampleData;
+
+                    // Load newly added properties
+                    documentSolution = config.documentSolution;
+                    documentFlows = config.documentFlows;
+                    documentApps = config.documentApps;
+                    documentAppProperties = config.documentAppProperties;
+                    documentAppVariables = config.documentAppVariables;
+                    documentAppDataSources = config.documentAppDataSources;
+                    documentAppResources = config.documentAppResources;
+                    documentAppControls = config.documentAppControls;
                 }
             }
         }
