@@ -10,6 +10,7 @@ namespace PowerDocu.Common
         public XmlNode customizationsXml;
 
         private List<TableEntity> tableEntities;
+        private List<EntityRelationship> entityRelationships;
 
         public string getAppNameBySchemaName(string schemaName)
         {
@@ -33,6 +34,20 @@ namespace PowerDocu.Common
                 tableEntities.Sort((a, b) => a.getLocalizedName().CompareTo(b.getLocalizedName()));
             }
             return tableEntities;
+        }
+
+        public List<EntityRelationship> getEntityRelationships()
+        {
+            if (entityRelationships == null)
+            {
+                entityRelationships = new List<EntityRelationship>();
+                foreach (XmlNode xmlEntity in customizationsXml.SelectNodes("/ImportExportXml/EntityRelationships/EntityRelationship"))
+                {
+                    entityRelationships.Add(new EntityRelationship(xmlEntity));
+                }
+                entityRelationships.Sort((a, b) => a.getName().CompareTo(b.getName()));
+            }
+            return entityRelationships;
         }
 
         public XmlNode getEntityBySchemaName(string schemaName)
