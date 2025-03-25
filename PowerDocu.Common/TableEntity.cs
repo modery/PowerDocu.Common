@@ -9,6 +9,9 @@ namespace PowerDocu.Common
     {
         private readonly XmlNode xmlEntity;
         private List<ColumnEntity> columns;
+        private List<FormEntity> forms;
+        private List<ViewEntity> views;
+
 
         public TableEntity(XmlNode xmlEntity)
         {
@@ -70,23 +73,43 @@ namespace PowerDocu.Common
 
         public List<FormEntity> GetForms()
         {
-            var forms = new List<FormEntity>();
-            //todo how can we take into account the type of form?
-            foreach (XmlNode form in xmlEntity.SelectNodes("FormXml/forms/systemform"))
+            if (forms == null)
             {
-                forms.Add(new FormEntity(form));
+                forms = new List<FormEntity>();
+                foreach (XmlNode form in xmlEntity.SelectNodes("FormXml/forms/systemform"))
+                {
+                    forms.Add(new FormEntity(form));
+                }
             }
             return forms;
         }
 
+        public List<FormEntity> GetFormsByType(string formType)
+        {
+            return GetForms().Where(form => form.FormXml.SelectSingleNode("type")?.InnerText == formType).ToList();
+        }
+
+        public FormEntity GetDefaultForm()
+        {
+            return GetForms().FirstOrDefault(form => form.FormXml.SelectSingleNode("isdefault")?.InnerText == "1");
+        }
+
         public List<ViewEntity> GetViews()
         {
-            var views = new List<ViewEntity>();
-            foreach (XmlNode view in xmlEntity.SelectNodes("SavedQueries/savedqueries/savedquery"))
+            if (views == null)
             {
-                views.Add(new ViewEntity(view));
+                views = new List<ViewEntity>();
+                foreach (XmlNode view in xmlEntity.SelectNodes("SavedQueries/savedqueries/savedquery"))
+                {
+                    views.Add(new ViewEntity(view));
+                }
             }
             return views;
+        }
+
+        public ViewEntity GetDefaultView()
+        {
+            return GetViews().FirstOrDefault(view => view.GetFetchXml().Contains("<isdefault>1</isdefault>"));
         }
     }
 
