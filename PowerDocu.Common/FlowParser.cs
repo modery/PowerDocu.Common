@@ -74,7 +74,7 @@ namespace PowerDocu.Common
             FlowEntity flow = new FlowEntity();
             checkFlowType(flow);
             parseMetadata(flow);
-            if (flow.flowType == FlowEntity.FlowType.CloudFlow)
+            if (flow.flowType == FlowEntity.FlowType.CloudFlow || flow.flowType == FlowEntity.FlowType.Unknown)
             {
                 parseTrigger(flow);
                 parseActions(flow, flowDefinition.properties.definition.actions.Children(), null);
@@ -97,7 +97,7 @@ namespace PowerDocu.Common
             }
             else
             {
-                flow.flowType = FlowEntity.FlowType.BusinessProcessFlow;
+                flow.flowType = FlowEntity.FlowType.Unknown;
             }
         }
 
