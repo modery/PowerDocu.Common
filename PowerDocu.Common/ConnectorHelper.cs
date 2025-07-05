@@ -77,7 +77,7 @@ namespace PowerDocu.Common
                     ConnectorIcon connectorIcon = new ConnectorIcon
                     {
                         Url = connector.SelectSingleNode(".//img").GetAttributeValue("src", ""),
-                        Uniquename = connector.SelectSingleNode(".//a").GetAttributeValue("href", "").Replace("../", "").Replace("/", ""),
+                        Uniquename = connector.SelectSingleNode(".//a").GetAttributeValue("href", "").Replace("../", "").Replace("/", "").Replace("connectorreference", "").Replace("en-usconnectors", ""),
                         Name = connector.SelectSingleNode(".//a/b").InnerText
                     };
                     connectorIcons.Add(connectorIcon);
