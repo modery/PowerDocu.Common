@@ -19,18 +19,18 @@ namespace PowerDocu.Common
             //control defaults
             StreamReader reader = new StreamReader(ControlDefaultsFile);
             string appJSON = reader.ReadToEnd();
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
             var _jsonSerializer = JsonSerializer.Create(settings);
             entityDefaults = JsonConvert.DeserializeObject<List<Entity>>(appJSON, settings);
             //app defaults
             reader = new StreamReader(AppDefaultsFile);
             appJSON = reader.ReadToEnd();
-            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
             entityDefaults.Add(JsonConvert.DeserializeObject<Entity>(appJSON, settings));
             //screen defaults
             reader = new StreamReader(ScreenDefaultsFile);
             appJSON = reader.ReadToEnd();
-            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
             entityDefaults.Add(JsonConvert.DeserializeObject<Entity>(appJSON, settings));
             reader.Close();
         }

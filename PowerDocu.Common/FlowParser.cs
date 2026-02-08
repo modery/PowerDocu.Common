@@ -68,7 +68,7 @@ namespace PowerDocu.Common
 		  */
         private FlowEntity parseFlow(string flowJSON)
         {
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
             var _jsonSerializer = JsonSerializer.Create(settings);
             flowDefinition = JsonConvert.DeserializeObject<JObject>(flowJSON, settings).ToObject(typeof(object), _jsonSerializer);
             FlowEntity flow = new FlowEntity();

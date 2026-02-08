@@ -74,7 +74,7 @@ namespace PowerDocu.Common
             {
                 using StreamReader reader = new StreamReader(ZipHelper.getFileFromZip(appArchive, fileToParse).Open());
                 string appJSON = reader.ReadToEnd();
-                var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+                var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
                 var _jsonSerializer = JsonSerializer.Create(settings);
                 dynamic propertiesDefinition = JsonConvert.DeserializeObject<JObject>(appJSON, settings).ToObject(typeof(object), _jsonSerializer);
                 foreach (JToken property in propertiesDefinition.Children())
@@ -108,7 +108,7 @@ namespace PowerDocu.Common
             {
                 using StreamReader reader = new StreamReader(controlEntry.Open());
                 string appJSON = reader.ReadToEnd();
-                var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+                var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
                 var _jsonSerializer = JsonSerializer.Create(settings);
                 dynamic controlsDefinition = JsonConvert.DeserializeObject<JObject>(appJSON, settings).ToObject(typeof(object), _jsonSerializer);
                 currentApp.Controls.Add(parseControl(((JObject)controlsDefinition.TopParent).Children().ToList()));
@@ -298,7 +298,7 @@ namespace PowerDocu.Common
             //Reference: https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/working-with-variables#types-of-variables
             string code = input.Replace("\n", "").Replace("\r", "");
             MatchCollection matches;
-            //check for Global Variables            
+            //check for Global Variables  
             if ((matches = Regex.Matches(code, @"\s*Set\(\s*(?<ident>\w+)\s*,")).Count > 0)
             {
                 foreach (Match match in matches)
@@ -588,7 +588,7 @@ namespace PowerDocu.Common
             ZipArchiveEntry dataSourceFile = ZipHelper.getFileFromZip(appArchive, "References\\DataSources.json");
             using StreamReader reader = new StreamReader(dataSourceFile.Open());
             string appJSON = reader.ReadToEnd();
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
             var _jsonSerializer = JsonSerializer.Create(settings);
             dynamic datasourceDefinition = JsonConvert.DeserializeObject<JObject>(appJSON, settings).ToObject(typeof(object), _jsonSerializer);
             foreach (JToken datasource in datasourceDefinition.DataSources.Children())
@@ -619,7 +619,7 @@ namespace PowerDocu.Common
             ZipArchiveEntry dataSourceFile = ZipHelper.getFileFromZip(appArchive, "References\\Resources.json");
             using StreamReader reader = new StreamReader(dataSourceFile.Open());
             string appJSON = reader.ReadToEnd();
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, MaxDepth = 128 };
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, MaxDepth = 128 };
             var _jsonSerializer = JsonSerializer.Create(settings);
             dynamic resourceDefinition = JsonConvert.DeserializeObject<JObject>(appJSON, settings).ToObject(typeof(object), _jsonSerializer);
             foreach (JToken resource in resourceDefinition.Resources.Children())
