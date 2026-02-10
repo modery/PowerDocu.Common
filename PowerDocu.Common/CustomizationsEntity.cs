@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 
 namespace PowerDocu.Common
@@ -11,6 +10,7 @@ namespace PowerDocu.Common
 
         private List<TableEntity> tableEntities;
         private List<EntityRelationship> entityRelationships;
+        private List<AIModel> AIModels;
 
         public string getAppNameBySchemaName(string schemaName)
         {
@@ -34,6 +34,21 @@ namespace PowerDocu.Common
                 tableEntities.Sort((a, b) => a.getLocalizedName().CompareTo(b.getLocalizedName()));
             }
             return tableEntities;
+        }
+
+
+        public List<AIModel> getAIModels()
+        {
+            if (AIModels == null)
+            {
+                AIModels = new List<AIModel>();
+                foreach (XmlNode xmlEntity in customizationsXml.SelectNodes("/ImportExportXml/AIModels/AIModel"))
+                {
+                    AIModels.Add(new AIModel(xmlEntity));
+                }
+                AIModels.Sort((a, b) => a.getLocalizedName().CompareTo(b.getLocalizedName()));
+            }
+            return AIModels;
         }
 
         public List<EntityRelationship> getEntityRelationships()
