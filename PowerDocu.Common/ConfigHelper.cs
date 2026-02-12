@@ -21,6 +21,7 @@ namespace PowerDocu.Common
         public bool documentAppDataSources = false;
         public bool documentAppResources = false;
         public bool documentAppControls = false;
+        public bool checkForUpdatesOnLaunch = true;
         private string configFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\powerdocu.config.json";
 
         public ConfigHelper()
@@ -52,6 +53,7 @@ namespace PowerDocu.Common
                     documentAppDataSources = config.documentAppDataSources;
                     documentAppResources = config.documentAppResources;
                     documentAppControls = config.documentAppControls;
+                    checkForUpdatesOnLaunch = config.checkForUpdatesOnLaunch;
                 }
             }
         }
