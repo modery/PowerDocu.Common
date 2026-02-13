@@ -6,8 +6,8 @@ namespace PowerDocu.Common
 {
     public class AppEntity
     {
-        public string ID;
-        public string Name;
+        public string ID { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public List<ControlEntity> Controls = new List<ControlEntity>();
         public List<Expression> Properties = new List<Expression>();
         public List<DataSource> DataSources = new List<DataSource>();
