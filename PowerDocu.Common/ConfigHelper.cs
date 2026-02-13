@@ -13,14 +13,15 @@ namespace PowerDocu.Common
         public string flowActionSortOrder = FlowActionSortOrderHelper.ByName;
         public string wordTemplate = null;
         public bool documentSampleData = false;
-        public bool documentSolution = false;
-        public bool documentFlows = false;
-        public bool documentApps = false;
-        public bool documentAppProperties = false;
-        public bool documentAppVariables = false;
-        public bool documentAppDataSources = false;
-        public bool documentAppResources = false;
-        public bool documentAppControls = false;
+        public bool documentSolution = true;
+        public bool documentFlows = true;
+        public bool documentAgents = true;
+        public bool documentApps = true;
+        public bool documentAppProperties = true;
+        public bool documentAppVariables = true;
+        public bool documentAppDataSources = true;
+        public bool documentAppResources = true;
+        public bool documentAppControls = true;
         public bool checkForUpdatesOnLaunch = true;
         private string configFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\powerdocu.config.json";
 
@@ -47,6 +48,7 @@ namespace PowerDocu.Common
                     // Load newly added properties
                     documentSolution = config.documentSolution;
                     documentFlows = config.documentFlows;
+                    documentAgents = config.documentAgents;
                     documentApps = config.documentApps;
                     documentAppProperties = config.documentAppProperties;
                     documentAppVariables = config.documentAppVariables;
@@ -57,6 +59,7 @@ namespace PowerDocu.Common
                 }
             }
         }
+
         public void SaveConfigurationToFile()
         {
             string json = JsonConvert.SerializeObject(this);
