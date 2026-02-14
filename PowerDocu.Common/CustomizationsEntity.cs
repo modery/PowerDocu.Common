@@ -11,6 +11,7 @@ namespace PowerDocu.Common
         private List<TableEntity> tableEntities;
         private List<EntityRelationship> entityRelationships;
         private List<AIModel> AIModels;
+        private List<OptionSetEntity> optionSets;
 
         public string getAppNameBySchemaName(string schemaName)
         {
@@ -68,6 +69,24 @@ namespace PowerDocu.Common
         public XmlNode getEntityBySchemaName(string schemaName)
         {
             return customizationsXml.SelectSingleNode("/ImportExportXml/Entities/Entity[Name='" + schemaName + "']");
+        }
+
+        public List<OptionSetEntity> getOptionSets()
+        {
+            if (optionSets == null)
+            {
+                optionSets = new List<OptionSetEntity>();
+                XmlNodeList optionSetNodes = customizationsXml.SelectNodes("/ImportExportXml/optionsets/optionset");
+                if (optionSetNodes != null)
+                {
+                    foreach (XmlNode xmlOptionSet in optionSetNodes)
+                    {
+                        optionSets.Add(new OptionSetEntity(xmlOptionSet));
+                    }
+                    optionSets.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
+                }
+            }
+            return optionSets;
         }
 
         public List<RoleEntity> getRoles()
