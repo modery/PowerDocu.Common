@@ -71,6 +71,17 @@ namespace PowerDocu.Common
             return xmlEntity.SelectSingleNode("EntityInfo/entity/IsAuditEnabled")?.InnerText.Equals("1") ?? false;
         }
 
+        public string GetOwnershipType()
+        {
+            string ownershipMask = xmlEntity.SelectSingleNode("EntityInfo/entity/OwnershipTypeMask")?.InnerText ?? "";
+            return ownershipMask switch
+            {
+                "UserOwned" => "User or Team",
+                "OrgOwned" => "Organization",
+                _ => ownershipMask
+            };
+        }
+
         public List<FormEntity> GetForms()
         {
             if (forms == null)
