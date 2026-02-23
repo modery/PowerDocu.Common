@@ -40,7 +40,10 @@ namespace PowerDocu.Common
                     FlowEntity flow = parseFlow(definitionContent);
                     if (String.IsNullOrEmpty(flow.Name))
                     {
-                        flow.Name = definition.Name.Replace(".json", "").Trim();
+                        string rawName = definition.Name.Replace(".json", "").Trim();
+                        // Remove any GUID patterns and clean up leftover separators
+                        rawName = System.Text.RegularExpressions.Regex.Replace(rawName, @"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", "");
+                        flow.Name = rawName.Trim('-', ' ', '_');
                     }
                     flows.Add(flow);
                 }
