@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using HtmlAgilityPack;
@@ -81,9 +83,31 @@ namespace PowerDocu.Common
                         Name = connector.SelectSingleNode(".//a/b").InnerText
                     };
                     connectorIcons.Add(connectorIcon);
-                    var response = await client.GetAsync(connectorIcon.Url);
-                    File.WriteAllBytesAsync(folderPath + connectorIcon.Uniquename + ".png", await response.Content.ReadAsByteArrayAsync());
                 }
+
+                // Download icons in parallel with limited concurrency
+                const int maxConcurrency = 25;
+                var semaphore = new SemaphoreSlim(maxConcurrency);
+                var downloadTasks = connectorIcons.Select(async connectorIcon =>
+                {
+                    await semaphore.WaitAsync();
+                    try
+                    {
+                        var response = await client.GetAsync(connectorIcon.Url);
+                        response.EnsureSuccessStatusCode();
+                        var bytes = await response.Content.ReadAsByteArrayAsync();
+                        await File.WriteAllBytesAsync(folderPath + connectorIcon.Uniquename + ".png", bytes);
+                    }
+                    catch (Exception ex)
+                    {
+                        NotificationHelper.SendNotification($"Failed to download icon for {connectorIcon.Name}: {ex.Message}");
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                });
+                await Task.WhenAll(downloadTasks);
 
                 File.WriteAllText(folderPath + "connectors.json", JsonConvert.SerializeObject(connectorIcons));
                 NotificationHelper.SendNotification($"Update complete. A total of {connectorIcons.Count} connectors were found.");
