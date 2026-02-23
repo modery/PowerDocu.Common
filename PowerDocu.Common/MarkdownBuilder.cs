@@ -170,7 +170,7 @@ namespace PowerDocu.Common
 
         protected string getCodeBlock(string code)
         {
-            if (String.IsNullOrEmpty(code))
+            if (String.IsNullOrEmpty(code.Trim()))
             {
                 return "";
             }
