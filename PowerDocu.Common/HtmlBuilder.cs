@@ -65,6 +65,11 @@ namespace PowerDocu.Common
             return $"<h{level}>{Encode(text)}</h{level}>";
         }
 
+        protected static string HeadingWithId(int level, string text, string id)
+        {
+            return $"<h{level} id=\"{Encode(id)}\">{Encode(text)}</h{level}>";
+        }
+
         protected static string HeadingRaw(int level, string innerHtml)
         {
             return $"<h{level}>{innerHtml}</h{level}>";
@@ -83,6 +88,16 @@ namespace PowerDocu.Common
         protected static string Link(string text, string href)
         {
             return $"<a href=\"{Encode(href)}\">{Encode(text)}</a>";
+        }
+
+        /// <summary>
+        /// Creates a URL-safe anchor ID from a control/element name.
+        /// Lowercases, replaces spaces with hyphens, and removes unsafe characters.
+        /// </summary>
+        protected static string SanitizeAnchorId(string name)
+        {
+            if (String.IsNullOrEmpty(name)) return "";
+            return System.Text.RegularExpressions.Regex.Replace(name.ToLowerInvariant().Replace(" ", "-"), "[^a-z0-9_-]", "");
         }
 
         protected static string Image(string alt, string src)
