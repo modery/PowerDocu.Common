@@ -62,10 +62,6 @@ namespace PowerDocu.Common
                                         operandsCellSB.Append(AddExpressionTable((Expression)o, false));
                                     }
                                 }
-                                else
-                                {
-                                    string s = "";
-                                }
                             }
                             operandsCellSB.Append("</table>");
                         }
@@ -176,6 +172,5 @@ namespace PowerDocu.Common
             }
             return $"`{code}`";
         }
-
     }
 }

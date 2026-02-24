@@ -28,10 +28,5 @@ namespace PowerDocu.Common
         {
             this.trigger = new Trigger(name);
         }
-
-        public override string ToString()
-        {
-            return "Flow " + Name + " (" + ID + ")";
-        }
     }
 }
