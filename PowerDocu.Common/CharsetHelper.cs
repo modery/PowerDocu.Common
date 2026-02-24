@@ -18,7 +18,6 @@ namespace PowerDocu.Common
             '*',
             '&',
             '"',
-            '\\',
             '#'
         };
 
