@@ -170,7 +170,11 @@ namespace PowerDocu.Common
             {
                 return "";
             }
-            return $"`{code}`";
+            if (code.Contains('\n') || code.Contains('\r'))
+            {
+                return $"<pre><code>{System.Net.WebUtility.HtmlEncode(code)}</code></pre>";
+            }
+            return $"<code>{System.Net.WebUtility.HtmlEncode(code)}</code>";
         }
     }
 }
