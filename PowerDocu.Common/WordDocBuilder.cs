@@ -688,6 +688,28 @@ namespace PowerDocu.Common
             // Add a page break after the TOC so content starts on a new page
             body.AppendChild(new Paragraph(
                 new Run(new Break() { Type = BreakValues.Page })));
+
+            // Tell Word not to update all fields (including the TOC) automatically when the document is opened, has to be done manually
+            SetUpdateFieldsOnOpen(false);
+        }
+
+        private void SetUpdateFieldsOnOpen(bool updateOnOpen)
+        {
+            DocumentSettingsPart settingsPart = mainPart.DocumentSettingsPart ?? mainPart.AddNewPart<DocumentSettingsPart>();
+            if (settingsPart.Settings == null)
+            {
+                settingsPart.Settings = new Settings();
+            }
+            var existing = settingsPart.Settings.ChildElements.OfType<UpdateFieldsOnOpen>().FirstOrDefault();
+            if (existing != null)
+            {
+                existing.Val = updateOnOpen;
+            }
+            else
+            {
+                settingsPart.Settings.AddChild(new UpdateFieldsOnOpen() { Val = updateOnOpen });
+            }
+            settingsPart.Settings.Save();
         }
 
         protected void PrepareDocument(bool templateUsed)
@@ -719,20 +741,12 @@ namespace PowerDocu.Common
                            Uri = new StringValue("http://schemas.microsoft.com/office/word")
                        }
                    );
-            // Tell Word to update all fields (including the TOC) when the document is opened
-            var updateFields = new UpdateFieldsOnOpen() { Val = true };
-
             if (settingsPart.Settings == null)
             {
-                settingsPart.Settings = new Settings(compatibility, updateFields);
+                settingsPart.Settings = new Settings(compatibility);
             }
             else
             {
-                // Add UpdateFieldsOnOpen if not already present
-                if (settingsPart.Settings.ChildElements.All(e => e.GetType() != typeof(UpdateFieldsOnOpen)))
-                {
-                    settingsPart.Settings.AddChild(updateFields);
-                }
                 Compatibility c = (Compatibility)settingsPart.Settings.ChildElements.FirstOrDefault(o => o.GetType().Equals(typeof(Compatibility)));
                 if (c != null)
                 {
