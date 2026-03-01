@@ -173,6 +173,7 @@ namespace PowerDocu.Common
     {
         private readonly XmlNode xmlColumn;
         public static List<string> defaultLookupColumns = new List<string> { "createdby", "createdonbehalfby", "modifiedby", "modifiedonbehalfby", "ownerid", "owningbusinessunit", "owningteam", "owninguser" };
+        public static List<string> defaultColumns = new List<string> { "createdby", "createdonbehalfby", "createdon", "importsequencenumber", "modifiedby", "modifiedonbehalfby", "modifiedon", "ownerid", "owningbusinessunit", "owningteam", "owninguser", "overriddencreatedon", "statecode", "statuscode", "timezoneruleversionnumber", "utcconversiontimezonecode" };
 
         public ColumnEntity(XmlNode xmlColumn)
         {
@@ -197,6 +198,11 @@ namespace PowerDocu.Common
         public bool isNonDefaultLookUpColumn()
         {
             return getDataType().Equals("Lookup") && !defaultLookupColumns.Contains(getLogicalName());
+        }
+
+        public bool isDefaultColumn()
+        {
+            return defaultColumns.Contains(getLogicalName());
         }
 
 
