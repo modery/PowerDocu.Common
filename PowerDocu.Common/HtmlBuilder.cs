@@ -46,6 +46,16 @@ namespace PowerDocu.Common
             sb.AppendLine(bodyContent);
             sb.AppendLine("  </main>");
             sb.AppendLine("</div>");
+            // Collapsible navigation toggle script
+            sb.AppendLine("<script>");
+            sb.AppendLine("document.querySelectorAll('.nav-toggle').forEach(function(btn){");
+            sb.AppendLine("  btn.addEventListener('click',function(e){");
+            sb.AppendLine("    e.preventDefault();");
+            sb.AppendLine("    var parent=this.closest('.nav-parent');");
+            sb.AppendLine("    parent.classList.toggle('collapsed');");
+            sb.AppendLine("  });");
+            sb.AppendLine("});");
+            sb.AppendLine("</script>");
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             return sb.ToString();
@@ -175,6 +185,67 @@ namespace PowerDocu.Common
             foreach (var item in items)
             {
                 sb.AppendLine($"  <li><a href=\"{Encode(item.href)}\">{Encode(item.label)}</a></li>");
+            }
+            sb.AppendLine("</ul>");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Renders a hierarchical navigation list with collapsible parent items.
+        /// Items with children get a toggle arrow; their children are nested in a sub-list.
+        /// </summary>
+        protected static string NavigationList(IEnumerable<(string label, string href, int level)> items)
+        {
+            var list = items.ToList();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<ul class=\"nav-list\">");
+            for (int i = 0; i < list.Count; i++)
+            {
+                var item = list[i];
+                // Check if this item has children (next item is a higher level)
+                bool hasChildren = (i + 1 < list.Count) && (list[i + 1].level > item.level);
+                if (hasChildren)
+                {
+                    sb.AppendLine($"  <li class=\"nav-parent\">");
+                    sb.AppendLine($"    <div class=\"nav-parent-row\"><a href=\"{Encode(item.href)}\">{Encode(item.label)}</a><button class=\"nav-toggle\" aria-label=\"Toggle\">&#9662;</button></div>");
+                    int childLevel = list[i + 1].level;
+                    sb.AppendLine($"    <ul class=\"nav-children\">");
+                    i++;
+                    while (i < list.Count && list[i].level >= childLevel)
+                    {
+                        var child = list[i];
+                        // Check if this child also has children
+                        bool childHasChildren = (i + 1 < list.Count) && (list[i + 1].level > child.level);
+                        if (childHasChildren && child.level == childLevel)
+                        {
+                            sb.AppendLine($"      <li class=\"nav-parent\">");
+                            sb.AppendLine($"        <div class=\"nav-parent-row\"><a href=\"{Encode(child.href)}\">{Encode(child.label)}</a><button class=\"nav-toggle\" aria-label=\"Toggle\">&#9662;</button></div>");
+                            int grandchildLevel = list[i + 1].level;
+                            sb.AppendLine($"        <ul class=\"nav-children\">");
+                            i++;
+                            while (i < list.Count && list[i].level >= grandchildLevel)
+                            {
+                                sb.AppendLine($"          <li class=\"nav-sub-{list[i].level}\"><a href=\"{Encode(list[i].href)}\">{Encode(list[i].label)}</a></li>");
+                                i++;
+                            }
+                            sb.AppendLine($"        </ul>");
+                            sb.AppendLine($"      </li>");
+                            i--; // compensate for outer loop increment
+                        }
+                        else
+                        {
+                            sb.AppendLine($"      <li class=\"nav-sub-{child.level}\"><a href=\"{Encode(child.href)}\">{Encode(child.label)}</a></li>");
+                        }
+                        i++;
+                    }
+                    i--; // compensate for outer for-loop increment
+                    sb.AppendLine($"    </ul>");
+                    sb.AppendLine($"  </li>");
+                }
+                else
+                {
+                    sb.AppendLine($"  <li><a href=\"{Encode(item.href)}\">{Encode(item.label)}</a></li>");
+                }
             }
             sb.AppendLine("</ul>");
             return sb.ToString();
@@ -358,10 +429,7 @@ namespace PowerDocu.Common
         protected static void WriteDefaultStylesheet(string folderPath)
         {
             string cssPath = Path.Combine(folderPath, "style.css");
-            if (!File.Exists(cssPath))
-            {
-                File.WriteAllText(cssPath, GetDefaultCss());
-            }
+            File.WriteAllText(cssPath, GetDefaultCss());
         }
 
         protected void SaveHtmlFile(string filePath, string htmlContent)
@@ -456,6 +524,77 @@ body {
     background: var(--color-sidebar-hover);
     color: #fff;
     border-left-color: var(--color-primary);
+}
+
+/* Collapsible parent items */
+.nav-parent-row {
+    display: flex;
+    align-items: center;
+}
+
+.nav-parent-row a {
+    flex: 1;
+    display: block;
+    padding: 0.5rem 1.25rem;
+    color: var(--color-sidebar-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.15s, color 0.15s;
+    border-left: 3px solid transparent;
+}
+
+.nav-parent-row a:hover {
+    background: var(--color-sidebar-hover);
+    color: #fff;
+    border-left-color: var(--color-primary);
+}
+
+.nav-toggle {
+    background: none;
+    border: none;
+    color: var(--color-sidebar-text);
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.nav-toggle:hover {
+    color: #fff;
+}
+
+.nav-parent.collapsed .nav-toggle {
+    transform: rotate(-90deg);
+}
+
+.nav-children {
+    list-style: none;
+    padding: 0;
+    overflow: hidden;
+}
+
+.nav-parent.collapsed > .nav-children {
+    display: none;
+}
+
+/* Sub-level indentation */
+.nav-list li.nav-sub-1 > a,
+.nav-children > li.nav-sub-1 > a {
+    padding-left: 2.25rem;
+    font-size: 0.84rem;
+}
+
+.nav-list li.nav-sub-2 > a,
+.nav-children > li.nav-sub-2 > a {
+    padding-left: 3.25rem;
+    font-size: 0.8rem;
+}
+
+/* Nested parent rows at sub-level */
+.nav-children > li.nav-parent > .nav-parent-row > a {
+    padding-left: 2.25rem;
+    font-size: 0.84rem;
 }
 
 /* Main content area */
