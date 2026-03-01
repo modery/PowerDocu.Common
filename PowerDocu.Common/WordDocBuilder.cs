@@ -640,6 +640,56 @@ namespace PowerDocu.Common
             return tr;
         }
 
+        /// <summary>
+        /// Inserts a Table of Contents field into the document body at the current position.
+        /// The TOC covers Heading1 through Heading3 levels.
+        /// Page numbers are populated when the document is opened in Word (via UpdateFieldsOnOpen).
+        /// </summary>
+        protected void AddTableOfContents()
+        {
+            // "Table of Contents" heading
+            Paragraph tocHeading = new Paragraph(
+                new Run(new Text("Table of Contents")));
+            ApplyStyleToParagraph("Heading1", tocHeading);
+            body.AppendChild(tocHeading);
+
+            // The TOC field itself — structured document tag (SDT) wrapping a TOC field code
+            SdtBlock sdtBlock = new SdtBlock();
+
+            // SDT properties — mark this as a TOC so Word recognises it
+            SdtProperties sdtProperties = new SdtProperties();
+            sdtProperties.Append(new SdtContentDocPartObject(
+                new DocPartGallery() { Val = "Table of Contents" },
+                new DocPartUnique()));
+            sdtBlock.Append(sdtProperties);
+
+            // SDT content — a paragraph containing the TOC field code
+            SdtContentBlock sdtContent = new SdtContentBlock();
+
+            Paragraph tocParagraph = new Paragraph();
+
+            // Begin complex field: TOC \o "1-3" \h \z \u
+            // \o "1-3" = include heading levels 1-3
+            // \h       = make entries hyperlinks
+            // \z       = hide tab leader and page numbers in Web Layout
+            // \u       = use applied paragraph outline level
+            Run beginFieldChar = new Run(new FieldChar() { FieldCharType = FieldCharValues.Begin });
+            Run fieldCode = new Run(new FieldCode(" TOC \\o \"1-3\" \\h \\z \\u ") { Space = SpaceProcessingModeValues.Preserve });
+            Run separateFieldChar = new Run(new FieldChar() { FieldCharType = FieldCharValues.Separate });
+            Run placeholderText = new Run(new Text("Right-click to update this Table of Contents field."));
+            Run endFieldChar = new Run(new FieldChar() { FieldCharType = FieldCharValues.End });
+
+            tocParagraph.Append(beginFieldChar, fieldCode, separateFieldChar, placeholderText, endFieldChar);
+            sdtContent.Append(tocParagraph);
+            sdtBlock.Append(sdtContent);
+
+            body.AppendChild(sdtBlock);
+
+            // Add a page break after the TOC so content starts on a new page
+            body.AppendChild(new Paragraph(
+                new Run(new Break() { Type = BreakValues.Page })));
+        }
+
         protected void PrepareDocument(bool templateUsed)
         {
             AddSettingsToMainDocumentPart();
@@ -669,12 +719,20 @@ namespace PowerDocu.Common
                            Uri = new StringValue("http://schemas.microsoft.com/office/word")
                        }
                    );
+            // Tell Word to update all fields (including the TOC) when the document is opened
+            var updateFields = new UpdateFieldsOnOpen() { Val = true };
+
             if (settingsPart.Settings == null)
             {
-                settingsPart.Settings = new Settings(compatibility);
+                settingsPart.Settings = new Settings(compatibility, updateFields);
             }
             else
             {
+                // Add UpdateFieldsOnOpen if not already present
+                if (settingsPart.Settings.ChildElements.All(e => e.GetType() != typeof(UpdateFieldsOnOpen)))
+                {
+                    settingsPart.Settings.AddChild(updateFields);
+                }
                 Compatibility c = (Compatibility)settingsPart.Settings.ChildElements.FirstOrDefault(o => o.GetType().Equals(typeof(Compatibility)));
                 if (c != null)
                 {
