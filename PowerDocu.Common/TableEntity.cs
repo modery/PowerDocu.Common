@@ -82,6 +82,51 @@ namespace PowerDocu.Common
             };
         }
 
+        public string GetEntitySetName()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/EntitySetName")?.InnerText ?? "";
+        }
+
+        public bool IsCustomizable()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IsCustomizable")?.InnerText.Equals("1") ?? false;
+        }
+
+        public string GetIntroducedVersion()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IntroducedVersion")?.InnerText ?? "";
+        }
+
+        public bool IsChangeTrackingEnabled()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/ChangeTrackingEnabled")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsActivity()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IsActivity")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsQuickCreateEnabled()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IsQuickCreateEnabled")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsConnectionsEnabled()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IsConnectionsEnabled")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsDuplicateCheckSupported()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IsDuplicateCheckSupported")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsVisibleInMobile()
+        {
+            return xmlEntity.SelectSingleNode("EntityInfo/entity/IsVisibleInMobile")?.InnerText.Equals("1") ?? false;
+        }
+
         public List<FormEntity> GetForms()
         {
             if (forms == null)
@@ -212,6 +257,21 @@ namespace PowerDocu.Common
         {
             return xmlColumn.SelectSingleNode("IsAuditEnabled")?.InnerText.Equals("1") ?? false;
         }
+
+        public bool IsSecured()
+        {
+            return xmlColumn.SelectSingleNode("IsSecured")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsCustomField()
+        {
+            return xmlColumn.SelectSingleNode("IsCustomField")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsFilterable()
+        {
+            return xmlColumn.SelectSingleNode("IsFilterable")?.InnerText.Equals("1") ?? false;
+        }
     }
 
     public class FormEntity
@@ -238,7 +298,159 @@ namespace PowerDocu.Common
             get { return xmlForm.SelectSingleNode("form"); }
         }
 
-        // Add more methods as needed to retrieve other form details
+        public string GetFormType()
+        {
+            return FormXml?.SelectSingleNode("type")?.InnerText ?? "";
+        }
+
+        public string GetFormTypeDisplayName()
+        {
+            return GetFormType() switch
+            {
+                "2" => "Main",
+                "5" => "Quick Create",
+                "6" => "Quick View",
+                "7" => "Card",
+                "0" => "Dashboard",
+                "4" => "Task Flow",
+                "11" => "Main - Interactive Experience",
+                _ => GetFormType()
+            };
+        }
+
+        public bool IsDefault()
+        {
+            return FormXml?.SelectSingleNode("isdefault")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsActive()
+        {
+            return xmlForm.SelectSingleNode("FormActivationState")?.InnerText.Equals("1") ?? true;
+        }
+
+        public bool IsCustomizable()
+        {
+            return xmlForm.SelectSingleNode("IsCustomizable")?.InnerText.Equals("1") ?? false;
+        }
+
+        public string GetIntroducedVersion()
+        {
+            return xmlForm.SelectSingleNode("IntroducedVersion")?.InnerText ?? "";
+        }
+
+        public string GetDescription()
+        {
+            return xmlForm.SelectSingleNode("Descriptions/Description")?.Attributes.GetNamedItem("description")?.InnerText ?? "";
+        }
+
+        public List<FormTab> GetTabs()
+        {
+            var tabs = new List<FormTab>();
+            XmlNodeList tabNodes = FormXml?.SelectNodes("tabs/tab");
+            if (tabNodes != null)
+            {
+                foreach (XmlNode tabNode in tabNodes)
+                {
+                    tabs.Add(new FormTab(tabNode));
+                }
+            }
+            return tabs;
+        }
+    }
+
+    public class FormTab
+    {
+        private readonly XmlNode xmlTab;
+
+        public FormTab(XmlNode xmlTab)
+        {
+            this.xmlTab = xmlTab;
+        }
+
+        public string GetName()
+        {
+            return xmlTab.SelectSingleNode("labels/label")?.Attributes.GetNamedItem("description")?.InnerText ?? "(unnamed)";
+        }
+
+        public bool IsVisible()
+        {
+            string visible = xmlTab.Attributes?["visible"]?.Value ?? "true";
+            return visible != "false";
+        }
+
+        public List<FormSection> GetSections()
+        {
+            var sections = new List<FormSection>();
+            XmlNodeList sectionNodes = xmlTab.SelectNodes("columns/column/sections/section");
+            if (sectionNodes != null)
+            {
+                foreach (XmlNode sectionNode in sectionNodes)
+                {
+                    sections.Add(new FormSection(sectionNode));
+                }
+            }
+            return sections;
+        }
+    }
+
+    public class FormSection
+    {
+        private readonly XmlNode xmlSection;
+
+        public FormSection(XmlNode xmlSection)
+        {
+            this.xmlSection = xmlSection;
+        }
+
+        public string GetName()
+        {
+            return xmlSection.SelectSingleNode("labels/label")?.Attributes.GetNamedItem("description")?.InnerText ?? "(unnamed)";
+        }
+
+        public bool IsVisible()
+        {
+            string visible = xmlSection.Attributes?["visible"]?.Value ?? "true";
+            return visible != "false";
+        }
+
+        public List<FormControl> GetControls()
+        {
+            var controls = new List<FormControl>();
+            XmlNodeList controlNodes = xmlSection.SelectNodes("rows/row/cell/control");
+            if (controlNodes != null)
+            {
+                foreach (XmlNode controlNode in controlNodes)
+                {
+                    controls.Add(new FormControl(controlNode));
+                }
+            }
+            return controls;
+        }
+    }
+
+    public class FormControl
+    {
+        private readonly XmlNode xmlControl;
+
+        public FormControl(XmlNode xmlControl)
+        {
+            this.xmlControl = xmlControl;
+        }
+
+        public string GetId()
+        {
+            return xmlControl.Attributes?["id"]?.Value ?? "";
+        }
+
+        public string GetDataFieldName()
+        {
+            return xmlControl.Attributes?["datafieldname"]?.Value ?? "";
+        }
+
+        public string GetClassId()
+        {
+            return xmlControl.Attributes?["classid"]?.Value ?? "";
+        }
     }
 
     public class ViewEntity
@@ -270,6 +482,81 @@ namespace PowerDocu.Common
             return xmlView.SelectSingleNode("layoutxml")?.InnerText ?? "";
         }
 
-        // Add more methods as needed to retrieve other view details
+        public string GetQueryType()
+        {
+            return xmlView.SelectSingleNode("querytype")?.InnerText ?? "";
+        }
+
+        public string GetQueryTypeDisplayName()
+        {
+            return GetQueryType() switch
+            {
+                "0" => "Public",
+                "1" => "Advanced Find",
+                "2" => "Associated",
+                "4" => "Quick Find",
+                "64" => "Lookup",
+                "8192" => "My",
+                _ => GetQueryType()
+            };
+        }
+
+        public bool IsDefault()
+        {
+            return xmlView.SelectSingleNode("isdefault")?.InnerText.Equals("1") ?? false;
+        }
+
+        public bool IsCustomizable()
+        {
+            return xmlView.SelectSingleNode("IsCustomizable")?.InnerText.Equals("1") ?? false;
+        }
+
+        public string GetIntroducedVersion()
+        {
+            return xmlView.SelectSingleNode("IntroducedVersion")?.InnerText ?? "";
+        }
+
+        public List<ViewColumn> GetColumns()
+        {
+            var columns = new List<ViewColumn>();
+            XmlNode layoutNode = xmlView.SelectSingleNode("layoutxml");
+            if (layoutNode != null && !String.IsNullOrEmpty(layoutNode.InnerXml))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(layoutNode.InnerXml);
+                XmlNodeList cellNodes = doc.SelectNodes("grid/row/cell");
+                if (cellNodes != null)
+                {
+                    int order = 1;
+                    foreach (XmlNode cellNode in cellNodes)
+                    {
+                        columns.Add(new ViewColumn(cellNode, order++));
+                    }
+                }
+            }
+            return columns;
+        }
+    }
+
+    public class ViewColumn
+    {
+        private readonly XmlNode xmlCell;
+        public int Order { get; }
+
+        public ViewColumn(XmlNode xmlCell, int order)
+        {
+            this.xmlCell = xmlCell;
+            Order = order;
+        }
+
+        public string GetName()
+        {
+            return xmlCell.Attributes?["name"]?.Value ?? "";
+        }
+
+        public string GetWidth()
+        {
+            return xmlCell.Attributes?["width"]?.Value ?? "";
+        }
     }
 }
