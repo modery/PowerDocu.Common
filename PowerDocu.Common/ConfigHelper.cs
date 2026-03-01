@@ -22,6 +22,8 @@ namespace PowerDocu.Common
         public bool documentAppDataSources = true;
         public bool documentAppResources = true;
         public bool documentAppControls = true;
+        public bool documentDefaultColumns = false;
+        public bool addTableOfContents = false;
         public bool checkForUpdatesOnLaunch = true;
         private string configFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\powerdocu.config.json";
 
@@ -44,17 +46,17 @@ namespace PowerDocu.Common
                     flowActionSortOrder = config.flowActionSortOrder;
                     wordTemplate = config.wordTemplate;
                     documentSampleData = config.documentSampleData;
-
-                    // Load newly added properties
                     documentSolution = config.documentSolution;
-                    documentFlows = config.documentFlows;
                     documentAgents = config.documentAgents;
+                    documentFlows = config.documentFlows;
                     documentApps = config.documentApps;
                     documentAppProperties = config.documentAppProperties;
                     documentAppVariables = config.documentAppVariables;
                     documentAppDataSources = config.documentAppDataSources;
                     documentAppResources = config.documentAppResources;
                     documentAppControls = config.documentAppControls;
+                    documentDefaultColumns = config.documentDefaultColumns;
+                    addTableOfContents = config.addTableOfContents;
                     checkForUpdatesOnLaunch = config.checkForUpdatesOnLaunch;
                 }
             }
