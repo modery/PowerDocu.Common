@@ -397,6 +397,48 @@ namespace PowerDocu.Common
             }
             return sections;
         }
+
+        /// <summary>
+        /// Returns the columns defined in this tab, preserving the multi-column layout.
+        /// Each FormTabColumn contains its own list of sections.
+        /// </summary>
+        public List<FormTabColumn> GetColumns()
+        {
+            var columns = new List<FormTabColumn>();
+            XmlNodeList columnNodes = xmlTab.SelectNodes("columns/column");
+            if (columnNodes != null)
+            {
+                foreach (XmlNode columnNode in columnNodes)
+                {
+                    columns.Add(new FormTabColumn(columnNode));
+                }
+            }
+            return columns;
+        }
+    }
+
+    public class FormTabColumn
+    {
+        private readonly XmlNode xmlColumn;
+
+        public FormTabColumn(XmlNode xmlColumn)
+        {
+            this.xmlColumn = xmlColumn;
+        }
+
+        public List<FormSection> GetSections()
+        {
+            var sections = new List<FormSection>();
+            XmlNodeList sectionNodes = xmlColumn.SelectNodes("sections/section");
+            if (sectionNodes != null)
+            {
+                foreach (XmlNode sectionNode in sectionNodes)
+                {
+                    sections.Add(new FormSection(sectionNode));
+                }
+            }
+            return sections;
+        }
     }
 
     public class FormSection
@@ -456,6 +498,24 @@ namespace PowerDocu.Common
         public string GetClassId()
         {
             return xmlControl.Attributes?["classid"]?.Value ?? "";
+        }
+
+        /// <summary>
+        /// Returns a human-readable label for this control.
+        /// Uses the datafieldname if available, otherwise the control id.
+        /// </summary>
+        public string GetDisplayLabel()
+        {
+            string field = GetDataFieldName();
+            return !string.IsNullOrEmpty(field) ? field : GetId();
+        }
+
+        /// <summary>
+        /// Returns true if the parent cell has showlabel set to false.
+        /// </summary>
+        public bool IsLabelHidden()
+        {
+            return xmlControl.ParentNode?.Attributes?["showlabel"]?.Value == "false";
         }
     }
 
