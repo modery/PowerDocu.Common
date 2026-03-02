@@ -206,7 +206,7 @@ namespace PowerDocu.Common
                 bool hasChildren = (i + 1 < list.Count) && (list[i + 1].level > item.level);
                 if (hasChildren)
                 {
-                    sb.AppendLine($"  <li class=\"nav-parent\">");
+                    sb.AppendLine($"  <li class=\"nav-parent collapsed\">");
                     sb.AppendLine($"    <div class=\"nav-parent-row\"><a href=\"{Encode(item.href)}\">{Encode(item.label)}</a><button class=\"nav-toggle\" aria-label=\"Toggle\">&#9662;</button></div>");
                     int childLevel = list[i + 1].level;
                     sb.AppendLine($"    <ul class=\"nav-children\">");
@@ -218,7 +218,7 @@ namespace PowerDocu.Common
                         bool childHasChildren = (i + 1 < list.Count) && (list[i + 1].level > child.level);
                         if (childHasChildren && child.level == childLevel)
                         {
-                            sb.AppendLine($"      <li class=\"nav-parent\">");
+                            sb.AppendLine($"      <li class=\"nav-parent collapsed\">");
                             sb.AppendLine($"        <div class=\"nav-parent-row\"><a href=\"{Encode(child.href)}\">{Encode(child.label)}</a><button class=\"nav-toggle\" aria-label=\"Toggle\">&#9662;</button></div>");
                             int grandchildLevel = list[i + 1].level;
                             sb.AppendLine($"        <ul class=\"nav-children\">");
