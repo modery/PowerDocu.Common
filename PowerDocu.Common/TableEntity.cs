@@ -306,20 +306,28 @@ namespace PowerDocu.Common
 
         public string GetFormType()
         {
-            return FormXml?.SelectSingleNode("type")?.InnerText ?? "";
+            // Try reading from a <type> child element first (numeric form type)
+            string type = FormXml?.SelectSingleNode("type")?.InnerText ?? "";
+            if (string.IsNullOrEmpty(type))
+            {
+                // Fallback: read from parent <forms type="..."> element attribute
+                type = xmlForm.ParentNode?.Attributes?["type"]?.Value ?? "";
+            }
+            return type;
         }
 
         public string GetFormTypeDisplayName()
         {
-            return GetFormType() switch
+            return GetFormType().ToLowerInvariant() switch
             {
-                "2" => "Main",
-                "5" => "Quick Create",
-                "6" => "Quick View",
-                "7" => "Card",
-                "0" => "Dashboard",
-                "4" => "Task Flow",
-                "11" => "Main - Interactive Experience",
+                "2" or "main" => "Main",
+                "5" or "quick" => "Quick Create",
+                "6" or "quickview" or "quickviewform" => "Quick View",
+                "7" or "card" => "Card",
+                "0" or "dashboard" => "Dashboard",
+                "4" or "taskflow" => "Task Flow",
+                "11" or "maininteractiveexperience" => "Main - Interactive Experience",
+                "mobile" => "Mobile",
                 _ => GetFormType()
             };
         }
@@ -517,6 +525,23 @@ namespace PowerDocu.Common
         {
             return xmlControl.ParentNode?.Attributes?["showlabel"]?.Value == "false";
         }
+
+        /// <summary>
+        /// Returns true if the control is marked as disabled (read-only).
+        /// </summary>
+        public bool IsDisabled()
+        {
+            return xmlControl.Attributes?["disabled"]?.Value == "true";
+        }
+
+        /// <summary>
+        /// Returns true if the parent cell is marked as not visible.
+        /// </summary>
+        public bool IsVisible()
+        {
+            string visible = xmlControl.ParentNode?.Attributes?["visible"]?.Value ?? "true";
+            return visible != "false";
+        }
     }
 
     public class ViewEntity
@@ -582,6 +607,79 @@ namespace PowerDocu.Common
             return xmlView.SelectSingleNode("IntroducedVersion")?.InnerText ?? "";
         }
 
+        /// <summary>
+        /// Parses the &lt;order&gt; elements from the view's fetchxml.
+        /// Returns a list of (attribute, descending) tuples representing sort orders.
+        /// </summary>
+        public List<ViewSortOrder> GetSortOrders()
+        {
+            var sortOrders = new List<ViewSortOrder>();
+            XmlNode fetchNode = xmlView.SelectSingleNode("fetchxml");
+            if (fetchNode != null && !String.IsNullOrEmpty(fetchNode.InnerXml))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(fetchNode.InnerXml);
+                XmlNodeList orderNodes = doc.SelectNodes("//order");
+                if (orderNodes != null)
+                {
+                    foreach (XmlNode orderNode in orderNodes)
+                    {
+                        string attribute = orderNode.Attributes?["attribute"]?.Value ?? "";
+                        bool descending = orderNode.Attributes?["descending"]?.Value == "true";
+                        if (!string.IsNullOrEmpty(attribute))
+                        {
+                            sortOrders.Add(new ViewSortOrder(attribute, descending));
+                        }
+                    }
+                }
+            }
+            return sortOrders;
+        }
+
+        /// <summary>
+        /// Parses the &lt;filter&gt; and &lt;condition&gt; elements from the view's fetchxml.
+        /// Returns a structured filter tree.
+        /// </summary>
+        public ViewFilter GetFilter()
+        {
+            XmlNode fetchNode = xmlView.SelectSingleNode("fetchxml");
+            if (fetchNode != null && !String.IsNullOrEmpty(fetchNode.InnerXml))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(fetchNode.InnerXml);
+                XmlNode filterNode = doc.SelectSingleNode("//entity/filter");
+                if (filterNode != null)
+                {
+                    return ParseFilter(filterNode);
+                }
+            }
+            return null;
+        }
+
+        private static ViewFilter ParseFilter(XmlNode filterNode)
+        {
+            var filter = new ViewFilter();
+            filter.Type = filterNode.Attributes?["type"]?.Value ?? "and";
+            filter.IsQuickFind = filterNode.Attributes?["isquickfindfields"]?.Value == "1";
+
+            foreach (XmlNode child in filterNode.ChildNodes)
+            {
+                if (child.Name == "condition")
+                {
+                    var condition = new ViewFilterCondition();
+                    condition.Attribute = child.Attributes?["attribute"]?.Value ?? "";
+                    condition.Operator = child.Attributes?["operator"]?.Value ?? "";
+                    condition.Value = child.Attributes?["value"]?.Value ?? "";
+                    filter.Conditions.Add(condition);
+                }
+                else if (child.Name == "filter")
+                {
+                    filter.SubFilters.Add(ParseFilter(child));
+                }
+            }
+            return filter;
+        }
+
         public List<ViewColumn> GetColumns()
         {
             var columns = new List<ViewColumn>();
@@ -623,6 +721,141 @@ namespace PowerDocu.Common
         public string GetWidth()
         {
             return xmlCell.Attributes?["width"]?.Value ?? "";
+        }
+    }
+
+    public class ViewSortOrder
+    {
+        public string Attribute { get; }
+        public bool Descending { get; }
+
+        public ViewSortOrder(string attribute, bool descending)
+        {
+            Attribute = attribute;
+            Descending = descending;
+        }
+
+        /// <summary>
+        /// Returns a human-readable string like "name (ascending)" or "createdon (descending)".
+        /// </summary>
+        public string ToDisplayString(Dictionary<string, string> columnDisplayNames = null)
+        {
+            string displayName = Attribute;
+            if (columnDisplayNames != null && columnDisplayNames.TryGetValue(Attribute, out string dn) && !string.IsNullOrEmpty(dn))
+            {
+                displayName = dn + " (" + Attribute + ")";
+            }
+            return displayName + (Descending ? " descending" : " ascending");
+        }
+    }
+
+    public class ViewFilter
+    {
+        public string Type { get; set; } = "and";
+        public bool IsQuickFind { get; set; }
+        public List<ViewFilterCondition> Conditions { get; set; } = new List<ViewFilterCondition>();
+        public List<ViewFilter> SubFilters { get; set; } = new List<ViewFilter>();
+
+        /// <summary>
+        /// Returns a human-readable description of the filter tree.
+        /// </summary>
+        public string ToDisplayString(Dictionary<string, string> columnDisplayNames = null)
+        {
+            if (Conditions.Count == 0 && SubFilters.Count == 0)
+                return "";
+
+            var parts = new List<string>();
+            foreach (var condition in Conditions)
+            {
+                parts.Add(condition.ToDisplayString(columnDisplayNames));
+            }
+            foreach (var subFilter in SubFilters)
+            {
+                string subStr = subFilter.ToDisplayString(columnDisplayNames);
+                if (!string.IsNullOrEmpty(subStr))
+                {
+                    string prefix = subFilter.IsQuickFind ? "[Quick Find] " : "";
+                    parts.Add(prefix + "(" + subStr + ")");
+                }
+            }
+
+            string separator = Type.Equals("or", StringComparison.OrdinalIgnoreCase) ? " OR " : " AND ";
+            return string.Join(separator, parts);
+        }
+    }
+
+    public class ViewFilterCondition
+    {
+        public string Attribute { get; set; } = "";
+        public string Operator { get; set; } = "";
+        public string Value { get; set; } = "";
+
+        /// <summary>
+        /// Returns a human-readable string like "statecode = 0" or "name contains {0}".
+        /// </summary>
+        public string ToDisplayString(Dictionary<string, string> columnDisplayNames = null)
+        {
+            string displayAttr = Attribute;
+            if (columnDisplayNames != null && columnDisplayNames.TryGetValue(Attribute, out string dn) && !string.IsNullOrEmpty(dn))
+            {
+                displayAttr = dn + " (" + Attribute + ")";
+            }
+
+            string op = Operator switch
+            {
+                "eq" => "=",
+                "ne" => "≠",
+                "lt" => "<",
+                "le" => "≤",
+                "gt" => ">",
+                "ge" => "≥",
+                "like" => "like",
+                "not-like" => "not like",
+                "null" => "is null",
+                "not-null" => "is not null",
+                "in" => "in",
+                "not-in" => "not in",
+                "eq-userid" => "= [current user]",
+                "ne-userid" => "≠ [current user]",
+                "eq-businessid" => "= [current business unit]",
+                "contains" => "contains",
+                "not-contain" => "does not contain",
+                "begins-with" => "begins with",
+                "not-begin-with" => "does not begin with",
+                "ends-with" => "ends with",
+                "not-end-with" => "does not end with",
+                "on" => "on",
+                "on-or-before" => "on or before",
+                "on-or-after" => "on or after",
+                "today" => "= today",
+                "yesterday" => "= yesterday",
+                "tomorrow" => "= tomorrow",
+                "this-year" => "this year",
+                "last-year" => "last year",
+                "next-year" => "next year",
+                "this-month" => "this month",
+                "last-month" => "last month",
+                "last-x-days" => "last " + Value + " days",
+                "next-x-days" => "next " + Value + " days",
+                _ => Operator
+            };
+
+            // Operators that include the value in their description or don't need a value
+            if (Operator == "null" || Operator == "not-null" || Operator == "eq-userid" ||
+                Operator == "ne-userid" || Operator == "eq-businessid" ||
+                Operator == "today" || Operator == "yesterday" || Operator == "tomorrow" ||
+                Operator == "this-year" || Operator == "last-year" || Operator == "next-year" ||
+                Operator == "this-month" || Operator == "last-month" ||
+                Operator == "last-x-days" || Operator == "next-x-days")
+            {
+                return displayAttr + " " + op;
+            }
+
+            if (!string.IsNullOrEmpty(Value))
+            {
+                return displayAttr + " " + op + " " + Value;
+            }
+            return displayAttr + " " + op;
         }
     }
 }
