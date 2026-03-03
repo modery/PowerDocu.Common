@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -12,6 +13,7 @@ namespace PowerDocu.Common
         private List<EntityRelationship> entityRelationships;
         private List<AIModel> AIModels;
         private List<OptionSetEntity> optionSets;
+        private List<AppModuleEntity> appModules;
 
         public string getAppNameBySchemaName(string schemaName)
         {
@@ -209,6 +211,259 @@ namespace PowerDocu.Common
                 roles.Add(roleEntity);
             }
             return roles;
+        }
+
+        /// <summary>
+        /// Parses all Model-Driven Apps (AppModules) from customizations.xml,
+        /// including their SiteMap navigation definitions.
+        /// </summary>
+        public List<AppModuleEntity> getAppModules()
+        {
+            if (appModules == null)
+            {
+                appModules = new List<AppModuleEntity>();
+
+                // Build a lookup of SiteMaps by unique name
+                Dictionary<string, AppModuleSiteMap> siteMapLookup = new Dictionary<string, AppModuleSiteMap>(StringComparer.OrdinalIgnoreCase);
+                XmlNodeList siteMapNodes = customizationsXml.SelectNodes("/ImportExportXml/AppModuleSiteMaps/AppModuleSiteMap");
+                if (siteMapNodes != null)
+                {
+                    foreach (XmlNode siteMapNode in siteMapNodes)
+                    {
+                        AppModuleSiteMap siteMap = parseAppModuleSiteMap(siteMapNode);
+                        if (!string.IsNullOrEmpty(siteMap.UniqueName))
+                        {
+                            siteMapLookup[siteMap.UniqueName] = siteMap;
+                        }
+                    }
+                }
+
+                // Parse each AppModule
+                XmlNodeList appModuleNodes = customizationsXml.SelectNodes("/ImportExportXml/AppModules/AppModule");
+                if (appModuleNodes != null)
+                {
+                    foreach (XmlNode appModuleNode in appModuleNodes)
+                    {
+                        AppModuleEntity appModule = parseAppModule(appModuleNode);
+
+                        // Link SiteMap by UniqueName
+                        if (siteMapLookup.TryGetValue(appModule.UniqueName, out AppModuleSiteMap matchedSiteMap))
+                        {
+                            appModule.SiteMap = matchedSiteMap;
+                        }
+
+                        appModules.Add(appModule);
+                    }
+                }
+                appModules.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
+            }
+            return appModules;
+        }
+
+        private AppModuleEntity parseAppModule(XmlNode node)
+        {
+            var appModule = new AppModuleEntity
+            {
+                UniqueName = node.SelectSingleNode("UniqueName")?.InnerText ?? string.Empty,
+                IntroducedVersion = node.SelectSingleNode("IntroducedVersion")?.InnerText ?? string.Empty,
+                WebResourceId = node.SelectSingleNode("WebResourceId")?.InnerText ?? string.Empty,
+                OptimizedFor = node.SelectSingleNode("OptimizedFor")?.InnerText ?? string.Empty,
+            };
+
+            int.TryParse(node.SelectSingleNode("statecode")?.InnerText, out int stateCode);
+            appModule.StateCode = stateCode;
+            int.TryParse(node.SelectSingleNode("statuscode")?.InnerText, out int statusCode);
+            appModule.StatusCode = statusCode;
+            int.TryParse(node.SelectSingleNode("FormFactor")?.InnerText, out int formFactor);
+            appModule.FormFactor = formFactor;
+            int.TryParse(node.SelectSingleNode("ClientType")?.InnerText, out int clientType);
+            appModule.ClientType = clientType;
+            int.TryParse(node.SelectSingleNode("NavigationType")?.InnerText, out int navigationType);
+            appModule.NavigationType = navigationType;
+
+            // Localized Names
+            XmlNodeList localizedNames = node.SelectNodes("LocalizedNames/LocalizedName");
+            if (localizedNames != null)
+            {
+                foreach (XmlNode ln in localizedNames)
+                {
+                    string langCode = ln.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                    string desc = ln.Attributes?.GetNamedItem("description")?.InnerText;
+                    if (!string.IsNullOrEmpty(langCode) && !appModule.LocalizedNames.ContainsKey(langCode))
+                        appModule.LocalizedNames[langCode] = desc ?? string.Empty;
+                }
+            }
+
+            // Descriptions
+            XmlNodeList descriptions = node.SelectNodes("Descriptions/Description");
+            if (descriptions != null)
+            {
+                foreach (XmlNode d in descriptions)
+                {
+                    string langCode = d.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                    string desc = d.Attributes?.GetNamedItem("description")?.InnerText;
+                    if (!string.IsNullOrEmpty(langCode) && !appModule.Descriptions.ContainsKey(langCode))
+                        appModule.Descriptions[langCode] = desc ?? string.Empty;
+                }
+            }
+
+            // AppModuleComponents
+            XmlNodeList componentNodes = node.SelectNodes("AppModuleComponents/AppModuleComponent");
+            if (componentNodes != null)
+            {
+                foreach (XmlNode comp in componentNodes)
+                {
+                    appModule.Components.Add(new AppModuleComponent
+                    {
+                        Type = SolutionComponentHelper.GetComponentType(comp.Attributes?.GetNamedItem("type")?.InnerText),
+                        SchemaName = comp.Attributes?.GetNamedItem("schemaName")?.InnerText ?? string.Empty,
+                        ID = comp.Attributes?.GetNamedItem("id")?.InnerText?.Trim('{', '}') ?? string.Empty
+                    });
+                }
+            }
+
+            // AppModuleRoleMaps
+            XmlNodeList roleNodes = node.SelectNodes("AppModuleRoleMaps/Role");
+            if (roleNodes != null)
+            {
+                foreach (XmlNode role in roleNodes)
+                {
+                    string roleId = role.Attributes?.GetNamedItem("id")?.InnerText?.Trim('{', '}');
+                    if (!string.IsNullOrEmpty(roleId))
+                        appModule.SecurityRoleIds.Add(roleId);
+                }
+            }
+
+            // AppElements (embedded canvas pages)
+            XmlNodeList appElementNodes = node.SelectNodes("appelements/appelement");
+            if (appElementNodes != null)
+            {
+                foreach (XmlNode elem in appElementNodes)
+                {
+                    appModule.AppElements.Add(new AppModuleAppElement
+                    {
+                        UniqueName = elem.Attributes?.GetNamedItem("uniquename")?.InnerText ?? string.Empty,
+                        CanvasAppName = elem.SelectSingleNode("canvasappid/name")?.InnerText ?? string.Empty,
+                        DisplayName = elem.SelectSingleNode("name")?.InnerText ?? string.Empty,
+                        IsCustomizable = elem.SelectSingleNode("iscustomizable")?.InnerText == "1"
+                    });
+                }
+            }
+
+            // AppSettings
+            XmlNodeList settingNodes = node.SelectNodes("appsettings/appsetting");
+            if (settingNodes != null)
+            {
+                foreach (XmlNode setting in settingNodes)
+                {
+                    appModule.AppSettings.Add(new AppModuleSetting
+                    {
+                        SettingName = setting.Attributes?.GetNamedItem("settingdefinitionid.uniquename")?.InnerText ?? string.Empty,
+                        Value = setting.SelectSingleNode("value")?.InnerText ?? string.Empty,
+                        IsCustomizable = setting.SelectSingleNode("iscustomizable")?.InnerText == "1"
+                    });
+                }
+            }
+
+            return appModule;
+        }
+
+        private AppModuleSiteMap parseAppModuleSiteMap(XmlNode node)
+        {
+            var siteMap = new AppModuleSiteMap
+            {
+                UniqueName = node.SelectSingleNode("SiteMapUniqueName")?.InnerText ?? string.Empty,
+                EnableCollapsibleGroups = node.SelectSingleNode("EnableCollapsibleGroups")?.InnerText?.Equals("True", StringComparison.OrdinalIgnoreCase) ?? false,
+                ShowHome = node.SelectSingleNode("ShowHome")?.InnerText?.Equals("True", StringComparison.OrdinalIgnoreCase) ?? false,
+                ShowPinned = node.SelectSingleNode("ShowPinned")?.InnerText?.Equals("True", StringComparison.OrdinalIgnoreCase) ?? false,
+                ShowRecents = node.SelectSingleNode("ShowRecents")?.InnerText?.Equals("True", StringComparison.OrdinalIgnoreCase) ?? false,
+            };
+
+            // Localized Names
+            XmlNodeList localizedNames = node.SelectNodes("LocalizedNames/LocalizedName");
+            if (localizedNames != null)
+            {
+                foreach (XmlNode ln in localizedNames)
+                {
+                    string langCode = ln.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                    string desc = ln.Attributes?.GetNamedItem("description")?.InnerText;
+                    if (!string.IsNullOrEmpty(langCode) && !siteMap.LocalizedNames.ContainsKey(langCode))
+                        siteMap.LocalizedNames[langCode] = desc ?? string.Empty;
+                }
+            }
+
+            // Parse Areas
+            XmlNodeList areaNodes = node.SelectNodes("SiteMap/Area");
+            if (areaNodes != null)
+            {
+                foreach (XmlNode areaNode in areaNodes)
+                {
+                    var area = new SiteMapArea
+                    {
+                        Id = areaNode.Attributes?.GetNamedItem("Id")?.InnerText ?? string.Empty,
+                        ShowGroups = areaNode.Attributes?.GetNamedItem("ShowGroups")?.InnerText?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false,
+                        Title = getFirstTitle(areaNode)
+                    };
+
+                    // Parse Groups
+                    XmlNodeList groupNodes = areaNode.SelectNodes("Group");
+                    if (groupNodes != null)
+                    {
+                        foreach (XmlNode groupNode in groupNodes)
+                        {
+                            var group = new SiteMapGroup
+                            {
+                                Id = groupNode.Attributes?.GetNamedItem("Id")?.InnerText ?? string.Empty,
+                                Title = getFirstTitle(groupNode)
+                            };
+
+                            // Parse SubAreas
+                            XmlNodeList subAreaNodes = groupNode.SelectNodes("SubArea");
+                            if (subAreaNodes != null)
+                            {
+                                foreach (XmlNode subAreaNode in subAreaNodes)
+                                {
+                                    var subArea = new SiteMapSubArea
+                                    {
+                                        Id = subAreaNode.Attributes?.GetNamedItem("Id")?.InnerText ?? string.Empty,
+                                        Entity = subAreaNode.Attributes?.GetNamedItem("Entity")?.InnerText ?? string.Empty,
+                                        Page = subAreaNode.Attributes?.GetNamedItem("Page")?.InnerText ?? string.Empty,
+                                        Url = subAreaNode.Attributes?.GetNamedItem("Url")?.InnerText ?? string.Empty,
+                                        Icon = subAreaNode.Attributes?.GetNamedItem("Icon")?.InnerText ?? string.Empty,
+                                        VectorIcon = subAreaNode.Attributes?.GetNamedItem("VectorIcon")?.InnerText ?? string.Empty,
+                                        Title = getFirstTitle(subAreaNode)
+                                    };
+                                    group.SubAreas.Add(subArea);
+                                }
+                            }
+                            area.Groups.Add(group);
+                        }
+                    }
+                    siteMap.Areas.Add(area);
+                }
+            }
+
+            return siteMap;
+        }
+
+        /// <summary>
+        /// Gets the first Title element (LCID 1033 preferred) from a Titles child node.
+        /// </summary>
+        private string getFirstTitle(XmlNode parentNode)
+        {
+            XmlNode titles = parentNode.SelectSingleNode("Titles");
+            if (titles != null)
+            {
+                // Prefer English (1033)
+                XmlNode englishTitle = titles.SelectSingleNode("Title[@LCID='1033']");
+                if (englishTitle != null)
+                    return englishTitle.Attributes?.GetNamedItem("Title")?.InnerText ?? string.Empty;
+                // Fallback to first title
+                XmlNode firstTitle = titles.SelectSingleNode("Title");
+                if (firstTitle != null)
+                    return firstTitle.Attributes?.GetNamedItem("Title")?.InnerText ?? string.Empty;
+            }
+            return string.Empty;
         }
 
         private void parseAccessLevel(RoleEntity roleEntity, string tableName, string privilege, string accessLevel)
