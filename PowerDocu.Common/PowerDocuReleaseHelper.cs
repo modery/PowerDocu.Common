@@ -47,6 +47,17 @@ namespace PowerDocu.Common
             return true;
         }
 
+        public static string GetVersion()
+        {
+            return currentVersion.ToString();
+        }
+
+        public static string GetTimestampWithVersion()
+        {
+            return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToShortTimeString()
+                   + " with PowerDocu version " + PowerDocuReleaseHelper.GetVersion();
+        }
+
         public static async Task<bool> HasNewerPowerDocuRelease()
         {
             if (!hasReleaseBeenChecked) await GetLatestPowerDocuRelease();
