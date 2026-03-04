@@ -88,15 +88,25 @@ namespace PowerDocu.Common
                             botComponent.StateCode = int.TryParse(botComponentNode.SelectSingleNode("statecode")?.InnerText, out var sc) ? sc : 0;
                             botComponent.StatusCode = int.TryParse(botComponentNode.SelectSingleNode("statuscode")?.InnerText, out var stc) ? stc : 0;
                             botComponent.Description = botComponentNode.SelectSingleNode("description")?.InnerText;
+                            // Parse filedata element for file-based knowledge (type 14)
+                            var fileDataNode = botComponentNode.SelectSingleNode("filedata");
+                            if (fileDataNode != null)
+                            {
+                                botComponent.FileDataMimeType = fileDataNode.Attributes?["mimetype"]?.Value;
+                                botComponent.FileDataName = fileDataNode.InnerText;
+                            }
                         }
                         File.Delete(tempFile);
                         // Load the data file in the same path as topicFile and set YamlData
                         string dataFilePath = Path.Combine(Path.GetDirectoryName(tempFile), "data");
                         tempFile = Path.GetDirectoryName(filename) + @"\data";
                         ZipArchiveEntry dataFile = ZipHelper.getFileFromZip(stream, botComponentFile.FullName.Replace("botcomponent.xml", "data"));
-                        dataFile.ExtractToFile(tempFile, true);
-                        botComponent.YamlData = File.ReadAllText(dataFilePath);
-                        File.Delete(tempFile);
+                        if (dataFile != null)
+                        {
+                            dataFile.ExtractToFile(tempFile, true);
+                            botComponent.YamlData = File.ReadAllText(dataFilePath);
+                            File.Delete(tempFile);
+                        }
                         agent.BotComponents.Add(botComponent);
                     }
                 }
