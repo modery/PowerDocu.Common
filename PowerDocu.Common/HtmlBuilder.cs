@@ -95,6 +95,11 @@ namespace PowerDocu.Common
             return $"<p>{innerHtml}</p>";
         }
 
+        protected static string ParagraphWithLinebreaks(string text)
+        {
+            return ParagraphRaw(Encode(text).Replace("\r\n", "<br/>").Replace("\n", "<br/>"));
+        }
+
         protected static string Link(string text, string href)
         {
             return $"<a href=\"{Encode(href)}\">{Encode(text)}</a>";
