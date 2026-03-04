@@ -833,14 +833,17 @@ namespace PowerDocu.Common
         protected Run CreateRunWithLinebreaks(string text)
         {
             Run run = new Run();
-            while (text.Contains("\r\n"))
+            // Normalize line endings to \n first, then split
+            text = text.Replace("\r\n", "\n");
+            string[] lines = text.Split('\n');
+            for (int i = 0; i < lines.Length; i++)
             {
-                string textToAppend = text[..text.IndexOf("\r\n")];
-                run.Append(new Text() { Text = textToAppend, Space = SpaceProcessingModeValues.Preserve });
-                run.Append(new Break());
-                text = text[(text.IndexOf("\r\n") + 2)..];
+                run.Append(new Text() { Text = lines[i], Space = SpaceProcessingModeValues.Preserve });
+                if (i < lines.Length - 1)
+                {
+                    run.Append(new Break());
+                }
             }
-            run.Append(new Text(text));
             return run;
         }
     }
