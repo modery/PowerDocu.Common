@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using YamlDotNet.RepresentationModel;
 
 namespace PowerDocu.Common
@@ -105,17 +106,20 @@ namespace PowerDocu.Common
         public string GetTriggerTypeForTopic()
         {
             var mapping = GetYamlMappingNode();
-            var yaml = new YamlStream();
-            //pasrse the topic YAML data
-            var input = new StringReader(YamlData);
-            yaml.Load(input);
             var triggerYaml = (YamlMappingNode)mapping.Children[new YamlScalarNode("beginDialog")];
             return GetTriggerTypeDisplayName(triggerYaml.Children[new YamlScalarNode("kind")].ToString());
         }
 
+        public string getTopicFileName()
+        {
+            return SchemaName.Contains('.') ? SchemaName.Substring(SchemaName.LastIndexOf('.') + 1) : SchemaName;
+        }
+
         public YamlMappingNode GetYamlMappingNode()
         {
-            var input = new StringReader(YamlData.Replace("@odata", "odata"));
+            // Quote any unquoted YAML keys containing @ to prevent parser errors
+            var sanitized = Regex.Replace(YamlData, @"(?m)^(\s*)([\w._-]*@[\w.@_-]*)(\s*:)", "$1\"$2\"$3");
+            var input = new StringReader(sanitized);
             var yaml = new YamlStream();
             yaml.Load(input);
             return (YamlMappingNode)yaml.Documents[0].RootNode;
