@@ -38,7 +38,32 @@ namespace PowerDocu.Common
 
         public List<BotComponent> GetTools()
         {
-            return GetBotComponents(9, "component");
+            // Include both component.* (connector-based tools) and action.* (flow-based actions) with type 9
+            return BotComponents.Where(bc => bc.ComponentType == 9
+                && (bc.SchemaName.StartsWith($"{SchemaName}.component.") || bc.SchemaName.StartsWith($"{SchemaName}.action."))
+                && bc.GetTopicKind() == "TaskDialog").ToList();
+        }
+
+        public List<BotComponent> GetEntities()
+        {
+            return GetBotComponents(11, "entity");
+        }
+
+        public List<BotComponent> GetVariables()
+        {
+            // Include both component.* and GlobalVariableComponent.* with type 12
+            return BotComponents.Where(bc => bc.ComponentType == 12
+                && (bc.SchemaName.StartsWith($"{SchemaName}.component.") || bc.SchemaName.StartsWith($"{SchemaName}.GlobalVariableComponent."))).ToList();
+        }
+
+        public List<BotComponent> GetTriggers()
+        {
+            return BotComponents.Where(bc => bc.ComponentType == 17).ToList();
+        }
+
+        public List<BotComponent> GetFileKnowledge()
+        {
+            return BotComponents.Where(bc => bc.ComponentType == 14).ToList();
         }
 
         public List<BotComponent> GetGptDefault()
@@ -59,14 +84,18 @@ namespace PowerDocu.Common
         public string GetInstructions()
         {
             var mapping = GetGptDefault().FirstOrDefault()?.GetYamlMappingNode();
-            return ((YamlScalarNode)mapping.Children[new YamlScalarNode("instructions")]).Value ?? string.Empty;
+            if (mapping != null && mapping.Children.TryGetValue(new YamlScalarNode("instructions"), out var node))
+            {
+                return ((YamlScalarNode)node).Value ?? string.Empty;
+            }
+            return string.Empty;
         }
 
         public Dictionary<string, string> GetSuggestedPrompts()
         {
             Dictionary<string, string> conversationStarters = new Dictionary<string, string>();
             var mapping = GetGptDefault().FirstOrDefault()?.GetYamlMappingNode();
-            if (mapping.Children.TryGetValue(new YamlScalarNode("conversationStarters"), out var conversationsStartsNode) && conversationsStartsNode is YamlSequenceNode conversationsStartersSequence)
+            if (mapping != null && mapping.Children.TryGetValue(new YamlScalarNode("conversationStarters"), out var conversationsStartsNode) && conversationsStartsNode is YamlSequenceNode conversationsStartersSequence)
             {
                 foreach (var conversationsStarter in conversationsStartersSequence)
                 {
@@ -272,8 +301,12 @@ namespace PowerDocu.Common
             switch (ComponentType)
             {
                 case 9: return "Topic";
+                case 11: return "Entity";
+                case 12: return "Variable";
+                case 14: return "File Knowledge";
                 case 15: return "GPT";
                 case 16: return "Knowledge";
+                case 17: return "Trigger";
                 default: return $"Type {ComponentType}";
             }
         }
@@ -401,6 +434,184 @@ namespace PowerDocu.Common
         {
             return SchemaName.Contains('.') ? SchemaName.Substring(SchemaName.LastIndexOf('.') + 1) : SchemaName;
         }
+
+        /// <summary>
+        /// Returns the knowledge source site URL (for SharePoint and Public Site sources).
+        /// </summary>
+        public string GetKnowledgeSourceSite()
+        {
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("source"), out var sourceNode)
+                    && sourceNode is YamlMappingNode sourceMapping
+                    && sourceMapping.Children.TryGetValue(new YamlScalarNode("site"), out var siteNode))
+                {
+                    return siteNode.ToString();
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns entity items for ClosedListEntity kinds.
+        /// </summary>
+        public List<(string Id, string DisplayName)> GetEntityItems()
+        {
+            var items = new List<(string Id, string DisplayName)>();
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("items"), out var itemsNode)
+                    && itemsNode is YamlSequenceNode itemsSequence)
+                {
+                    foreach (var item in itemsSequence)
+                    {
+                        if (item is YamlMappingNode itemMapping)
+                        {
+                            string id = itemMapping.Children.TryGetValue(new YamlScalarNode("id"), out var idNode) ? idNode.ToString() : "";
+                            string displayName = itemMapping.Children.TryGetValue(new YamlScalarNode("displayName"), out var dnNode) ? dnNode.ToString() : "";
+                            items.Add((id, displayName));
+                        }
+                    }
+                }
+            }
+            catch { }
+            return items;
+        }
+
+        /// <summary>
+        /// Returns the regex pattern for RegexEntity kinds.
+        /// </summary>
+        public string GetEntityPattern()
+        {
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("pattern"), out var patternNode))
+                {
+                    return patternNode.ToString();
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns variable details from the YAML data (scope, AI visibility, data type, etc.).
+        /// </summary>
+        public (string Scope, string AIVisibility, string DataType, bool IsExternalInitAllowed) GetVariableDetails()
+        {
+            string scope = "", aiVisibility = "", dataType = "";
+            bool isExternalInit = false;
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("scope"), out var scopeNode))
+                    scope = scopeNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("aIVisibility"), out var aiNode))
+                    aiVisibility = aiNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("displayNameForDataType"), out var dtNode))
+                    dataType = dtNode.ToString();
+                else if (mapping.Children.TryGetValue(new YamlScalarNode("dataType"), out var dataTypeNode))
+                {
+                    if (dataTypeNode is YamlMappingNode dtMapping && dtMapping.Children.TryGetValue(new YamlScalarNode("$kind"), out var kindNode))
+                        dataType = kindNode.ToString();
+                    else
+                        dataType = dataTypeNode.ToString();
+                }
+                if (mapping.Children.TryGetValue(new YamlScalarNode("isExternalInitializationAllowed"), out var extInitNode))
+                    bool.TryParse(extInitNode.ToString(), out isExternalInit);
+            }
+            catch { }
+            return (scope, aiVisibility, dataType, isExternalInit);
+        }
+
+        /// <summary>
+        /// Returns tool/action details from TaskDialog YAML data.
+        /// </summary>
+        public (string ActionKind, string ConnectionReference, string OperationId, string FlowId, string ModelDisplayName, List<string> Inputs, List<string> Outputs) GetToolDetails()
+        {
+            string actionKind = "", connectionRef = "", operationId = "", flowId = "", modelDisplayName = "";
+            var inputs = new List<string>();
+            var outputs = new List<string>();
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("modelDisplayName"), out var mdnNode))
+                    modelDisplayName = mdnNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("action"), out var actionNode) && actionNode is YamlMappingNode actionMapping)
+                {
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
+                        actionKind = kindNode.ToString();
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("connectionReference"), out var crNode))
+                        connectionRef = crNode.ToString();
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("operationId"), out var opNode))
+                        operationId = opNode.ToString();
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("flowId"), out var fiNode))
+                        flowId = fiNode.ToString();
+                }
+                if (mapping.Children.TryGetValue(new YamlScalarNode("inputs"), out var inputsNode) && inputsNode is YamlSequenceNode inputsSequence)
+                {
+                    foreach (var input in inputsSequence)
+                    {
+                        if (input is YamlMappingNode inputMapping)
+                        {
+                            string propName = inputMapping.Children.TryGetValue(new YamlScalarNode("propertyName"), out var pnNode) ? pnNode.ToString() : "";
+                            string entity = inputMapping.Children.TryGetValue(new YamlScalarNode("entity"), out var eNode) ? $" ({eNode})" : "";
+                            inputs.Add(propName + entity);
+                        }
+                    }
+                }
+                if (mapping.Children.TryGetValue(new YamlScalarNode("outputs"), out var outputsNode) && outputsNode is YamlSequenceNode outputsSequence)
+                {
+                    foreach (var output in outputsSequence)
+                    {
+                        if (output is YamlMappingNode outputMapping)
+                        {
+                            string propName = outputMapping.Children.TryGetValue(new YamlScalarNode("propertyName"), out var pnNode) ? pnNode.ToString() : "";
+                            outputs.Add(propName);
+                        }
+                    }
+                }
+            }
+            catch { }
+            return (actionKind, connectionRef, operationId, flowId, modelDisplayName, inputs, outputs);
+        }
+
+        /// <summary>
+        /// Returns trigger details from ExternalTriggerConfiguration YAML data.
+        /// </summary>
+        public (string TriggerKind, string FlowId, string TriggerConnectionType) GetTriggerDetails()
+        {
+            string triggerKind = "", flowId = "", connectionType = "";
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("externalTriggerSource"), out var sourceNode) && sourceNode is YamlMappingNode sourceMapping)
+                {
+                    if (sourceMapping.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
+                        triggerKind = kindNode.ToString();
+                    if (sourceMapping.Children.TryGetValue(new YamlScalarNode("flowId"), out var fiNode))
+                        flowId = fiNode.ToString();
+                }
+                if (mapping.Children.TryGetValue(new YamlScalarNode("extensionData"), out var extNode) && extNode is YamlMappingNode extMapping)
+                {
+                    if (extMapping.Children.TryGetValue(new YamlScalarNode("triggerConnectionType"), out var connNode))
+                        connectionType = connNode.ToString();
+                }
+            }
+            catch { }
+            return (triggerKind, flowId, connectionType);
+        }
+
+        /// <summary>
+        /// Returns the file data info for file-based knowledge components (type 14).
+        /// The actual file reference is in botcomponent.xml filedata element.
+        /// </summary>
+        public string FileDataMimeType { get; set; }
+        public string FileDataName { get; set; }
 
         public YamlMappingNode GetYamlMappingNode()
         {
