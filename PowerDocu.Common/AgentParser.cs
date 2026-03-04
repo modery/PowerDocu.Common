@@ -109,7 +109,7 @@ namespace PowerDocu.Common
                     NotificationHelper.SendNotification("  - Processing customizations.xml ");
                     using (FileStream customizations = new FileStream(tempFile, FileMode.Open))
                     {
-                        // todo start processing customizations.xml
+                        //todo start processing customizations.xml
                         CustomizationsEntity customizationsEntity = CustomizationsParser.parseCustomizationsDefinition(customizations);
                         AIModels = customizationsEntity.getAIModels().ToList();
                     }

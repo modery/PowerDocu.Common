@@ -14,6 +14,17 @@ namespace PowerDocu.Common
                 "SetVariable" => SetVariableIcon,
                 "ConditionGroup" => ConditionIcon,
                 "LogCustomTelemetry" => LogCustomTelemetryIcon,
+                "AdaptiveCard" => MessageIcon,
+                "AIModel" => MessageIcon,
+                "Question" => MessageIcon,
+                "InvokeFlow" => FlowIcon,
+                "InvokeConnector" => ConnectorIcon,
+                "EndConversation" => CancelAllDialogsIcon,
+                "EndDialog" => CancelAllDialogsIcon,
+                "OAuthInput" => SignInIcon,
+                "SearchAndSummarize" => SearchIcon,
+                "RedirectToTopic" => TriggerIcon,
+                "KnowledgeSource" => SearchIcon,
                 _ => UnknownControlIcon,
             };
         }
@@ -101,6 +112,46 @@ namespace PowerDocu.Common
             {
                 return IconHeader +
                         @"<path d=""M6 3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6ZM4 6c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2H4Zm0 1h12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"" fill=""#242424""></path>" +
+                        IconFooter;
+            }
+        }
+
+        public static string FlowIcon
+        {
+            get
+            {
+                return IconHeader +
+                        @"<path d=""M5 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm2.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm5 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm-5-2a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1Zm5 3a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1ZM9 8.5h2l-1 2H9l1-2Z"" fill=""#0078d4""></path>" +
+                        IconFooter;
+            }
+        }
+
+        public static string ConnectorIcon
+        {
+            get
+            {
+                return IconHeader +
+                        @"<path d=""M8.5 2a1.5 1.5 0 0 0-1.42 1H5.5A1.5 1.5 0 0 0 4 4.5v4A1.5 1.5 0 0 0 5.5 10h1.58a1.5 1.5 0 0 0 2.84 0h1.58a1.5 1.5 0 0 0 1.5-1.5v-4A1.5 1.5 0 0 0 11.5 3H9.92A1.5 1.5 0 0 0 8.5 2ZM5 8.5v-4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H5.5a.5.5 0 0 1-.5-.5Zm3.5.5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1Zm0-6a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1ZM4 12.5A1.5 1.5 0 0 1 5.5 11h6a1.5 1.5 0 0 1 1.5 1.5v2a1.5 1.5 0 0 1-1.5 1.5h-6A1.5 1.5 0 0 1 4 14.5v-2Zm1.5-.5a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-6Z"" fill=""#0078d4""></path>" +
+                        IconFooter;
+            }
+        }
+
+        public static string SignInIcon
+        {
+            get
+            {
+                return IconHeader +
+                        @"<path d=""M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm-7 8a7 7 0 1 1 14 0 7 7 0 0 1-14 0Zm7-3a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM8 8.5a2.5 2.5 0 1 1 4 2 3.5 3.5 0 0 1 2.5 3.36.5.5 0 0 1-1 .03A2.5 2.5 0 0 0 11 11.5H9a2.5 2.5 0 0 0-2.5 2.39.5.5 0 0 1-1-.03A3.5 3.5 0 0 1 8 10.5a2.5 2.5 0 0 1 0-2Z"" fill=""#0078d4""></path>" +
+                        IconFooter;
+            }
+        }
+
+        public static string SearchIcon
+        {
+            get
+            {
+                return IconHeader +
+                        @"<path d=""M8.5 3a5.5 5.5 0 0 1 4.38 8.82l3.65 3.65a.75.75 0 0 1-.98 1.13l-.08-.07-3.65-3.66A5.5 5.5 0 1 1 8.5 3Zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"" fill=""#0078d4""></path>" +
                         IconFooter;
             }
         }
