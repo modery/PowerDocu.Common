@@ -14,9 +14,9 @@ namespace PowerDocu.Common
                 "SetVariable" => SetVariableIcon,
                 "ConditionGroup" => ConditionIcon,
                 "LogCustomTelemetry" => LogCustomTelemetryIcon,
-                "AdaptiveCard" => MessageIcon,
-                "AIModel" => MessageIcon,
-                "Question" => MessageIcon,
+                "AdaptiveCard" => AdaptiveCardIcon,
+                "AIModel" => AIModelIcon,
+                "Question" => QuestionIcon,
                 "InvokeFlow" => FlowIcon,
                 "InvokeConnector" => ConnectorIcon,
                 "EndConversation" => CancelAllDialogsIcon,
@@ -152,6 +152,38 @@ namespace PowerDocu.Common
             {
                 return IconHeader +
                         @"<path d=""M8.5 3a5.5 5.5 0 0 1 4.38 8.82l3.65 3.65a.75.75 0 0 1-.98 1.13l-.08-.07-3.65-3.66A5.5 5.5 0 1 1 8.5 3Zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"" fill=""#0078d4""></path>" +
+                        IconFooter;
+            }
+        }
+
+        public static string AIModelIcon
+        {
+            get
+            {
+                return IconHeader +
+                        @"<path d=""M9.5 2L11.2 7.2L16 8.5L11.2 9.8L9.5 15L7.8 9.8L3 8.5L7.8 7.2Z"" fill=""#672367""></path>
+                        <path d=""M15 1.5L15.8 3.5L17.5 4L15.8 4.5L15 6.5L14.2 4.5L12.5 4L14.2 3.5Z"" fill=""#672367""></path>" +
+                        IconFooter;
+            }
+        }
+
+        public static string AdaptiveCardIcon
+        {
+            get
+            {
+                return IconHeader +
+                        @"<path d=""M3 4.5C3 3.67 3.67 3 4.5 3h11c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-11C3.67 17 3 16.33 3 15.5v-11ZM4.5 4a.5.5 0 0 0-.5.5v11c0 .28.22.5.5.5h11a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-11ZM6 7h8v1H6V7Zm0 3h8v1H6v-1Zm0 3h5v1H6v-1Z"" fill=""#672367""></path>" +
+                        IconFooter;
+            }
+        }
+
+        public static string QuestionIcon
+        {
+            get
+            {
+                return IconHeader +
+                        @"<path d=""M10 2a8 8 0 1 1-3.61 15.14l-.12-.07-3.65.92a.5.5 0 0 1-.62-.45v-.08l.01-.08.92-3.64-.07-.12a7.95 7.95 0 0 1-.83-2.9l-.02-.37L2 10a8 8 0 0 1 8-8Zm0 1a7 7 0 0 0-6.1 10.42.5.5 0 0 1 .06.28l-.02.1-.75 3.01 3.02-.75a.5.5 0 0 1 .19-.01l.09.02.09.04A7 7 0 1 0 10 3Z"" fill=""#672367""></path>
+                        <text x=""7.5"" y=""13.5"" font-size=""10"" font-weight=""bold"" fill=""#672367"">?</text>" +
                         IconFooter;
             }
         }
