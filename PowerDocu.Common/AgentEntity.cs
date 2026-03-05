@@ -22,6 +22,9 @@ namespace PowerDocu.Common
         public int TimeZoneRuleVersionNumber { get; set; }
         public AgentConfiguration Configuration { get; set; }
         public List<BotComponent> BotComponents { get; set; } = new List<BotComponent>();
+        public List<DvTableSearch> DvTableSearches { get; set; } = new List<DvTableSearch>();
+        public List<DvTableSearchEntity> DvTableSearchEntities { get; set; } = new List<DvTableSearchEntity>();
+        public List<CopilotSynonym> CopilotSynonyms { get; set; } = new List<CopilotSynonym>();
 
         public AgentEntity() { }
         public List<BotComponent> GetTopics()
@@ -31,9 +34,8 @@ namespace PowerDocu.Common
 
         public List<BotComponent> GetKnowledge()
         {
-            //websites are stored as knowledge folders
-            //Dataverse tables are stored differently.  dvtablesearchentities ?
-            return GetBotComponents(16, "knowledge");
+            // Knowledge sources can use both "knowledge." and "topic." prefixes with type 16
+            return BotComponents.Where(bc => bc.ComponentType == 16).ToList();
         }
 
         public List<BotComponent> GetTools()
@@ -183,6 +185,39 @@ namespace PowerDocu.Common
             return kind.Replace("Recognizer", " Recognizer").Replace("AI ", "AI ");
         }
 
+        /// <summary>
+        /// Returns the Dataverse table entities linked to a knowledge source via skillConfiguration → dvtablesearch → dvtablesearchentity.
+        /// </summary>
+        public List<DvTableSearchEntity> GetDataverseTablesForKnowledge(BotComponent knowledge)
+        {
+            var (_, skillConfig) = knowledge.GetKnowledgeSourceDetails();
+            if (string.IsNullOrEmpty(skillConfig)) return new List<DvTableSearchEntity>();
+            var dvSearch = DvTableSearches.FirstOrDefault(d => d.Name == skillConfig);
+            if (dvSearch == null) return new List<DvTableSearchEntity>();
+            return DvTableSearchEntities.Where(e => e.DvTableSearchId == dvSearch.Id).ToList();
+        }
+
+        /// <summary>
+        /// Returns the copilot synonyms linked to a dvtablesearchentity.
+        /// </summary>
+        public List<CopilotSynonym> GetSynonymsForEntity(DvTableSearchEntity entity)
+        {
+            return CopilotSynonyms.Where(s => s.DvTableSearchEntityId == entity.Id).ToList();
+        }
+
+        /// <summary>
+        /// Returns a human-readable details summary for a knowledge source (URL for web, table names for Dataverse).
+        /// </summary>
+        public string GetKnowledgeDetailsSummary(BotComponent knowledge)
+        {
+            string site = knowledge.GetKnowledgeSourceSite();
+            if (!string.IsNullOrEmpty(site)) return site;
+            var tables = GetDataverseTablesForKnowledge(knowledge);
+            if (tables.Count > 0)
+                return string.Join(", ", tables.Select(t => t.Name));
+            return "";
+        }
+
     }
 
     public class BotComponent
@@ -196,6 +231,7 @@ namespace PowerDocu.Common
         public int StatusCode { get; set; }
         public string YamlData { get; set; }
         public string Description { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// Returns the top-level "kind" from the YAML data (e.g. AdaptiveDialog, KnowledgeSourceConfiguration).
@@ -455,6 +491,30 @@ namespace PowerDocu.Common
         }
 
         /// <summary>
+        /// Returns a human-readable display name for the knowledge source kind.
+        /// </summary>
+        public string GetSourceKindDisplayName()
+        {
+            var (sourceKind, _) = GetKnowledgeSourceDetails();
+            return sourceKind switch
+            {
+                "DataverseStructuredSearchSource" => "Dataverse",
+                "SharePointSearchSource" => "SharePoint",
+                "PublicSiteSearchSource" => "Public Website",
+                _ => sourceKind ?? "Unknown"
+            };
+        }
+
+        /// <summary>
+        /// Returns whether this is an official/authoritative source.
+        /// </summary>
+        public string GetOfficialSourceDisplayName()
+        {
+            if (string.IsNullOrEmpty(Category)) return "";
+            return Category.Equals("Authoritative", StringComparison.OrdinalIgnoreCase) ? "Yes" : "No";
+        }
+
+        /// <summary>
         /// Returns entity items for ClosedListEntity kinds.
         /// </summary>
         public List<(string Id, string DisplayName)> GetEntityItems()
@@ -684,6 +744,35 @@ namespace PowerDocu.Common
         {
             public string kind { get; set; }
         }
+    }
+
+    public class DvTableSearch
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int SearchType { get; set; }
+        public int StateCode { get; set; }
+        public int StatusCode { get; set; }
+    }
+
+    public class DvTableSearchEntity
+    {
+        public string Id { get; set; }
+        public string DvTableSearchId { get; set; }
+        public string EntityLogicalName { get; set; }
+        public string Name { get; set; }
+        public int StateCode { get; set; }
+        public int StatusCode { get; set; }
+    }
+
+    public class CopilotSynonym
+    {
+        public string Id { get; set; }
+        public string ColumnLogicalName { get; set; }
+        public string Description { get; set; }
+        public string DvTableSearchEntityId { get; set; }
+        public int StateCode { get; set; }
+        public int StatusCode { get; set; }
     }
 
 }

@@ -88,6 +88,7 @@ namespace PowerDocu.Common
                             botComponent.StateCode = int.TryParse(botComponentNode.SelectSingleNode("statecode")?.InnerText, out var sc) ? sc : 0;
                             botComponent.StatusCode = int.TryParse(botComponentNode.SelectSingleNode("statuscode")?.InnerText, out var stc) ? stc : 0;
                             botComponent.Description = botComponentNode.SelectSingleNode("description")?.InnerText;
+                            botComponent.Category = botComponentNode.SelectSingleNode("category")?.InnerText;
                             // Parse filedata element for file-based knowledge (type 14)
                             var fileDataNode = botComponentNode.SelectSingleNode("filedata");
                             if (fileDataNode != null)
@@ -109,6 +110,85 @@ namespace PowerDocu.Common
                         }
                         agent.BotComponents.Add(botComponent);
                     }
+                }
+                // Parse dvtablesearchs
+                List<ZipArchiveEntry> dvTableSearchFiles = ZipHelper.getFilesInPathFromZip(stream, "dvtablesearchs/", ".xml");
+                var dvTableSearches = new List<DvTableSearch>();
+                foreach (ZipArchiveEntry dvtsFile in dvTableSearchFiles)
+                {
+                    tempFile = Path.GetDirectoryName(filename) + @"\" + dvtsFile.Name;
+                    dvtsFile.ExtractToFile(tempFile, true);
+                    var dvtsDoc = new XmlDocument();
+                    dvtsDoc.Load(tempFile);
+                    var dvtsNode = dvtsDoc.SelectSingleNode("/dvtablesearch");
+                    if (dvtsNode != null)
+                    {
+                        dvTableSearches.Add(new DvTableSearch
+                        {
+                            Id = dvtsNode.Attributes["dvtablesearchid"]?.Value,
+                            Name = dvtsNode.SelectSingleNode("name")?.InnerText,
+                            SearchType = int.TryParse(dvtsNode.SelectSingleNode("searchtype")?.InnerText, out var searchType) ? searchType : 0,
+                            StateCode = int.TryParse(dvtsNode.SelectSingleNode("statecode")?.InnerText, out var dvtsSc) ? dvtsSc : 0,
+                            StatusCode = int.TryParse(dvtsNode.SelectSingleNode("statuscode")?.InnerText, out var dvtsStc) ? dvtsStc : 0
+                        });
+                    }
+                    File.Delete(tempFile);
+                }
+                // Parse dvtablesearchentities
+                List<ZipArchiveEntry> dvTableSearchEntityFiles = ZipHelper.getFilesInPathFromZip(stream, "dvtablesearchentities/", ".xml");
+                var dvTableSearchEntities = new List<DvTableSearchEntity>();
+                foreach (ZipArchiveEntry dvtseFile in dvTableSearchEntityFiles)
+                {
+                    tempFile = Path.GetDirectoryName(filename) + @"\" + dvtseFile.Name;
+                    dvtseFile.ExtractToFile(tempFile, true);
+                    var dvtseDoc = new XmlDocument();
+                    dvtseDoc.Load(tempFile);
+                    var dvtseNode = dvtseDoc.SelectSingleNode("/dvtablesearchentity");
+                    if (dvtseNode != null)
+                    {
+                        dvTableSearchEntities.Add(new DvTableSearchEntity
+                        {
+                            Id = dvtseNode.Attributes["dvtablesearchentityid"]?.Value,
+                            DvTableSearchId = dvtseNode.SelectSingleNode("dvtablesearch/dvtablesearchid")?.InnerText,
+                            EntityLogicalName = dvtseNode.SelectSingleNode("entitylogicalname")?.InnerText,
+                            Name = dvtseNode.SelectSingleNode("name")?.InnerText,
+                            StateCode = int.TryParse(dvtseNode.SelectSingleNode("statecode")?.InnerText, out var dvtseSc) ? dvtseSc : 0,
+                            StatusCode = int.TryParse(dvtseNode.SelectSingleNode("statuscode")?.InnerText, out var dvtseStc) ? dvtseStc : 0
+                        });
+                    }
+                    File.Delete(tempFile);
+                }
+                // Parse copilotsynonyms
+                List<ZipArchiveEntry> synonymFiles = ZipHelper.getFilesInPathFromZip(stream, "copilotsynonyms/", ".xml");
+                var copilotSynonyms = new List<CopilotSynonym>();
+                foreach (ZipArchiveEntry synFile in synonymFiles)
+                {
+                    tempFile = Path.GetDirectoryName(filename) + @"\" + synFile.Name;
+                    synFile.ExtractToFile(tempFile, true);
+                    var synDoc = new XmlDocument();
+                    synDoc.Load(tempFile);
+                    var synNode = synDoc.SelectSingleNode("/copilotsynonyms");
+                    if (synNode != null)
+                    {
+                        copilotSynonyms.Add(new CopilotSynonym
+                        {
+                            Id = synNode.Attributes["copilotsynonymsid"]?.Value,
+                            ColumnLogicalName = synNode.SelectSingleNode("columnlogicalname")?.InnerText,
+                            Description = synNode.SelectSingleNode("description/label")?.Attributes?["description"]?.Value
+                                         ?? synNode.SelectSingleNode("description")?.Attributes?["default"]?.Value,
+                            DvTableSearchEntityId = synNode.SelectSingleNode("skillentity/dvtablesearchentityid")?.InnerText,
+                            StateCode = int.TryParse(synNode.SelectSingleNode("statecode")?.InnerText, out var synSc) ? synSc : 0,
+                            StatusCode = int.TryParse(synNode.SelectSingleNode("statuscode")?.InnerText, out var synStc) ? synStc : 0
+                        });
+                    }
+                    File.Delete(tempFile);
+                }
+                // Assign parsed Dataverse knowledge data to all agents
+                foreach (AgentEntity agent in Agents)
+                {
+                    agent.DvTableSearches = dvTableSearches;
+                    agent.DvTableSearchEntities = dvTableSearchEntities;
+                    agent.CopilotSynonyms = copilotSynonyms;
                 }
                 //process customizations.xml to retrieve the AI Models
                 ZipArchiveEntry customizationsDefinition = ZipHelper.getCustomizationsDefinitionFileFromZip(stream);
