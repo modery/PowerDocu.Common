@@ -93,6 +93,16 @@ namespace PowerDocu.Common
             cardJson.TryGetValue("definitions", out JToken definition);
             return (JObject)definition;
         }
+
+        /// <summary>
+        /// Returns the full parsed custom configuration JSON object for the active AI configuration.
+        /// </summary>
+        public JObject getCustomConfiguration()
+        {
+            string promptString = xmlEntity.SelectSingleNode("AIConfigurations/AIConfiguration[msdyn_type='190690001']/msdyn_customconfiguration")?.InnerText;
+            if (string.IsNullOrEmpty(promptString)) return null;
+            return JObject.Parse(promptString);
+        }
     }
 
     public class AIConfiguration

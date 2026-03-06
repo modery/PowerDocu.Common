@@ -190,6 +190,150 @@ namespace PowerDocu.Common
                     agent.DvTableSearchEntities = dvTableSearchEntities;
                     agent.CopilotSynonyms = copilotSynonyms;
                 }
+
+                // Parse aiplugins
+                List<ZipArchiveEntry> aiPluginFiles = ZipHelper.getFilesInPathFromZip(stream, "aiplugins/", ".xml");
+                var aiPlugins = new List<AIPluginEntity>();
+                foreach (ZipArchiveEntry pluginFile in aiPluginFiles)
+                {
+                    tempFile = Path.GetDirectoryName(filename) + @"\" + pluginFile.Name;
+                    pluginFile.ExtractToFile(tempFile, true);
+                    var pluginDoc = new XmlDocument();
+                    pluginDoc.Load(tempFile);
+                    var pluginNode = pluginDoc.SelectSingleNode("/aiplugin");
+                    if (pluginNode != null)
+                    {
+                        aiPlugins.Add(new AIPluginEntity
+                        {
+                            Name = pluginNode.Attributes["name"]?.Value,
+                            HumanName = pluginNode.SelectSingleNode("humanname")?.InnerText,
+                            ModelName = pluginNode.SelectSingleNode("modelname")?.InnerText,
+                            PluginSubType = int.TryParse(pluginNode.SelectSingleNode("pluginsubtype")?.InnerText, out var pst) ? pst : 0,
+                            PluginType = int.TryParse(pluginNode.SelectSingleNode("plugintype")?.InnerText, out var pt) ? pt : 0,
+                            StateCode = int.TryParse(pluginNode.SelectSingleNode("statecode")?.InnerText, out var plugSc) ? plugSc : 0,
+                            StatusCode = int.TryParse(pluginNode.SelectSingleNode("statuscode")?.InnerText, out var plugStc) ? plugStc : 0
+                        });
+                    }
+                    File.Delete(tempFile);
+                }
+
+                // Parse aipluginoperations
+                List<ZipArchiveEntry> aiPluginOpFiles = ZipHelper.getFilesInPathFromZip(stream, "aipluginoperations/", ".xml");
+                var aiPluginOperations = new List<AIPluginOperationEntity>();
+                foreach (ZipArchiveEntry opFile in aiPluginOpFiles)
+                {
+                    tempFile = Path.GetDirectoryName(filename) + @"\" + opFile.Name;
+                    opFile.ExtractToFile(tempFile, true);
+                    var opDoc = new XmlDocument();
+                    opDoc.Load(tempFile);
+                    var opNode = opDoc.SelectSingleNode("/aipluginoperation");
+                    if (opNode != null)
+                    {
+                        aiPluginOperations.Add(new AIPluginOperationEntity
+                        {
+                            AIPluginName = opNode.Attributes["aiplugin.name"]?.Value,
+                            OperationId = opNode.Attributes["operationid"]?.Value,
+                            Name = opNode.SelectSingleNode("name")?.InnerText,
+                            AIModelId = opNode.SelectSingleNode("msdyn_aimodel/msdyn_aimodelid")?.InnerText,
+                            CustomApiUniqueName = opNode.SelectSingleNode("customapi/uniquename")?.InnerText,
+                            IsConsequential = int.TryParse(opNode.SelectSingleNode("isconsequential")?.InnerText, out var ic2) ? ic2 : 0,
+                            StateCode = int.TryParse(opNode.SelectSingleNode("statecode")?.InnerText, out var opSc) ? opSc : 0,
+                            StatusCode = int.TryParse(opNode.SelectSingleNode("statuscode")?.InnerText, out var opStc) ? opStc : 0
+                        });
+                    }
+                    File.Delete(tempFile);
+                }
+
+                // Parse customapis
+                List<ZipArchiveEntry> customApiFiles = ZipHelper.getFilesInPathFromZip(stream, "customapis/", "customapi.xml");
+                var customApis = new List<CustomApiEntity>();
+                foreach (ZipArchiveEntry caFile in customApiFiles)
+                {
+                    tempFile = Path.GetDirectoryName(filename) + @"\" + caFile.Name;
+                    caFile.ExtractToFile(tempFile, true);
+                    var caDoc = new XmlDocument();
+                    caDoc.Load(tempFile);
+                    var caNode = caDoc.SelectSingleNode("/customapi");
+                    if (caNode != null)
+                    {
+                        var customApi = new CustomApiEntity
+                        {
+                            UniqueName = caNode.Attributes["uniquename"]?.Value,
+                            Name = caNode.SelectSingleNode("name")?.InnerText,
+                            DisplayName = caNode.SelectSingleNode("displayname/label")?.Attributes?["description"]?.Value
+                                          ?? caNode.SelectSingleNode("displayname")?.Attributes?["default"]?.Value,
+                            Description = caNode.SelectSingleNode("description/label")?.Attributes?["description"]?.Value
+                                          ?? caNode.SelectSingleNode("description")?.Attributes?["default"]?.Value
+                        };
+
+                        // Parse request parameters in the same directory
+                        string caDir = caFile.FullName.Replace("customapi.xml", "");
+                        List<ZipArchiveEntry> reqParamFiles = ZipHelper.getFilesInPathFromZip(stream, caDir + "customapirequestparameters/", ".xml");
+                        foreach (ZipArchiveEntry rpFile in reqParamFiles)
+                        {
+                            tempFile = Path.GetDirectoryName(filename) + @"\" + rpFile.Name;
+                            rpFile.ExtractToFile(tempFile, true);
+                            var rpDoc = new XmlDocument();
+                            rpDoc.Load(tempFile);
+                            var rpNode = rpDoc.SelectSingleNode("/customapirequestparameter");
+                            if (rpNode != null)
+                            {
+                                customApi.RequestParameters.Add(new CustomApiRequestParameterEntity
+                                {
+                                    UniqueName = rpNode.Attributes["uniquename"]?.Value,
+                                    Name = rpNode.SelectSingleNode("name")?.InnerText,
+                                    DisplayName = rpNode.SelectSingleNode("displayname/label")?.Attributes?["description"]?.Value
+                                                  ?? rpNode.SelectSingleNode("displayname")?.Attributes?["default"]?.Value,
+                                    Description = rpNode.SelectSingleNode("description/label")?.Attributes?["description"]?.Value
+                                                  ?? rpNode.SelectSingleNode("description")?.Attributes?["default"]?.Value,
+                                    Type = int.TryParse(rpNode.SelectSingleNode("type")?.InnerText, out var rpType) ? rpType : 0,
+                                    IsOptional = rpNode.SelectSingleNode("isoptional")?.InnerText == "1"
+                                });
+                            }
+                            File.Delete(tempFile);
+                        }
+
+                        // Parse response properties in the same directory
+                        List<ZipArchiveEntry> resPropFiles = ZipHelper.getFilesInPathFromZip(stream, caDir + "customapiresponseproperties/", ".xml");
+                        foreach (ZipArchiveEntry rpFile in resPropFiles)
+                        {
+                            tempFile = Path.GetDirectoryName(filename) + @"\" + rpFile.Name;
+                            rpFile.ExtractToFile(tempFile, true);
+                            var rpDoc = new XmlDocument();
+                            rpDoc.Load(tempFile);
+                            var rpNode = rpDoc.SelectSingleNode("/customapiresponseproperty");
+                            if (rpNode != null)
+                            {
+                                customApi.ResponseProperties.Add(new CustomApiResponsePropertyEntity
+                                {
+                                    UniqueName = rpNode.Attributes["uniquename"]?.Value,
+                                    Name = rpNode.SelectSingleNode("name")?.InnerText,
+                                    DisplayName = rpNode.SelectSingleNode("displayname/label")?.Attributes?["description"]?.Value
+                                                  ?? rpNode.SelectSingleNode("displayname")?.Attributes?["default"]?.Value,
+                                    Description = rpNode.SelectSingleNode("description/label")?.Attributes?["description"]?.Value
+                                                  ?? rpNode.SelectSingleNode("description")?.Attributes?["default"]?.Value,
+                                    Type = int.TryParse(rpNode.SelectSingleNode("type")?.InnerText, out var rpType) ? rpType : 0
+                                });
+                            }
+                            File.Delete(tempFile);
+                        }
+
+                        customApis.Add(customApi);
+                    }
+                    else
+                    {
+                        File.Delete(tempFile);
+                    }
+                }
+
+                // Assign parsed AI plugin/API data to all agents
+                foreach (AgentEntity agent in Agents)
+                {
+                    agent.AIPlugins = aiPlugins;
+                    agent.AIPluginOperations = aiPluginOperations;
+                    agent.CustomApis = customApis;
+                }
+
                 //process customizations.xml to retrieve the AI Models
                 ZipArchiveEntry customizationsDefinition = ZipHelper.getCustomizationsDefinitionFileFromZip(stream);
                 if (customizationsDefinition != null)
@@ -204,6 +348,11 @@ namespace PowerDocu.Common
                         AIModels = customizationsEntity.getAIModels().ToList();
                     }
                     File.Delete(tempFile);
+                }
+                // Assign AI Models to all agents
+                foreach (AgentEntity agent in Agents)
+                {
+                    agent.AIModels = AIModels;
                 }
             }
             else

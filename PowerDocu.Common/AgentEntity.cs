@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 using YamlDotNet.RepresentationModel;
 
 namespace PowerDocu.Common
@@ -25,6 +26,10 @@ namespace PowerDocu.Common
         public List<DvTableSearch> DvTableSearches { get; set; } = new List<DvTableSearch>();
         public List<DvTableSearchEntity> DvTableSearchEntities { get; set; } = new List<DvTableSearchEntity>();
         public List<CopilotSynonym> CopilotSynonyms { get; set; } = new List<CopilotSynonym>();
+        public List<AIPluginEntity> AIPlugins { get; set; } = new List<AIPluginEntity>();
+        public List<AIPluginOperationEntity> AIPluginOperations { get; set; } = new List<AIPluginOperationEntity>();
+        public List<CustomApiEntity> CustomApis { get; set; } = new List<CustomApiEntity>();
+        public List<AIModel> AIModels { get; set; } = new List<AIModel>();
 
         public AgentEntity() { }
         public List<BotComponent> GetTopics()
@@ -44,6 +49,190 @@ namespace PowerDocu.Common
             return BotComponents.Where(bc => bc.ComponentType == 9
                 && (bc.SchemaName.StartsWith($"{SchemaName}.component.") || bc.SchemaName.StartsWith($"{SchemaName}.action."))
                 && bc.GetTopicKind() == "TaskDialog").ToList();
+        }
+
+        /// <summary>
+        /// Returns a unified list of all agent tools, including flow/connector TaskDialog tools
+        /// (from BotComponents) and prompt tools (from AIPlugins/AIModels).
+        /// </summary>
+        public List<AgentToolInfo> GetAllToolInfos()
+        {
+            var result = new List<AgentToolInfo>();
+
+            // 1) Flow and connector tools from BotComponents (TaskDialog)
+            foreach (var tool in GetTools())
+            {
+                var details = tool.GetToolDetails();
+                string toolType = details.ActionKind switch
+                {
+                    "InvokeConnectorTaskAction" => "Connector",
+                    "InvokeFlowTaskAction" => "Flow",
+                    _ => details.ActionKind
+                };
+                string trigger = details.TriggerCondition == "false" ? "None" : "By agent";
+                bool enabled = tool.StateCode == 0;
+                string description = !string.IsNullOrEmpty(details.ModelDescription)
+                    ? details.ModelDescription
+                    : tool.Description ?? "";
+
+                var info = new AgentToolInfo
+                {
+                    Name = !string.IsNullOrEmpty(details.ModelDisplayName) ? details.ModelDisplayName : tool.Name,
+                    ToolType = toolType,
+                    AvailableTo = Name,
+                    Trigger = trigger,
+                    Enabled = enabled,
+                    Description = description,
+                    ConnectionReference = details.ConnectionReference,
+                    OperationId = details.OperationId,
+                    FlowId = details.FlowId,
+                    AgentFlowName = details.FlowId != null ? GetFlowNameForId(details.FlowId) : null,
+                    ResponseActivity = details.ResponseActivity,
+                    ResponseMode = details.ResponseMode,
+                    OutputMode = details.OutputMode,
+                    Inputs = details.Inputs,
+                    Outputs = details.Outputs,
+                    PromptText = null,
+                    ModelParameters = null
+                };
+                result.Add(info);
+            }
+
+            // 2) Prompt tools from AIPlugins
+            foreach (var plugin in AIPlugins)
+            {
+                // plugintype=0, pluginsubtype=4 indicates a prompt tool
+                if (plugin.PluginType != 0) continue;
+
+                // Find the linked AI model via the plugin operation
+                var operation = AIPluginOperations.FirstOrDefault(op => op.AIPluginName == plugin.Name);
+                string aiModelId = operation?.AIModelId;
+                AIModel model = aiModelId != null
+                    ? AIModels.FirstOrDefault(m => m.getID().Trim('{', '}').Equals(aiModelId.Trim('{', '}'), StringComparison.OrdinalIgnoreCase))
+                    : null;
+
+                // Find linked custom API for inputs/outputs
+                string customApiUniqueName = operation?.CustomApiUniqueName;
+                CustomApiEntity customApi = customApiUniqueName != null
+                    ? CustomApis.FirstOrDefault(ca => ca.UniqueName == customApiUniqueName)
+                    : null;
+
+                var inputs = new List<ToolInputInfo>();
+                var outputs = new List<ToolOutputInfo>();
+
+                if (customApi != null)
+                {
+                    foreach (var param in customApi.RequestParameters.OrderBy(p => p.Name))
+                    {
+                        inputs.Add(new ToolInputInfo
+                        {
+                            Name = param.DisplayName,
+                            Description = param.Description,
+                            DataType = GetCustomApiTypeDisplayName(param.Type),
+                            IsRequired = !param.IsOptional,
+                            FillUsing = "Dynamically fill with AI"
+                        });
+                    }
+                    foreach (var prop in customApi.ResponseProperties.OrderBy(p => p.Name))
+                    {
+                        outputs.Add(new ToolOutputInfo
+                        {
+                            Name = prop.DisplayName,
+                            Description = prop.Description,
+                            DataType = GetCustomApiTypeDisplayName(prop.Type)
+                        });
+                    }
+                }
+
+                // Extract prompt text and parameters from AI model
+                string promptText = null;
+                string modelParams = null;
+                List<ToolInputInfo> modelInputs = null;
+                try
+                {
+                    if (model != null)
+                    {
+                        promptText = model.getPrompt();
+                        var modelInputList = model.getInputs();
+                        if (modelInputList != null)
+                        {
+                            modelInputs = modelInputList.Select(mi => new ToolInputInfo
+                            {
+                                Name = mi.Text ?? mi.Id,
+                                Description = "",
+                                DataType = mi.Type ?? "text",
+                                IsRequired = true,
+                                FillUsing = "Dynamically fill with AI"
+                            }).ToList();
+                        }
+                        // Extract model parameters from JSON
+                        var configJson = model.getCustomConfiguration();
+                        if (configJson != null && configJson.TryGetValue("modelParameters", out JToken mpToken))
+                        {
+                            var mp = (JObject)mpToken;
+                            modelParams = $"Model: {mp["modelType"]}, Temperature: {mp["gptParameters"]?["temperature"]}";
+                        }
+                    }
+                }
+                catch { }
+
+                // Use model inputs if custom API had none
+                if (inputs.Count == 0 && modelInputs != null)
+                    inputs = modelInputs;
+
+                bool enabled = plugin.StateCode == 0;
+                var info = new AgentToolInfo
+                {
+                    Name = plugin.HumanName,
+                    ToolType = "Prompt",
+                    AvailableTo = Name,
+                    Trigger = "None",
+                    Enabled = enabled,
+                    Description = model?.getName() ?? plugin.ModelName ?? "",
+                    ConnectionReference = null,
+                    OperationId = null,
+                    FlowId = null,
+                    AgentFlowName = null,
+                    ResponseActivity = null,
+                    ResponseMode = null,
+                    OutputMode = null,
+                    Inputs = inputs,
+                    Outputs = outputs,
+                    PromptText = promptText,
+                    ModelParameters = modelParams
+                };
+                result.Add(info);
+            }
+
+            return result.OrderBy(t => t.Name).ToList();
+        }
+
+        private string GetFlowNameForId(string flowId)
+        {
+            // Try matching against known flow workflows in BotComponents isn't reliable;
+            // flow name resolution happens via customizations.xml if available.
+            return null;
+        }
+
+        private static string GetCustomApiTypeDisplayName(int type)
+        {
+            return type switch
+            {
+                0 => "Boolean",
+                1 => "DateTime",
+                2 => "Decimal",
+                3 => "Entity",
+                4 => "EntityCollection",
+                5 => "EntityReference",
+                6 => "Float",
+                7 => "Integer",
+                8 => "Money",
+                9 => "Picklist",
+                10 => "String",
+                11 => "StringArray",
+                12 => "Guid",
+                _ => $"Type {type}"
+            };
         }
 
         public List<BotComponent> GetEntities()
@@ -591,16 +780,31 @@ namespace PowerDocu.Common
         /// <summary>
         /// Returns tool/action details from TaskDialog YAML data.
         /// </summary>
-        public (string ActionKind, string ConnectionReference, string OperationId, string FlowId, string ModelDisplayName, List<string> Inputs, List<string> Outputs) GetToolDetails()
+        public (string ActionKind, string ConnectionReference, string OperationId, string FlowId, string ModelDisplayName, string ModelDescription, string ResponseActivity, string ResponseMode, string OutputMode, string TriggerCondition, List<ToolInputInfo> Inputs, List<ToolOutputInfo> Outputs) GetToolDetails()
         {
-            string actionKind = "", connectionRef = "", operationId = "", flowId = "", modelDisplayName = "";
-            var inputs = new List<string>();
-            var outputs = new List<string>();
+            string actionKind = "", connectionRef = "", operationId = "", flowId = "", modelDisplayName = "", modelDescription = "";
+            string responseActivity = "", responseMode = "", outputMode = "", triggerCondition = "";
+            var inputs = new List<ToolInputInfo>();
+            var outputs = new List<ToolOutputInfo>();
             try
             {
                 var mapping = GetYamlMappingNode();
                 if (mapping.Children.TryGetValue(new YamlScalarNode("modelDisplayName"), out var mdnNode))
                     modelDisplayName = mdnNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("modelDescription"), out var mdNode))
+                    modelDescription = mdNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("outputMode"), out var omNode))
+                    outputMode = omNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("triggerCondition"), out var tcNode))
+                    triggerCondition = tcNode.ToString();
+                // Parse response block
+                if (mapping.Children.TryGetValue(new YamlScalarNode("response"), out var responseNode) && responseNode is YamlMappingNode responseMapping)
+                {
+                    if (responseMapping.Children.TryGetValue(new YamlScalarNode("activity"), out var actNode))
+                        responseActivity = actNode.ToString();
+                    if (responseMapping.Children.TryGetValue(new YamlScalarNode("mode"), out var modeNode))
+                        responseMode = modeNode.ToString();
+                }
                 if (mapping.Children.TryGetValue(new YamlScalarNode("action"), out var actionNode) && actionNode is YamlMappingNode actionMapping)
                 {
                     if (actionMapping.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
@@ -619,8 +823,18 @@ namespace PowerDocu.Common
                         if (input is YamlMappingNode inputMapping)
                         {
                             string propName = inputMapping.Children.TryGetValue(new YamlScalarNode("propertyName"), out var pnNode) ? pnNode.ToString() : "";
-                            string entity = inputMapping.Children.TryGetValue(new YamlScalarNode("entity"), out var eNode) ? $" ({eNode})" : "";
-                            inputs.Add(propName + entity);
+                            string entity = inputMapping.Children.TryGetValue(new YamlScalarNode("entity"), out var eNode) ? eNode.ToString() : "";
+                            string desc = inputMapping.Children.TryGetValue(new YamlScalarNode("description"), out var descNode) ? descNode.ToString() : "";
+                            string dataType = !string.IsNullOrEmpty(entity) ? entity : "";
+                            bool isRequired = inputMapping.Children.TryGetValue(new YamlScalarNode("isRequired"), out var reqNode) && reqNode.ToString().Equals("true", StringComparison.OrdinalIgnoreCase);
+                            inputs.Add(new ToolInputInfo
+                            {
+                                Name = propName,
+                                Description = desc,
+                                DataType = dataType,
+                                IsRequired = isRequired,
+                                FillUsing = "Dynamically fill with AI"
+                            });
                         }
                     }
                 }
@@ -631,13 +845,18 @@ namespace PowerDocu.Common
                         if (output is YamlMappingNode outputMapping)
                         {
                             string propName = outputMapping.Children.TryGetValue(new YamlScalarNode("propertyName"), out var pnNode) ? pnNode.ToString() : "";
-                            outputs.Add(propName);
+                            string desc = outputMapping.Children.TryGetValue(new YamlScalarNode("description"), out var descNode) ? descNode.ToString() : "";
+                            outputs.Add(new ToolOutputInfo
+                            {
+                                Name = propName,
+                                Description = desc
+                            });
                         }
                     }
                 }
             }
             catch { }
-            return (actionKind, connectionRef, operationId, flowId, modelDisplayName, inputs, outputs);
+            return (actionKind, connectionRef, operationId, flowId, modelDisplayName, modelDescription, responseActivity, responseMode, outputMode, triggerCondition, inputs, outputs);
         }
 
         /// <summary>
@@ -773,6 +992,120 @@ namespace PowerDocu.Common
         public string DvTableSearchEntityId { get; set; }
         public int StateCode { get; set; }
         public int StatusCode { get; set; }
+    }
+
+    /// <summary>
+    /// Represents an AI Plugin (from aiplugins/*.xml) — typically a prompt or connector tool.
+    /// </summary>
+    public class AIPluginEntity
+    {
+        public string Name { get; set; }
+        public string HumanName { get; set; }
+        public string ModelName { get; set; }
+        public int PluginSubType { get; set; }
+        public int PluginType { get; set; }
+        public int StateCode { get; set; }
+        public int StatusCode { get; set; }
+    }
+
+    /// <summary>
+    /// Represents an AI Plugin Operation (from aipluginoperations/*.xml).
+    /// Links an AIPlugin to an AIModel and CustomApi.
+    /// </summary>
+    public class AIPluginOperationEntity
+    {
+        public string AIPluginName { get; set; }
+        public string OperationId { get; set; }
+        public string Name { get; set; }
+        public string AIModelId { get; set; }
+        public string CustomApiUniqueName { get; set; }
+        public int IsConsequential { get; set; }
+        public int StateCode { get; set; }
+        public int StatusCode { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a Custom API definition (from customapis/*/customapi.xml).
+    /// </summary>
+    public class CustomApiEntity
+    {
+        public string UniqueName { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public List<CustomApiRequestParameterEntity> RequestParameters { get; set; } = new List<CustomApiRequestParameterEntity>();
+        public List<CustomApiResponsePropertyEntity> ResponseProperties { get; set; } = new List<CustomApiResponsePropertyEntity>();
+    }
+
+    /// <summary>
+    /// Represents a Custom API Request Parameter (from customapirequestparameters/*/customapirequestparameter.xml).
+    /// </summary>
+    public class CustomApiRequestParameterEntity
+    {
+        public string UniqueName { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public int Type { get; set; }
+        public bool IsOptional { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a Custom API Response Property (from customapiresponseproperties/*/customapiresponseproperty.xml).
+    /// </summary>
+    public class CustomApiResponsePropertyEntity
+    {
+        public string UniqueName { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public int Type { get; set; }
+    }
+
+    /// <summary>
+    /// Input info for a tool (unified across flow/connector/prompt tools).
+    /// </summary>
+    public class ToolInputInfo
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DataType { get; set; }
+        public bool IsRequired { get; set; }
+        public string FillUsing { get; set; }
+    }
+
+    /// <summary>
+    /// Output info for a tool (unified across flow/connector/prompt tools).
+    /// </summary>
+    public class ToolOutputInfo
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DataType { get; set; }
+    }
+
+    /// <summary>
+    /// Unified tool information, combining data from BotComponent TaskDialogs and AIPlugin prompt tools.
+    /// </summary>
+    public class AgentToolInfo
+    {
+        public string Name { get; set; }
+        public string ToolType { get; set; }
+        public string AvailableTo { get; set; }
+        public string Trigger { get; set; }
+        public bool Enabled { get; set; }
+        public string Description { get; set; }
+        public string ConnectionReference { get; set; }
+        public string OperationId { get; set; }
+        public string FlowId { get; set; }
+        public string AgentFlowName { get; set; }
+        public string ResponseActivity { get; set; }
+        public string ResponseMode { get; set; }
+        public string OutputMode { get; set; }
+        public List<ToolInputInfo> Inputs { get; set; } = new List<ToolInputInfo>();
+        public List<ToolOutputInfo> Outputs { get; set; } = new List<ToolOutputInfo>();
+        public string PromptText { get; set; }
+        public string ModelParameters { get; set; }
     }
 
 }
