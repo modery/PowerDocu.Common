@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -29,6 +30,8 @@ namespace PowerDocu.Common
         protected int maxImageWidth = PageWidth - PageMarginRight - PageMarginLeft;
         protected int maxImageHeight = PageHeight - PageMarginTop - PageMarginBottom;
         protected const string cellHeaderBackground = "E5E5FF";
+        // Character style ID matching definition in styles.xml
+        protected const string CharStyleBold = "PowerDocuBold";
         protected readonly Random random = new Random();
         protected MainDocumentPart mainPart;
         protected Body body;
@@ -78,6 +81,8 @@ namespace PowerDocu.Common
                 {
                     wordDocument.ChangeDocumentType(WordprocessingDocumentType.MacroEnabledDocument);
                 }
+                // Ensure all required styles exist, filling in any that the template doesn't define
+                EnsureRequiredStyles(wordDocument);
                 wordDocument.Dispose();
             }
             return filename;
@@ -89,19 +94,9 @@ namespace PowerDocu.Common
             foreach (var cellValue in cellValues)
             {
                 TableCell tc = CreateTableCell();
-                var run = new Run(cellValue);
-                RunProperties runProperties = new RunProperties();
-                runProperties.Append(new Bold());
-                run.RunProperties = runProperties;
+                var run = CreateBoldRun(cellValue);
                 tc.Append(new Paragraph(run));
-                var shading = new Shading()
-                {
-                    Color = "auto",
-                    Fill = cellHeaderBackground,
-                    Val = ShadingPatternValues.Clear
-                };
-
-                tc.TableCellProperties.Append(shading);
+                EnsureCellProperties(tc).Append(CreateCellShading(cellHeaderBackground));
                 tr.Append(tc);
             }
             return tr;
@@ -109,12 +104,56 @@ namespace PowerDocu.Common
 
         protected TableCell CreateTableCell()
         {
-            TableCell tc = new TableCell();
-            TableCellProperties tableCellProperties = new TableCellProperties();
-            TableCellWidth tableCellWidth = new TableCellWidth() { Width = "0", Type = TableWidthUnitValues.Auto };
-            tableCellProperties.Append(tableCellWidth);
-            tc.Append(tableCellProperties);
-            return tc;
+            return new TableCell();
+        }
+
+        /// <summary>
+        /// Returns the existing TableCellProperties for the cell, or creates and prepends one if absent.
+        /// Use this instead of tc.TableCellProperties when the cell may not yet have properties.
+        /// </summary>
+        protected static TableCellProperties EnsureCellProperties(TableCell tc)
+        {
+            var props = tc.TableCellProperties;
+            if (props == null)
+            {
+                props = new TableCellProperties();
+                tc.PrependChild(props);
+            }
+            return props;
+        }
+
+        /// <summary>
+        /// Creates a Shading element with Color="auto", Val=Clear, and the specified fill colour.
+        /// </summary>
+        protected static Shading CreateCellShading(string fill)
+        {
+            return new Shading()
+            {
+                Color = "auto",
+                Fill = fill,
+                Val = ShadingPatternValues.Clear
+            };
+        }
+
+        /// <summary>
+        /// Creates a Run referencing the PowerDocuBold character style,
+        /// avoiding inline &lt;w:rPr&gt;&lt;w:b/&gt;&lt;/w:rPr&gt; on every run.
+        /// </summary>
+        protected static Run CreateBoldRun(OpenXmlElement content)
+        {
+            var run = new Run(content)
+            {
+                RunProperties = new RunProperties(new RunStyle() { Val = CharStyleBold })
+            };
+            return run;
+        }
+
+        /// <summary>
+        /// Creates a bold Run containing the given text.
+        /// </summary>
+        protected static Run CreateBoldRun(string text)
+        {
+            return CreateBoldRun(new Text(text));
         }
 
         protected void AddExpressionDetails(Table table, List<Expression> inputs, string header)
@@ -414,6 +453,68 @@ namespace PowerDocu.Common
             return part;
         }
 
+        /// <summary>
+        /// Ensures all required styles from styles.xml exist in the document.
+        /// Styles already defined in the document (e.g. from a template) are preserved;
+        /// only missing styles are added.
+        /// </summary>
+        protected void EnsureRequiredStyles(WordprocessingDocument doc)
+        {
+            XNamespace wNs = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+
+            // Load the required styles from the bundled resource
+            string stylesPath = AssemblyHelper.GetExecutablePath() + @"\Resources\styles.xml";
+            XDocument requiredStylesDoc = XDocument.Load(stylesPath);
+
+            // Collect required style elements keyed by w:styleId
+            var requiredStyles = requiredStylesDoc.Descendants(wNs + "style")
+                .Where(e => e.Attribute(wNs + "styleId") != null)
+                .ToDictionary(e => e.Attribute(wNs + "styleId").Value);
+
+            // Get or create the StyleDefinitionsPart
+            var stylesPart = doc.MainDocumentPart.StyleDefinitionsPart;
+            if (stylesPart == null)
+            {
+                // No styles part at all — add the full styles.xml and return
+                AddStylesPartToPackage(doc);
+                return;
+            }
+
+            // Parse the existing styles XML from the document
+            XDocument existingStylesDoc;
+            using (var stream = stylesPart.GetStream(FileMode.Open, FileAccess.Read))
+            {
+                existingStylesDoc = XDocument.Load(stream);
+            }
+
+            // Build a set of styleIds already present in the document
+            var existingStyleIds = new HashSet<string>(
+                existingStylesDoc.Descendants(wNs + "style")
+                    .Select(e => e.Attribute(wNs + "styleId")?.Value)
+                    .Where(id => id != null));
+
+            // Append any required styles that are missing from the document
+            var rootElement = existingStylesDoc.Root;
+            bool stylesAdded = false;
+            foreach (var kvp in requiredStyles)
+            {
+                if (!existingStyleIds.Contains(kvp.Key))
+                {
+                    rootElement.Add(kvp.Value);
+                    stylesAdded = true;
+                }
+            }
+
+            // Write back only if we actually added styles
+            if (stylesAdded)
+            {
+                using (var stream = stylesPart.GetStream(FileMode.Create, FileAccess.Write))
+                {
+                    existingStylesDoc.Save(stream);
+                }
+            }
+        }
+
         /* helper class to add the given style to the provided paragraph */
         protected void ApplyStyleToParagraph(string styleid, Paragraph p)
         {
@@ -430,23 +531,27 @@ namespace PowerDocu.Common
             pPr.ParagraphStyleId = new ParagraphStyleId() { Val = styleid };
         }
 
+        // Table style IDs matching definitions in styles.xml
+        protected const string TableStyleSingle = "PowerDocuTable";
+        protected const string TableStyleNone = "PowerDocuTableNone";
+        protected const string TableStyleOuterOnly = "PowerDocuTableOuterOnly";
+
         protected Table CreateTable() {
             return CreateTable(BorderValues.Single, 1);
         }
 
         protected Table CreateTable(BorderValues borderType, double factor = 1)
         {
+            string styleId = borderType == BorderValues.None ? TableStyleNone : TableStyleSingle;
+            return CreateStyledTable(styleId, factor);
+        }
+
+        protected Table CreateStyledTable(string styleId, double factor = 1)
+        {
             Table table = new Table();
             TableProperties props = new TableProperties(
-                new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct },
-                new TableBorders(
-                    SetDefaultTableBorderStyle(new TopBorder(), borderType),
-                    SetDefaultTableBorderStyle(new LeftBorder(), borderType),
-                    SetDefaultTableBorderStyle(new BottomBorder(), borderType),
-                    SetDefaultTableBorderStyle(new RightBorder(), borderType),
-                    SetDefaultTableBorderStyle(new InsideHorizontalBorder(), borderType),
-                    SetDefaultTableBorderStyle(new InsideVerticalBorder(), borderType)
-                )
+                new TableStyle() { Val = styleId },
+                new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct }
                 );
             table.AppendChild<TableProperties>(props);
             table.AppendChild(new TableGrid(new GridColumn() { Width = Math.Round(1822 * factor).ToString() }, new GridColumn() { Width = Math.Round(8300 * factor).ToString() }));
@@ -475,14 +580,13 @@ namespace PowerDocu.Common
                 else
                 {
                     TableCell tc = CreateTableCell();
-                    RunProperties runProperties = new RunProperties();
-                    if (isFirstCell && cellValues.Length > 1)
+                    bool makeBold = isFirstCell && cellValues.Length > 1;
+                    if (makeBold)
                     {
-                        runProperties.Append(new Bold());
                         isFirstCell = false;
                         //if it's the first cell and the content is of type Drawing (an icon!), then we use a reduced width
                         string cellWidth = (cellValue.GetType() == typeof(Drawing)) ? "100" : "900";
-                        tc.TableCellProperties.TableCellWidth = new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = cellWidth };
+                        EnsureCellProperties(tc).TableCellWidth = new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = cellWidth };
                     }
                     //if we are inserting a table, we do so directly, but also need to add an empty paragraph right after it
                     if (cellValue.GetType() == typeof(Table))
@@ -501,10 +605,8 @@ namespace PowerDocu.Common
                     }
                     else
                     {
-                        tc.Append(new Paragraph(new Run(cellValue)
-                        {
-                            RunProperties = runProperties
-                        }));
+                        var run = makeBold ? CreateBoldRun(cellValue) : new Run(cellValue);
+                        tc.Append(new Paragraph(run));
                     }
                     tr.Append(tc);
                 }
@@ -519,26 +621,16 @@ namespace PowerDocu.Common
             {
                 var tr = new TableRow();
                 var tc = CreateTableCell();
+                var cellProps = EnsureCellProperties(tc);
                 if (showShading)
                 {
-                    var shading = new Shading()
-                    {
-                        Color = "auto",
-                        Fill = "E5FFE5",
-                        Val = ShadingPatternValues.Clear
-                    };
-
-                    tc.TableCellProperties.Append(shading);
+                    cellProps.Append(CreateCellShading("E5FFE5"));
                 }
-                tc.TableCellProperties.TableCellWidth = new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = "700" };
+                cellProps.TableCellWidth = new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = "700" };
                 Paragraph para = new Paragraph();
-                Run run = para.AppendChild(new Run(new Text(expression.expressionOperator)));
-                if (firstColumnBold)
-                {
-                    RunProperties runProperties = new RunProperties();
-                    runProperties.Append(new Bold());
-                    run.RunProperties = runProperties;
-                }
+                Run run = para.AppendChild(firstColumnBold
+                    ? CreateBoldRun(new Text(expression.expressionOperator))
+                    : new Run(new Text(expression.expressionOperator)));
                 tc.Append(para);
                 tr.Append(tc);
                 tc = CreateTableCell();
@@ -619,22 +711,11 @@ namespace PowerDocu.Common
         {
             TableRow tr = new TableRow();
             var tc = CreateTableCell();
-            RunProperties run1Properties = new RunProperties();
-            run1Properties.Append(new Bold());
-            var run = new Run(cellValue)
-            {
-                RunProperties = run1Properties
-            };
+            var run = CreateBoldRun(cellValue);
             tc.Append(new Paragraph(run));
-            tc.TableCellProperties.GridSpan = new GridSpan() { Val = colSpan };
-            var shading = new Shading()
-            {
-                Color = "auto",
-                Fill = colour,
-                Val = ShadingPatternValues.Clear
-            };
-
-            tc.TableCellProperties.Append(shading);
+            var cellProps = EnsureCellProperties(tc);
+            cellProps.GridSpan = new GridSpan() { Val = colSpan };
+            cellProps.Append(CreateCellShading(colour));
             tr.Append(tc);
 
             return tr;
