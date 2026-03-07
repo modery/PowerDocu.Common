@@ -74,12 +74,7 @@ namespace PowerDocu.Common
         public string GetOwnershipType()
         {
             string ownershipMask = xmlEntity.SelectSingleNode("EntityInfo/entity/OwnershipTypeMask")?.InnerText ?? "";
-            return ownershipMask switch
-            {
-                "UserOwned" => "User or Team",
-                "OrgOwned" => "Organization",
-                _ => ownershipMask
-            };
+            return TableDefinitionHelper.MapOwnershipType(ownershipMask);
         }
 
         public string GetEntitySetName()
