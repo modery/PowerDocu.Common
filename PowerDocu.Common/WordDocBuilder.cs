@@ -531,6 +531,15 @@ namespace PowerDocu.Common
             pPr.ParagraphStyleId = new ParagraphStyleId() { Val = styleid };
         }
 
+        protected Paragraph AddHeading(string text, string style)
+        {
+            Paragraph para = body.AppendChild(new Paragraph());
+            Run run = para.AppendChild(new Run());
+            run.AppendChild(new Text(text));
+            ApplyStyleToParagraph(style, para);
+            return para;
+        }
+
         // Table style IDs matching definitions in styles.xml
         protected const string TableStyleSingle = "PowerDocuTable";
         protected const string TableStyleNone = "PowerDocuTableNone";
