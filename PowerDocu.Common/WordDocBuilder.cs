@@ -838,6 +838,15 @@ namespace PowerDocu.Common
                     settingsPart.Settings.AddChild(compatibility);
                 }
             }
+            // Hide spelling and grammar error markers in generated documents
+            if (!settingsPart.Settings.ChildElements.OfType<HideSpellingErrors>().Any())
+            {
+                settingsPart.Settings.AddChild(new HideSpellingErrors() { Val = true });
+            }
+            if (!settingsPart.Settings.ChildElements.OfType<HideGrammaticalErrors>().Any())
+            {
+                settingsPart.Settings.AddChild(new HideGrammaticalErrors() { Val = true });
+            }
             settingsPart.Settings.Save();
         }
 
