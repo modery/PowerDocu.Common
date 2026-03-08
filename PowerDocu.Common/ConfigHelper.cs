@@ -16,6 +16,7 @@ namespace PowerDocu.Common
         public bool documentSolution = true;
         public bool documentFlows = true;
         public bool documentAgents = true;
+        public bool documentModelDrivenApps = true;
         public bool documentApps = true;
         public bool documentAppProperties = true;
         public bool documentAppVariables = true;
@@ -48,6 +49,7 @@ namespace PowerDocu.Common
                     documentSampleData = config.documentSampleData;
                     documentSolution = config.documentSolution;
                     documentAgents = config.documentAgents;
+                    documentModelDrivenApps = config.documentModelDrivenApps;
                     documentFlows = config.documentFlows;
                     documentApps = config.documentApps;
                     documentAppProperties = config.documentAppProperties;
