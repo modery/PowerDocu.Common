@@ -38,12 +38,16 @@ namespace PowerDocu.Common
                     NotificationHelper.SendNotification("  - Processing workflow definition " + definition.FullName);
                     string definitionContent = reader.ReadToEnd();
                     FlowEntity flow = parseFlow(definitionContent);
+                    string rawName = definition.Name.Replace(".json", "").Trim();
+                    var guidMatch = System.Text.RegularExpressions.Regex.Match(rawName, @"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
                     if (String.IsNullOrEmpty(flow.Name))
                     {
-                        string rawName = definition.Name.Replace(".json", "").Trim();
-                        // Remove any GUID patterns and clean up leftover separators
-                        rawName = System.Text.RegularExpressions.Regex.Replace(rawName, @"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", "");
-                        flow.Name = rawName.Trim('-', ' ', '_');
+                        string nameWithoutGuid = System.Text.RegularExpressions.Regex.Replace(rawName, @"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", "");
+                        flow.Name = nameWithoutGuid.Trim('-', ' ', '_');
+                    }
+                    if (String.IsNullOrEmpty(flow.ID) && guidMatch.Success)
+                    {
+                        flow.ID = guidMatch.Value;
                     }
                     flows.Add(flow);
                 }
