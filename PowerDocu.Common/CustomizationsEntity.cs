@@ -22,7 +22,19 @@ namespace PowerDocu.Common
 
         public string getFlowNameById(string ID)
         {
-            return customizationsXml.SelectSingleNode("/ImportExportXml/Workflows/Workflow[@WorkflowId='" + ID + "']")?.Attributes.GetNamedItem("Name").InnerText;
+            string normalizedId = "{" + ID.Trim('{', '}').ToLowerInvariant() + "}";
+            return customizationsXml.SelectSingleNode("/ImportExportXml/Workflows/Workflow[@WorkflowId='" + normalizedId + "']")?.Attributes.GetNamedItem("Name").InnerText;
+        }
+
+        public FlowEntity.ModernFlowType getModernFlowTypeById(string ID)
+        {
+            string normalizedId = "{" + ID.Trim('{', '}').ToLowerInvariant() + "}";
+            XmlNode node = customizationsXml.SelectSingleNode("/ImportExportXml/Workflows/Workflow[@WorkflowId='" + normalizedId + "']/ModernFlowType");
+            if (node != null && int.TryParse(node.InnerText, out int value))
+            {
+                return (FlowEntity.ModernFlowType)value;
+            }
+            return FlowEntity.ModernFlowType.CloudFlow;
         }
 
         public List<TableEntity> getEntities()
