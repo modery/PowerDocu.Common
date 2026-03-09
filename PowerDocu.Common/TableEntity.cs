@@ -168,7 +168,7 @@ namespace PowerDocu.Common
     {
         private readonly XmlNode xmlColumn;
         public static List<string> defaultLookupColumns = new List<string> { "createdby", "createdonbehalfby", "modifiedby", "modifiedonbehalfby", "ownerid", "owningbusinessunit", "owningteam", "owninguser" };
-        public static List<string> defaultColumns = new List<string> { "createdby", "createdonbehalfby", "createdon", "importsequencenumber", "modifiedby", "modifiedonbehalfby", "modifiedon", "ownerid", "owningbusinessunit", "owningteam", "owninguser", "overriddencreatedon", "statecode", "statuscode", "timezoneruleversionnumber", "utcconversiontimezonecode" };
+        public static List<string> defaultColumns = new List<string> { "createdby", "createdonbehalfby", "createdon", "importsequencenumber", "modifiedby", "modifiedonbehalfby", "modifiedon", "ownerid", "owningbusinessunit", "owningteam", "owninguser", "overriddencreatedon", "stageid", "statecode", "statuscode", "timezoneruleversionnumber", "traversedpath", "utcconversiontimezonecode" };
 
         public ColumnEntity(XmlNode xmlColumn)
         {
