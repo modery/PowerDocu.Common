@@ -84,13 +84,15 @@ namespace PowerDocu.Common
         }
 
         // ── Markdown paths ─────────────────────────────────────────
+        // Markdown [text](url) syntax breaks on unencoded spaces, so all
+        // spaces in the path portion are percent-encoded.
 
         public static string GetFlowDocMdPath(string flowName)
         {
             string safeName = CharsetHelper.GetSafeName(flowName);
             string folder = "FlowDoc " + safeName;
             string file = ("index-" + safeName + ".md").Replace(" ", "-");
-            return folder + "/" + file;
+            return (folder + "/" + file).Replace(" ", "%20");
         }
 
         public static string GetAppDocMdPath(string appName)
@@ -98,7 +100,7 @@ namespace PowerDocu.Common
             string safeName = CharsetHelper.GetSafeName(appName);
             string folder = "AppDoc " + safeName;
             string file = ("index-" + safeName + ".md").Replace(" ", "-");
-            return folder + "/" + file;
+            return (folder + "/" + file).Replace(" ", "%20");
         }
 
         public static string GetAgentDocMdPath(string agentName)
@@ -106,7 +108,7 @@ namespace PowerDocu.Common
             string safeName = CharsetHelper.GetSafeName(agentName);
             string folder = "AgentDoc " + safeName;
             string file = ("index-" + safeName + ".md").Replace(" ", "-");
-            return folder + "/" + file;
+            return (folder + "/" + file).Replace(" ", "%20");
         }
 
         public static string GetMDADocMdPath(string mdaDisplayName)
@@ -114,7 +116,7 @@ namespace PowerDocu.Common
             string safeName = CharsetHelper.GetSafeName(mdaDisplayName);
             string folder = "MDADoc " + safeName;
             string file = ("mda-" + safeName + ".md").Replace(" ", "-");
-            return folder + "/" + file;
+            return (folder + "/" + file).Replace(" ", "%20");
         }
 
         public static string GetSolutionDocMdPath(string solutionUniqueName)
