@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.PowerFx;
+using Microsoft.PowerFx.Syntax;
 
 namespace PowerDocu.Common
 {
@@ -19,6 +21,7 @@ namespace PowerDocu.Common
         private readonly List<AppEntity> apps = new List<AppEntity>();
         private readonly AppEntity currentApp;
         public PackageType packageType;
+        private Engine engine = new Engine();
 
         public AppParser(string filename)
         {
@@ -234,27 +237,8 @@ namespace PowerDocu.Common
 
         private bool containsVariable(string script, string var)
         {
-            char[] validAfterChars = { ' ', ',', ')', '.', '+', '-', '/', '*', '=', ':', '}', '\n', '\r', '&' };
-            char[] validPreChars = { ' ', '(', '+', '-', '/', '*', '=', ',', '{', '\n', '\r', '&' };
-            if (script.Contains(var))
-            {
-                if (script.StartsWith(var) || validPreChars.Contains(script[script.IndexOf(var) - 1]))
-                {
-                    if ((script.Length == (script.IndexOf(var) + var.Length)) || validAfterChars.Contains(script[script.IndexOf(var) + var.Length]))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        //not in use at the moment
-                    }
-                }
-                else
-                {
-                    //not in use at the moment
-                }
-            }
-            return false;
+            var tokens = engine.Tokenize(script);
+            return tokens.Count(t => t.Kind == TokKind.Ident && t.ToString().Equals(var)) > 0;
         }
 
         private void addVariableControlMapping(string globalVar, ControlEntity control, string property)
@@ -291,23 +275,49 @@ namespace PowerDocu.Common
 
         private void CheckForVariables(ControlEntity controlEntity, string input)
         {
+            var tokens = engine.Tokenize(input);
+            bool contains = tokens.Where(t => t.Kind == TokKind.Ident && t.ToString().Equals("Set")).Count() > 0;
             //removed hasCodeComments as it wasn't working properly. We strip the comments always, even if there are none
             //if (hasCodeComments(input)) {}
             input = stripCodeComments(input);
 
             //Reference: https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/working-with-variables#types-of-variables
+
+
             string code = input.Replace("\n", "").Replace("\r", "");
             MatchCollection matches;
-            //check for Global Variables  
-            if ((matches = Regex.Matches(code, @"\s*Set\(\s*(?<ident>\w+)\s*,")).Count > 0)
+            //check for Global Variables            
+            if (tokens.Where(t => t.Kind == TokKind.Ident && t.ToString().Equals("Set")).Count() > 0)
             {
-                foreach (Match match in matches)
+                for (int i = 0; i < tokens.Count; i++)
                 {
-                    currentApp.GlobalVariables.Add(match.Groups["ident"].Value);
+                    if (tokens[i].ToString().Equals("Set"))
+                    {
+                        do
+                        {
+                            i++;
+                        } while (tokens[i].Kind != TokKind.Ident);
+                        currentApp.GlobalVariables.Add(tokens[i].ToString());
+                    }
                 }
             }
+            
             //check for Context Variables
             string codeWithSpacesRemoved = code.Replace(" ", "");
+            if (tokens.Where(t => t.Kind == TokKind.Ident && t.ToString().Equals("UpdateContext")).Count() > 0)
+            {
+                for (int i = 0; i < tokens.Count; i++)
+                {
+                    if (tokens[i].ToString().Equals("UpdateContext"))
+                    {
+                        do
+                        {
+                            i++;
+                        } while (tokens[i].Kind != TokKind.Ident);
+                        currentApp.GlobalVariables.Add(tokens[i].ToString());
+                    }
+                }
+            }
             if (codeWithSpacesRemoved.Contains("UpdateContext("))
             {
                 List<int> indexes = findAllIndexesOf(codeWithSpacesRemoved, "UpdateContext(");
