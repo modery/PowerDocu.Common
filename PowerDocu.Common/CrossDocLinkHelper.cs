@@ -41,6 +41,14 @@ namespace PowerDocu.Common
             return folder + "/" + file;
         }
 
+        public static string GetAIModelDocHtmlPath(string aiModelName)
+        {
+            string safeName = CharsetHelper.GetSafeName(aiModelName);
+            string folder = "AIModelDoc " + safeName;
+            string file = ("aimodel-" + safeName + ".html").Replace(" ", "-");
+            return folder + "/" + file;
+        }
+
         public static string GetSolutionDocHtmlPath(string solutionUniqueName)
         {
             string safeName = CharsetHelper.GetSafeName(solutionUniqueName);
@@ -74,6 +82,13 @@ namespace PowerDocu.Common
         {
             string safeName = CharsetHelper.GetSafeName(mdaDisplayName);
             string folder = "MDADoc " + safeName;
+            return folder + "/" + safeName + ".docx";
+        }
+
+        public static string GetAIModelDocWordPath(string aiModelName)
+        {
+            string safeName = CharsetHelper.GetSafeName(aiModelName);
+            string folder = "AIModelDoc " + safeName;
             return folder + "/" + safeName + ".docx";
         }
 
@@ -116,6 +131,14 @@ namespace PowerDocu.Common
             string safeName = CharsetHelper.GetSafeName(mdaDisplayName);
             string folder = "MDADoc " + safeName;
             string file = ("mda-" + safeName + ".md").Replace(" ", "-");
+            return (folder + "/" + file).Replace(" ", "%20");
+        }
+
+        public static string GetAIModelDocMdPath(string aiModelName)
+        {
+            string safeName = CharsetHelper.GetSafeName(aiModelName);
+            string folder = "AIModelDoc " + safeName;
+            string file = ("aimodel-" + safeName + ".md").Replace(" ", "-");
             return (folder + "/" + file).Replace(" ", "%20");
         }
 
