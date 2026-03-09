@@ -57,6 +57,27 @@ namespace PowerDocu.Common
                     case "data":
                         promptForDocumentation += "{{" + promptParts["text"]?.ToString() + "}}";
                         break;
+                    case "powerFx":
+                        string fxId = promptParts["id"]?.ToString();
+                        string fxDisplayName = promptParts["text"]?.ToString() ?? fxId;
+                        string fxExpression = null;
+                        JArray formulas = getDefinition()?["formulas"] as JArray;
+                        if (formulas != null && fxId != null)
+                        {
+                            foreach (JToken formula in formulas)
+                            {
+                                if (formula["id"]?.ToString() == fxId)
+                                {
+                                    fxExpression = formula["content"]?.ToString();
+                                    fxDisplayName = formula["displayName"]?.ToString() ?? fxDisplayName;
+                                    break;
+                                }
+                            }
+                        }
+                        promptForDocumentation += fxExpression != null
+                            ? "[" + fxDisplayName + ": " + fxExpression + "]"
+                            : "[Power Fx: " + fxDisplayName + "]";
+                        break;
                     default:
                         promptForDocumentation += "<unknown> ";
                         break;
