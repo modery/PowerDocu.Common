@@ -894,12 +894,85 @@ namespace PowerDocu.Common
 
         public YamlMappingNode GetYamlMappingNode()
         {
-            // Quote any unquoted YAML keys containing @ to prevent parser errors
-            var sanitized = Regex.Replace(YamlData, @"(?m)^(\s*)([\w._-]*@[\w.@_-]*)(\s*:)", "$1\"$2\"$3");
+            var sanitized = SanitizeYaml(YamlData);
             var input = new StringReader(sanitized);
             var yaml = new YamlStream();
             yaml.Load(input);
             return (YamlMappingNode)yaml.Documents[0].RootNode;
+        }
+
+        /// <summary>
+        /// Sanitizes YAML text line-by-line, skipping block scalar regions (|, |- , >, >-),
+        /// to fix keys containing @ and plain scalar values containing ": ".
+        /// </summary>
+        private static string SanitizeYaml(string yamlText)
+        {
+            var lines = yamlText.Split('\n');
+            var result = new List<string>(lines.Length);
+            int blockScalarBaseIndent = -1; // -1 means not inside a block scalar
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string trimmed = line.TrimEnd('\r');
+
+                // If we're inside a block scalar, check whether this line is still part of it
+                if (blockScalarBaseIndent >= 0)
+                {
+                    // Empty lines are part of the block scalar
+                    if (string.IsNullOrWhiteSpace(trimmed))
+                    {
+                        result.Add(line);
+                        continue;
+                    }
+                    int currentIndent = trimmed.Length - trimmed.TrimStart().Length;
+                    if (currentIndent > blockScalarBaseIndent)
+                    {
+                        // Still inside the block scalar - don't touch this line
+                        result.Add(line);
+                        continue;
+                    }
+                    // Indentation dropped back to or below the key level - block scalar ended
+                    blockScalarBaseIndent = -1;
+                }
+
+                // Check if this line starts a block scalar (key: | or key: >  with optional - / + / digit)
+                var blockMatch = Regex.Match(trimmed, @"^(\s*(?:-\s+)?)[\w][\w._-]*:\s+[|>][-+]?\s*$");
+                if (blockMatch.Success)
+                {
+                    // Record the indentation of this key line; content lines will be indented further
+                    blockScalarBaseIndent = trimmed.Length - trimmed.TrimStart().Length;
+                    result.Add(line);
+                    continue;
+                }
+
+                // Not inside a block scalar - apply sanitizations
+
+                // 1) Quote unquoted YAML keys containing @
+                string sanitizedLine = Regex.Replace(trimmed, @"^(\s*)([\w._-]*@[\w.@_-]*)(\s*:)", "$1\"$2\"$3");
+
+                // 2) Quote plain scalar values that would break YAML parsing
+                sanitizedLine = Regex.Replace(sanitizedLine, @"^(\s*(?:-\s+)?[\w][\w._-]*:\s)(.+)$", m =>
+                {
+                    string prefix = m.Groups[1].Value;
+                    string value = m.Groups[2].Value;
+                    // Skip values already quoted or using block/flow scalar indicators
+                    if (value.Length > 0 && (value[0] == '"' || value[0] == '\'' || value[0] == '|' || value[0] == '>' || value[0] == '[' || value[0] == '{'))
+                        return m.Value;
+                    // Quote if value starts with a YAML indicator character that can't begin a plain scalar
+                    // (e.g. * for alias, & for anchor, ! for tag, # for comment, @ and ` reserved)
+                    bool needsQuoting = value.Length > 0 && "*&!#%@`".IndexOf(value[0]) >= 0;
+                    // Quote if the value contains ": " which would confuse the YAML parser
+                    if (value.Contains(": "))
+                        needsQuoting = true;
+                    if (needsQuoting)
+                        return prefix + "\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+                    return m.Value;
+                });
+
+                result.Add(sanitizedLine);
+            }
+            return string.Join("\n", result);
         }
 
         private string GetTriggerTypeDisplayName(string triggerType)
