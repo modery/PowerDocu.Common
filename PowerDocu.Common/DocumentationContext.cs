@@ -132,5 +132,27 @@ namespace PowerDocu.Common
             }
             return (viewId, "", "");
         }
+
+        /// <summary>
+        /// Resolves an AI Model GUID to its display name.
+        /// </summary>
+        public string GetAIModelNameById(string aiModelId)
+        {
+            if (string.IsNullOrEmpty(aiModelId)) return null;
+            string normalizedId = aiModelId.Trim('{', '}');
+            var aiModels = Customizations?.getAIModels();
+            if (aiModels != null)
+            {
+                var model = aiModels.FirstOrDefault(m =>
+                    m.getID().Trim('{', '}').Equals(normalizedId, StringComparison.OrdinalIgnoreCase));
+                if (model != null)
+                {
+                    string name = model.getLocalizedName();
+                    if (string.IsNullOrEmpty(name)) name = model.getName();
+                    if (!string.IsNullOrEmpty(name)) return name;
+                }
+            }
+            return null;
+        }
     }
 }
