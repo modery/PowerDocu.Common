@@ -25,6 +25,13 @@ namespace PowerDocu.Common
                 "SearchAndSummarize" => SearchIcon,
                 "RedirectToTopic" => TriggerIcon,
                 "KnowledgeSource" => SearchIcon,
+                "ClearAllVariables" => UnknownControlIcon,
+                "CSATQuestion" => UnknownControlIcon,
+                "HttpRequest" => UnknownControlIcon,
+                "SetTextVariable" => UnknownControlIcon,
+                "EditTable" => UnknownControlIcon,
+                "ReplaceDialog" => UnknownControlIcon,
+                "ParseValue" => UnknownControlIcon,
                 _ => UnknownControlIcon,
             };
         }
