@@ -12,7 +12,7 @@ namespace PowerDocu.Common
             try
             {
                 Bitmap bmp = new Bitmap(imagepath);
-                Bitmap resized = new Bitmap(bmp, new Size(32, (int)(32 * (bmp.Height / bmp.Width))));
+                Bitmap resized = new Bitmap(bmp, new Size(32, (int)(32 * ((double)bmp.Height / bmp.Width))));
                 resized.Save(destinationpath, ImageFormat.Png);
                 resized.Dispose();
                 bmp.Dispose();
