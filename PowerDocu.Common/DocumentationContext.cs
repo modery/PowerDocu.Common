@@ -86,6 +86,27 @@ namespace PowerDocu.Common
         }
 
         /// <summary>
+        /// Resolves an agent schema name to its display name.
+        /// </summary>
+        public string GetAgentNameBySchemaName(string schemaName)
+        {
+            if (string.IsNullOrEmpty(schemaName)) return schemaName;
+            AgentEntity agent = Agents?.FirstOrDefault(a =>
+                a.SchemaName != null && a.SchemaName.Equals(schemaName, StringComparison.OrdinalIgnoreCase));
+            return agent?.Name ?? schemaName;
+        }
+
+        /// <summary>
+        /// Finds a parsed AgentEntity by schema name.
+        /// </summary>
+        public AgentEntity GetAgentBySchemaName(string schemaName)
+        {
+            if (string.IsNullOrEmpty(schemaName)) return null;
+            return Agents?.FirstOrDefault(a =>
+                a.SchemaName != null && a.SchemaName.Equals(schemaName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
         /// Resolves a table schema name to its display name.
         /// </summary>
         public string GetTableDisplayName(string schemaName)

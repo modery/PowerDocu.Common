@@ -52,6 +52,37 @@ namespace PowerDocu.Common
         }
 
         /// <summary>
+        /// Returns BotComponents that represent connected (child) agent invocations.
+        /// These have SchemaName containing ".InvokeConnectedAgentTaskAction." and ComponentType 9.
+        /// </summary>
+        public List<BotComponent> GetConnectedAgents()
+        {
+            return BotComponents.Where(bc => bc.ComponentType == 9
+                && bc.SchemaName.Contains(".InvokeConnectedAgentTaskAction.")).ToList();
+        }
+
+        /// <summary>
+        /// Returns a list of connected agent info objects extracted from InvokeConnectedAgentTaskAction components.
+        /// </summary>
+        public List<ConnectedAgentInfo> GetAllConnectedAgentInfos()
+        {
+            var result = new List<ConnectedAgentInfo>();
+            foreach (var component in GetConnectedAgents())
+            {
+                var details = component.GetConnectedAgentDetails();
+                result.Add(new ConnectedAgentInfo
+                {
+                    Name = !string.IsNullOrEmpty(details.ModelDisplayName) ? details.ModelDisplayName : component.Name,
+                    BotSchemaName = details.BotSchemaName,
+                    Description = !string.IsNullOrEmpty(details.ModelDescription) ? details.ModelDescription : component.Description ?? "",
+                    HistoryType = details.HistoryType,
+                    ConnectionType = "Connected Agent"
+                });
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Returns a unified list of all agent tools, including flow/connector TaskDialog tools
         /// (from BotComponents) and prompt tools (from AIPlugins/AIModels).
         /// </summary>
@@ -860,6 +891,35 @@ namespace PowerDocu.Common
         }
 
         /// <summary>
+        /// Returns connected agent details from InvokeConnectedAgentTaskAction YAML data.
+        /// Extracts botSchemaName, historyType, modelDisplayName, and modelDescription.
+        /// </summary>
+        public (string BotSchemaName, string HistoryType, string ModelDisplayName, string ModelDescription) GetConnectedAgentDetails()
+        {
+            string botSchemaName = "", historyType = "", modelDisplayName = "", modelDescription = "";
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("modelDisplayName"), out var mdnNode))
+                    modelDisplayName = mdnNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("modelDescription"), out var mdNode))
+                    modelDescription = mdNode.ToString();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("action"), out var actionNode) && actionNode is YamlMappingNode actionMapping)
+                {
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("botSchemaName"), out var bsnNode))
+                        botSchemaName = bsnNode.ToString();
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("historyType"), out var htNode) && htNode is YamlMappingNode htMapping)
+                    {
+                        if (htMapping.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
+                            historyType = kindNode.ToString();
+                    }
+                }
+            }
+            catch { }
+            return (botSchemaName, historyType, modelDisplayName, modelDescription);
+        }
+
+        /// <summary>
         /// Returns trigger details from ExternalTriggerConfiguration YAML data.
         /// </summary>
         public (string TriggerKind, string FlowId, string TriggerConnectionType) GetTriggerDetails()
@@ -1160,6 +1220,18 @@ namespace PowerDocu.Common
     /// <summary>
     /// Unified tool information, combining data from BotComponent TaskDialogs and AIPlugin prompt tools.
     /// </summary>
+    /// <summary>
+    /// Information about a connected (child) agent referenced via InvokeConnectedAgentTaskAction.
+    /// </summary>
+    public class ConnectedAgentInfo
+    {
+        public string Name { get; set; }
+        public string BotSchemaName { get; set; }
+        public string Description { get; set; }
+        public string HistoryType { get; set; }
+        public string ConnectionType { get; set; }
+    }
+
     public class AgentToolInfo
     {
         public string Name { get; set; }
