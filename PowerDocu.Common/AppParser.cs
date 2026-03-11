@@ -3,7 +3,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.PowerFx;
@@ -203,28 +202,14 @@ namespace PowerDocu.Common
         {
             foreach (Rule rule in control.Rules)
             {
-                foreach (var globalVar in currentApp.GlobalVariables)
+                var identifiers = GetIdentifiers(rule.InvariantScript);
+                foreach (var ident in identifiers)
                 {
-                    //if (rule.InvariantScript.Contains(globalVar))
-                    if (containsVariable(rule.InvariantScript, globalVar))
+                    if (currentApp.GlobalVariables.Contains(ident)
+                        || currentApp.ContextVariables.Contains(ident)
+                        || currentApp.Collections.Contains(ident))
                     {
-                        addVariableControlMapping(globalVar, control, rule.Property);
-                    }
-                }
-                foreach (var contextVar in currentApp.ContextVariables)
-                {
-                    //if (rule.InvariantScript.Contains(contextVar))
-                    if (containsVariable(rule.InvariantScript, contextVar))
-                    {
-                        addVariableControlMapping(contextVar, control, rule.Property);
-                    }
-                }
-                foreach (var collection in currentApp.Collections)
-                {
-                    // if (rule.InvariantScript.Contains(collection))
-                    if (containsVariable(rule.InvariantScript, collection))
-                    {
-                        addVariableControlMapping(collection, control, rule.Property);
+                        addVariableControlMapping(ident, control, rule.Property);
                     }
                 }
             }
@@ -235,10 +220,11 @@ namespace PowerDocu.Common
             // TODO also check  Properties ?
         }
 
-        private bool containsVariable(string script, string var)
+        private HashSet<string> GetIdentifiers(string script)
         {
             var tokens = engine.Tokenize(script);
-            return tokens.Count(t => t.Kind == TokKind.Ident && t.ToString().Equals(var)) > 0;
+            return new HashSet<string>(
+                tokens.Where(t => t.Kind == TokKind.Ident).Select(t => t.ToString()));
         }
 
         private void addVariableControlMapping(string globalVar, ControlEntity control, string property)
@@ -275,322 +261,63 @@ namespace PowerDocu.Common
 
         private void CheckForVariables(ControlEntity controlEntity, string input)
         {
-            var tokens = engine.Tokenize(input);
-            bool contains = tokens.Where(t => t.Kind == TokKind.Ident && t.ToString().Equals("Set")).Count() > 0;
-            //removed hasCodeComments as it wasn't working properly. We strip the comments always, even if there are none
-            //if (hasCodeComments(input)) {}
-            input = stripCodeComments(input);
+            // Use PowerFx parser to build an AST, which correctly handles comments and nesting
+            var parseResult = engine.Parse(input);
+            var visitor = new FormulaVisitor();
+            parseResult.Root.Accept(visitor);
 
-            //Reference: https://docs.microsoft.com/en-us/powerapps/maker/canvas-apps/working-with-variables#types-of-variables
-
-
-            string code = input.Replace("\n", "").Replace("\r", "");
-            MatchCollection matches;
-            //check for Global Variables            
-            if (tokens.Where(t => t.Kind == TokKind.Ident && t.ToString().Equals("Set")).Count() > 0)
-            {
-                for (int i = 0; i < tokens.Count; i++)
-                {
-                    if (tokens[i].ToString().Equals("Set"))
-                    {
-                        do
-                        {
-                            i++;
-                        } while (tokens[i].Kind != TokKind.Ident);
-                        currentApp.GlobalVariables.Add(tokens[i].ToString());
-                    }
-                }
-            }
-            
-            //check for Context Variables
-            string codeWithSpacesRemoved = code.Replace(" ", "");
-            if (tokens.Where(t => t.Kind == TokKind.Ident && t.ToString().Equals("UpdateContext")).Count() > 0)
-            {
-                for (int i = 0; i < tokens.Count; i++)
-                {
-                    if (tokens[i].ToString().Equals("UpdateContext"))
-                    {
-                        do
-                        {
-                            i++;
-                        } while (tokens[i].Kind != TokKind.Ident);
-                        currentApp.GlobalVariables.Add(tokens[i].ToString());
-                    }
-                }
-            }
-            if (codeWithSpacesRemoved.Contains("UpdateContext("))
-            {
-                List<int> indexes = findAllIndexesOf(codeWithSpacesRemoved, "UpdateContext(");
-                foreach (int index in indexes)
-                {
-                    if (!isWithinCodeComment(codeWithSpacesRemoved[0..index]))
-                    {
-                        foreach (string var in extractContextVariableNames(codeWithSpacesRemoved[index..]))
-                        {
-                            currentApp.ContextVariables.Add(var);
-                        }
-                    }
-                }
-            }
-            if (codeWithSpacesRemoved.Contains("Navigate("))
-            {
-                // As an optional third argument, pass a record that contains the context-variable name as a column name and the new value for the context variable.
-                List<int> indexes = findAllIndexesOf(codeWithSpacesRemoved, "Navigate(");
-                foreach (int index in indexes)
-                {
-                    //only proceed if it is not within a comment
-                    if (!isWithinCodeComment(codeWithSpacesRemoved[0..index]))
-                    {
-                        string firstParam = "";
-                        string secondParam = "";
-                        string thirdParam = "";
-                        string navigateString = codeWithSpacesRemoved[index..];
-                        navigateString = navigateString[0..(findClosingCharacter(navigateString, '(', ')'))].Replace("Navigate(", "");
-
-                        firstParam = extractNavigateParam(navigateString);
-                        if (firstParam != navigateString)
-                        {
-                            string navigateStringWithoutFirstParam = navigateString[(firstParam.Length + 1)..];
-                            secondParam = extractNavigateParam(navigateStringWithoutFirstParam);
-                            if (secondParam != navigateStringWithoutFirstParam)
-                            {
-                                //there's a third parameter!
-                                thirdParam = navigateStringWithoutFirstParam[(secondParam.Length + 1)..];
-                                foreach (string var in extractContextVariableNames(thirdParam))
-                                {
-                                    currentApp.ContextVariables.Add(var);
-                                }
-                            }
-                            else
-                            {
-                                //only 2 parameters; nothing to do here at the moment
-                            }
-                        }
-                        else
-                        {
-                            //a single parameter only; nothing to do here at the moment
-                        }
-                        addScreenNavigation(controlEntity, firstParam);
-                    }
-                }
-            }
-            //check for Collections
-            if ((matches = Regex.Matches(code, @"\s*Collect\(\s*(?<ident>\w+)\s*,\s*")).Count > 0)
-            {
-                foreach (Match match in matches)
-                {
-                    currentApp.Collections.Add(match.Groups["ident"].Value);
-                }
-            }
-
-            if ((matches = Regex.Matches(code, @"\s*ClearCollect\(\s*(?<ident>\w+)\s*,\s*")).Count > 0)
-            {
-                foreach (Match match in matches)
-                {
-                    currentApp.Collections.Add(match.Groups["ident"].Value);
-                }
-            }
+            foreach (var v in visitor.GlobalVariables)
+                currentApp.GlobalVariables.Add(v);
+            foreach (var v in visitor.ContextVariables)
+                currentApp.ContextVariables.Add(v);
+            foreach (var v in visitor.Collections)
+                currentApp.Collections.Add(v);
+            foreach (var target in visitor.NavigationTargets)
+                addScreenNavigation(controlEntity, target);
         }
 
-        private string extractNavigateParam(string navigateString)
+        /// <summary>
+        /// Walks the PowerFx AST to extract variable definitions, collection usages,
+        /// and screen navigation targets from function calls.
+        /// </summary>
+        private class FormulaVisitor : IdentityTexlVisitor
         {
-            //at least 2 commands found. We may or may not have 3 parameters in use here
-            int closingBracketIndex;
-            //find the first parameter: find the first comma (potentially after brackets)
-            char openingCharacter = 'C';
-            if (navigateString.IndexOf("(") == -1)
+            public readonly List<string> GlobalVariables = new List<string>();
+            public readonly List<string> ContextVariables = new List<string>();
+            public readonly List<string> Collections = new List<string>();
+            public readonly List<string> NavigationTargets = new List<string>();
+
+            public override void PostVisit(CallNode node)
             {
-                if (navigateString.IndexOf("{") > -1)
+                var args = node.Args.ChildNodes;
+                switch (node.Head.Name.Value)
                 {
-                    openingCharacter = '{';
+                    case "Set":
+                        if (args.Count > 0 && args[0] is FirstNameNode setVar)
+                            GlobalVariables.Add(setVar.Ident.Name.Value);
+                        break;
+                    case "UpdateContext":
+                        if (args.Count > 0 && args[0] is RecordNode updateRecord)
+                            foreach (var id in updateRecord.Ids)
+                                ContextVariables.Add(id.Name.Value);
+                        break;
+                    case "Navigate":
+                        if (args.Count > 0)
+                            NavigationTargets.Add(args[0] is FirstNameNode screenNode
+                                ? screenNode.Ident.Name.Value
+                                : args[0].ToString());
+                        // Third argument may contain context variables
+                        if (args.Count >= 3 && args[2] is RecordNode navRecord)
+                            foreach (var id in navRecord.Ids)
+                                ContextVariables.Add(id.Name.Value);
+                        break;
+                    case "Collect":
+                    case "ClearCollect":
+                        if (args.Count > 0 && args[0] is FirstNameNode collectionVar)
+                            Collections.Add(collectionVar.Ident.Name.Value);
+                        break;
                 }
             }
-            else
-            {
-                if (navigateString.IndexOf("{") > -1)
-                {
-                    if (navigateString.IndexOf("(") < navigateString.IndexOf("{"))
-                    {
-                        openingCharacter = '(';
-                    }
-                    else
-                    {
-                        openingCharacter = '{';
-                    }
-                }
-                else
-                {
-                    openingCharacter = '(';
-                }
-            }
-            if (openingCharacter == 'C' || (navigateString.IndexOf(',') < navigateString.IndexOf(openingCharacter)))
-            {
-                //no brackets for first parameter, so we can use it directly
-                if (navigateString.IndexOf(',') > -1)
-                {
-                    return navigateString[0..navigateString.IndexOf(',')];
-                }
-                //no commas at all? return it directly
-                return navigateString;
-            }
-            else
-            {
-                //brackets found. Need to find the first comma after the closing bracket
-                char closingCharacter = (openingCharacter == '(') ? ')' : '}';
-                closingBracketIndex = findClosingCharacter(navigateString, openingCharacter, closingCharacter);
-                int commaPos = navigateString.IndexOf(',', closingBracketIndex);
-                if (commaPos > -1)
-                {
-                    //comma after closing character found!
-                    return navigateString[0..commaPos];
-                }
-                else
-                {
-                    // we may end up here if there is a lot of code but no commas after 
-                    //example: "Navigate(If(2>1,Screen2,Screen2))"
-                    return navigateString;
-                }
-            }
-        }
-
-        private List<string> extractContextVariableNames(string code)
-        {
-            //todo: issue: code="If(2>1,{e:12},{e:43244})";
-            List<string> extractedVariables = new List<string>();
-            try
-            {
-                string checkVariable = code;
-                if (code.StartsWith("UpdateContext"))
-                {
-                    string variableStart = code[code.IndexOf('{')..];
-                    //need to find the closing bracket for UpdateContext
-                    int closingBracketIndex = findClosingCharacter(variableStart, '{', '}');
-
-                    //we found the end of the current UpdateContext/Navigate. Time to extract the variable names defined here
-                    checkVariable = (closingBracketIndex > 0) ? variableStart[..(closingBracketIndex + 1)] : variableStart;
-                }
-                if (checkVariable[0] == '{' && checkVariable[checkVariable.Length - 1] == '}')
-                {
-                    checkVariable = checkVariable[1..(checkVariable.Length - 1)];
-                }
-
-                while (checkVariable.Contains(":"))
-                {
-                    if (checkVariable.Contains('{') || checkVariable.Contains('('))
-                    {
-                        int firstCurlyBracketIndex = checkVariable.IndexOf('{');
-                        int firstRoundBracketIndex = checkVariable.IndexOf('(');
-                        int firstCommaIndex = checkVariable.IndexOf(',');
-                        int closingCharacterIndex;
-                        if (firstCurlyBracketIndex > -1 && ((firstRoundBracketIndex == -1) || (firstCurlyBracketIndex < firstRoundBracketIndex)))
-                        {
-                            if ((firstCommaIndex == -1) || (firstCommaIndex > -1 && (firstCurlyBracketIndex < firstCommaIndex)))
-                            {
-                                closingCharacterIndex = findClosingCharacter(checkVariable, '{', '}');
-                            }
-                            else
-                            {
-                                closingCharacterIndex = firstCommaIndex;
-                            }
-                        }
-                        else
-                        {
-                            if ((firstCommaIndex == -1) || (firstCommaIndex > -1 && (firstRoundBracketIndex < firstCommaIndex)))
-                            {
-                                closingCharacterIndex = findClosingCharacter(checkVariable, '(', ')');
-                            }
-                            else
-                            {
-                                closingCharacterIndex = firstCommaIndex;
-                            }
-                        }
-                        extractedVariables.Add(checkVariable[0..closingCharacterIndex].Split(":")[0].Trim().Replace("{", ""));
-                        checkVariable = checkVariable[(closingCharacterIndex + ((closingCharacterIndex >= firstCommaIndex) ? 1 : 2))..];
-                        if (checkVariable.Length > 0 && checkVariable[0] == ',') checkVariable = checkVariable[1..];
-                    }
-                    else
-                    {
-                        foreach (string variableSection in checkVariable.Split(','))
-                        {
-                            //direct assignment of variables, they can be extracted right away
-                            extractedVariables.Add(variableSection.Split(':')[0].Trim().Replace("{", ""));
-                        }
-                        checkVariable = "";
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Couldn't extract context variables from code snippet: \n" + code + "\n\n" + e.Message);
-            }
-            return extractedVariables;
-        }
-
-        private int findClosingCharacter(string content, char open, char close)
-        {
-            bool closingBracketFound = false;
-            int currentClosingBracketIndex = content.IndexOf(close);
-            if (currentClosingBracketIndex != -1)
-            {
-                while (!closingBracketFound)
-                {
-                    if (findAllIndexesOf(content[0..(currentClosingBracketIndex + 1)], open.ToString()).Count == findAllIndexesOf(content[0..(currentClosingBracketIndex + 1)], close.ToString()).Count)
-                    {
-                        closingBracketFound = true;
-                    }
-                    else
-                    {
-                        currentClosingBracketIndex = content[(currentClosingBracketIndex + 1)..].IndexOf(close) + currentClosingBracketIndex + 1;
-                    }
-                }
-            }
-            return currentClosingBracketIndex;
-        }
-
-        private bool isWithinCodeComment(string code)
-        {
-            int lastOpeningCommentBrackets = code.LastIndexOf("/*");
-            int lastClosingCommentBrackets = code.LastIndexOf("*/");
-            //only proceed if the code is not within a comment
-            // case 1: no opening comment brackets (/*), thus we return false
-            // case 2: there is an opening bracket. if there is no matching closing bracket, that means we are within a comment and need to return true
-            return !(lastOpeningCommentBrackets == -1 || lastOpeningCommentBrackets < lastClosingCommentBrackets);
-        }
-
-        //function wasn't working properly for some scenarios (see e.g. CenterofExcellenceAuditComponents_2.6_managed.zip), thus no longer in use. May be removed again in the future
-        private bool hasCodeComments(string code)
-        {
-            var regex = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
-            return Regex.Match(code.Replace("\"", "").Replace("\n", "").Replace("\r", ""), regex).Success;
-        }
-
-        private string stripCodeComments(string code)
-        {
-            //reference: https://stackoverflow.com/questions/3524317/regex-to-strip-line-comments-from-c-sharp#comment5176909_3524689
-            var list = new List<string>();
-            var blockComments = @"/\*(.*?)\*/";
-            var lineComments = @"//(.*?)(\r?\n|$)";
-            var strings = @"""((\\[^\n]|[^""\n])*)""";
-            var verbatimStrings = @"@(""[^""]*"")+";
-
-            string noComments = Regex.Replace(code,
-                blockComments + "|" + lineComments + "|" + strings + "|" + verbatimStrings,
-                me =>
-                {
-                    if (me.Value.StartsWith("/*") || me.Value.StartsWith("//"))
-                    {
-                        // Put the contents of comments into the list
-                        list.Add(me.Groups[1].Value + me.Groups[2].Value);
-                        // Replace the comments with empty, i.e. remove them
-                        return me.Value.StartsWith("//") ? me.Groups[3].Value : "";
-                    }
-                    // Keep the literal strings
-                    return me.Value;
-                },
-                RegexOptions.Singleline);
-            return noComments;
-            //var regex = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
-            //return Regex.Replace(code.Replace("\"", "").Replace("\n", "").Replace("\r", ""), regex, "$1");
         }
 
         private void parseAppDataSources(Stream appArchive)
@@ -677,16 +404,5 @@ namespace PowerDocu.Common
             return apps;
         }
 
-        public List<int> findAllIndexesOf(string str, string value)
-        {
-            List<int> indexes = new List<int>();
-            for (int index = 0; ; index += value.Length)
-            {
-                index = str.IndexOf(value, index);
-                if (index == -1)
-                    return indexes;
-                indexes.Add(index);
-            }
-        }
     }
 }
