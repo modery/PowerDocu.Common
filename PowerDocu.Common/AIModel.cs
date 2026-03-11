@@ -38,8 +38,10 @@ namespace PowerDocu.Common
         {
 
             string promptString = getActiveCustomConfigurationString();
+            if (string.IsNullOrEmpty(promptString)) return "";
             JObject cardJson = JObject.Parse(promptString);
             cardJson.TryGetValue("prompt", out JToken promptToken);
+            if (promptToken == null) return "";
             string promptForDocumentation = "";
             foreach (JToken promptParts in promptToken.Children())
             {
@@ -90,14 +92,14 @@ namespace PowerDocu.Common
 
         public List<AIModelInput> getInputs()
         {
-            JArray inputs = getDefinition()["inputs"] as JArray;
-            return inputs.ToObject<List<AIModelInput>>();
+            JArray inputs = getDefinition()?["inputs"] as JArray;
+            return inputs?.ToObject<List<AIModelInput>>() ?? new List<AIModelInput>();
         }
 
 
         public AIModelOutput getOutput()
         {
-            JObject output = getDefinition()["output"] as JObject;
+            JObject output = getDefinition()?["output"] as JObject;
             if (output == null)
                 return null;
             AIModelOutput aiModelOutput = new AIModelOutput();
@@ -132,7 +134,7 @@ namespace PowerDocu.Common
             if (!string.IsNullOrEmpty(activeConfigId))
             {
                 var node = xmlEntity.SelectSingleNode(
-                    $"AIConfigurations/AIConfiguration[msdyn_aiconfigurationid='{activeConfigId}' and msdyn_type='190690001']/msdyn_customconfiguration");
+                    $"AIConfigurations/AIConfiguration[msdyn_aiconfigurationid='{activeConfigId}']/msdyn_customconfiguration");
                 if (node != null)
                     return node.InnerText;
             }
