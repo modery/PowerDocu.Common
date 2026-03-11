@@ -37,7 +37,7 @@ namespace PowerDocu.Common
         public string getPrompt()
         {
 
-            string promptString = xmlEntity.SelectSingleNode("AIConfigurations/AIConfiguration[msdyn_type='190690001']/msdyn_customconfiguration")?.InnerText;
+            string promptString = getActiveCustomConfigurationString();
             JObject cardJson = JObject.Parse(promptString);
             cardJson.TryGetValue("prompt", out JToken promptToken);
             string promptForDocumentation = "";
@@ -109,7 +109,8 @@ namespace PowerDocu.Common
 
         private JObject getDefinition()
         {
-            string promptString = xmlEntity.SelectSingleNode("AIConfigurations/AIConfiguration[msdyn_type='190690001']/msdyn_customconfiguration")?.InnerText;
+            string promptString = getActiveCustomConfigurationString();
+            if (string.IsNullOrEmpty(promptString)) return null;
             JObject cardJson = JObject.Parse(promptString);
             cardJson.TryGetValue("definitions", out JToken definition);
             return (JObject)definition;
@@ -120,9 +121,23 @@ namespace PowerDocu.Common
         /// </summary>
         public JObject getCustomConfiguration()
         {
-            string promptString = xmlEntity.SelectSingleNode("AIConfigurations/AIConfiguration[msdyn_type='190690001']/msdyn_customconfiguration")?.InnerText;
+            string promptString = getActiveCustomConfigurationString();
             if (string.IsNullOrEmpty(promptString)) return null;
             return JObject.Parse(promptString);
+        }
+
+        private string getActiveCustomConfigurationString()
+        {
+            string activeConfigId = xmlEntity.SelectSingleNode("msdyn_activerunconfigurationid")?.InnerText;
+            if (!string.IsNullOrEmpty(activeConfigId))
+            {
+                var node = xmlEntity.SelectSingleNode(
+                    $"AIConfigurations/AIConfiguration[msdyn_aiconfigurationid='{activeConfigId}' and msdyn_type='190690001']/msdyn_customconfiguration");
+                if (node != null)
+                    return node.InnerText;
+            }
+            // Fallback: pick the first AIConfiguration with the expected type
+            return xmlEntity.SelectSingleNode("AIConfigurations/AIConfiguration[msdyn_type='190690001']/msdyn_customconfiguration")?.InnerText;
         }
     }
 
