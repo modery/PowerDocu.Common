@@ -76,7 +76,7 @@ namespace PowerDocu.Common
                     BotSchemaName = details.BotSchemaName,
                     Description = !string.IsNullOrEmpty(details.ModelDescription) ? details.ModelDescription : component.Description ?? "",
                     HistoryType = details.HistoryType,
-                    ConnectionType = "Connected Agent"
+                    ConnectionType = "Child Agent"
                 });
             }
             return result;
