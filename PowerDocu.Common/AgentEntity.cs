@@ -663,6 +663,311 @@ namespace PowerDocu.Common
         }
 
         /// <summary>
+        /// Returns properties from the inputType schema on this topic, if present.
+        /// </summary>
+        public List<TopicTypeProperty> GetInputTypeProperties()
+        {
+            return GetTypeProperties("inputType");
+        }
+
+        /// <summary>
+        /// Returns properties from the outputType schema on this topic, if present.
+        /// </summary>
+        public List<TopicTypeProperty> GetOutputTypeProperties()
+        {
+            return GetTypeProperties("outputType");
+        }
+
+        private List<TopicTypeProperty> GetTypeProperties(string typeKey)
+        {
+            var result = new List<TopicTypeProperty>();
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode(typeKey), out var typeNode)
+                    && typeNode is YamlMappingNode typeMapping
+                    && typeMapping.Children.TryGetValue(new YamlScalarNode("properties"), out var propsNode)
+                    && propsNode is YamlMappingNode propsMapping)
+                {
+                    foreach (var kvp in propsMapping.Children)
+                    {
+                        string name = kvp.Key.ToString();
+                        string type;
+                        if (kvp.Value is YamlScalarNode scalarVal)
+                        {
+                            type = scalarVal.Value ?? scalarVal.ToString();
+                        }
+                        else if (kvp.Value is YamlMappingNode mapVal)
+                        {
+                            if (mapVal.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
+                                type = kindNode.ToString();
+                            else if (mapVal.Children.TryGetValue(new YamlScalarNode("type"), out var tNode))
+                                type = tNode.ToString();
+                            else
+                                type = "Object";
+                        }
+                        else
+                        {
+                            type = "Unknown";
+                        }
+                        result.Add(new TopicTypeProperty { Name = name, Type = type });
+                    }
+                }
+            }
+            catch { }
+            return result;
+        }
+
+        /// <summary>
+        /// Returns all topic-to-topic calls (BeginDialog / ReplaceDialog) found in the YAML actions.
+        /// </summary>
+        public List<TopicCallInfo> GetTopicCalls()
+        {
+            var calls = new List<TopicCallInfo>();
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                CollectTopicCallsFromNode(mapping, calls);
+            }
+            catch { }
+            return calls;
+        }
+
+        private void CollectTopicCallsFromNode(YamlNode node, List<TopicCallInfo> calls)
+        {
+            if (node is YamlMappingNode mappingNode)
+            {
+                if (mappingNode.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
+                {
+                    string kind = kindNode.ToString();
+                    if ((kind == "BeginDialog" || kind == "ReplaceDialog")
+                        && mappingNode.Children.TryGetValue(new YamlScalarNode("dialog"), out var dialogNode))
+                    {
+                        var call = new TopicCallInfo
+                        {
+                            SourceTopicSchemaName = SchemaName,
+                            SourceTopicName = Name,
+                            TargetTopicSchemaName = dialogNode.ToString(),
+                            TargetTopicName = ExtractTopicNameFromSchemaName(dialogNode.ToString()),
+                            CallKind = kind
+                        };
+
+                        // Extract input bindings
+                        if (mappingNode.Children.TryGetValue(new YamlScalarNode("input"), out var inputNode)
+                            && inputNode is YamlMappingNode inputMapping
+                            && inputMapping.Children.TryGetValue(new YamlScalarNode("binding"), out var bindingNode)
+                            && bindingNode is YamlMappingNode bindingMapping)
+                        {
+                            foreach (var kvp in bindingMapping.Children)
+                            {
+                                call.InputBindings[kvp.Key.ToString()] = kvp.Value.ToString();
+                            }
+                        }
+
+                        // Extract output bindings
+                        if (mappingNode.Children.TryGetValue(new YamlScalarNode("output"), out var outputNode)
+                            && outputNode is YamlMappingNode outputMapping
+                            && outputMapping.Children.TryGetValue(new YamlScalarNode("binding"), out var outBindingNode)
+                            && outBindingNode is YamlMappingNode outBindingMapping)
+                        {
+                            foreach (var kvp in outBindingMapping.Children)
+                            {
+                                call.OutputBindings[kvp.Key.ToString()] = kvp.Value.ToString();
+                            }
+                        }
+
+                        calls.Add(call);
+                    }
+                }
+
+                foreach (var child in mappingNode.Children)
+                {
+                    CollectTopicCallsFromNode(child.Value, calls);
+                }
+            }
+            else if (node is YamlSequenceNode sequenceNode)
+            {
+                foreach (var item in sequenceNode)
+                {
+                    CollectTopicCallsFromNode(item, calls);
+                }
+            }
+        }
+
+        private static string ExtractTopicNameFromSchemaName(string schemaName)
+        {
+            // Schema names look like "prefix_agent.topic.TopicName" — extract the last segment
+            if (string.IsNullOrEmpty(schemaName)) return schemaName;
+            int lastDot = schemaName.LastIndexOf('.');
+            return lastDot >= 0 ? schemaName.Substring(lastDot + 1) : schemaName;
+        }
+
+        /// <summary>
+        /// Returns classified variable references (Read/Write) from this topic's YAML actions.
+        /// </summary>
+        public List<VariableReference> GetVariableReferences()
+        {
+            var references = new List<VariableReference>();
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                CollectVariableReferencesFromNode(mapping, references);
+            }
+            catch { }
+            // Deduplicate
+            return references
+                .GroupBy(r => $"{r.VariableName}|{r.AccessType}|{r.Context}")
+                .Select(g => g.First())
+                .OrderBy(r => r.VariableName)
+                .ToList();
+        }
+
+        private static readonly Regex VariableRefRegex = new Regex(
+            @"(?:Topic|Global|System)\.\w+(?:\.\w+)*",
+            RegexOptions.Compiled);
+
+        private static readonly Regex InterpolationRefRegex = new Regex(
+            @"\{((?:Topic|Global|System)\.\w+(?:\.\w+)*)\}",
+            RegexOptions.Compiled);
+
+        private void CollectVariableReferencesFromNode(YamlNode node, List<VariableReference> refs)
+        {
+            if (node is YamlMappingNode mappingNode)
+            {
+                if (mappingNode.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
+                {
+                    string kind = kindNode.ToString();
+
+                    // SetVariable: target is WRITE, value expression variables are READ
+                    if (kind == "SetVariable")
+                    {
+                        string displayName = "";
+                        if (mappingNode.Children.TryGetValue(new YamlScalarNode("displayName"), out var dnNode))
+                            displayName = dnNode.ToString();
+                        string ctx = $"SetVariable{(string.IsNullOrEmpty(displayName) ? "" : $" ({displayName})")}";
+
+                        if (mappingNode.Children.TryGetValue(new YamlScalarNode("variable"), out var varNode))
+                        {
+                            refs.Add(new VariableReference { VariableName = varNode.ToString(), AccessType = VariableAccessType.Write, Context = ctx });
+                        }
+                        if (mappingNode.Children.TryGetValue(new YamlScalarNode("value"), out var valNode))
+                        {
+                            foreach (Match m in VariableRefRegex.Matches(valNode.ToString()))
+                            {
+                                refs.Add(new VariableReference { VariableName = m.Value, AccessType = VariableAccessType.Read, Context = ctx });
+                            }
+                        }
+                    }
+
+                    // Question: response variable is WRITE
+                    if (kind == "Question")
+                    {
+                        if (mappingNode.Children.TryGetValue(new YamlScalarNode("variable"), out var qVarNode))
+                        {
+                            refs.Add(new VariableReference { VariableName = qVarNode.ToString(), AccessType = VariableAccessType.Write, Context = "Question response" });
+                        }
+                    }
+
+                    // SendActivity: interpolated variables are READ
+                    if (kind == "SendActivity")
+                    {
+                        if (mappingNode.Children.TryGetValue(new YamlScalarNode("activity"), out var actNode))
+                        {
+                            string actText = actNode is YamlMappingNode actMap
+                                && actMap.Children.TryGetValue(new YamlScalarNode("text"), out var textNode)
+                                    ? textNode.ToString()
+                                    : actNode.ToString();
+                            foreach (Match m in InterpolationRefRegex.Matches(actText))
+                            {
+                                refs.Add(new VariableReference { VariableName = m.Groups[1].Value, AccessType = VariableAccessType.Read, Context = "Message" });
+                            }
+                        }
+                    }
+
+                    // ConditionGroup: condition expressions contain READ references
+                    if (kind == "ConditionGroup"
+                        && mappingNode.Children.TryGetValue(new YamlScalarNode("conditions"), out var conditionsNode)
+                        && conditionsNode is YamlSequenceNode condSeq)
+                    {
+                        foreach (var cond in condSeq)
+                        {
+                            if (cond is YamlMappingNode condMap
+                                && condMap.Children.TryGetValue(new YamlScalarNode("condition"), out var condExpr))
+                            {
+                                foreach (Match m in VariableRefRegex.Matches(condExpr.ToString()))
+                                {
+                                    refs.Add(new VariableReference { VariableName = m.Value, AccessType = VariableAccessType.Read, Context = "Condition" });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Output bindings: receiving data = WRITE
+                if (mappingNode.Children.TryGetValue(new YamlScalarNode("output"), out var outputNode)
+                    && outputNode is YamlMappingNode outputMapping
+                    && outputMapping.Children.TryGetValue(new YamlScalarNode("binding"), out var bindingNode)
+                    && bindingNode is YamlMappingNode bindingMapping)
+                {
+                    string actionDisplayName = "";
+                    if (mappingNode.Children.TryGetValue(new YamlScalarNode("displayName"), out var adnNode))
+                        actionDisplayName = adnNode.ToString();
+                    string ctx = $"Output binding{(string.IsNullOrEmpty(actionDisplayName) ? "" : $" ({actionDisplayName})")}";
+                    foreach (var kvp in bindingMapping.Children)
+                    {
+                        string val = kvp.Value.ToString();
+                        if (!val.StartsWith("="))
+                        {
+                            refs.Add(new VariableReference { VariableName = val, AccessType = VariableAccessType.Write, Context = ctx });
+                        }
+                        else
+                        {
+                            // Expression on right side: variable refs are READ
+                            foreach (Match m in VariableRefRegex.Matches(val))
+                            {
+                                refs.Add(new VariableReference { VariableName = m.Value, AccessType = VariableAccessType.Read, Context = ctx });
+                            }
+                        }
+                    }
+                }
+
+                // Input bindings: sending data = READ
+                if (mappingNode.Children.TryGetValue(new YamlScalarNode("input"), out var inputNode)
+                    && inputNode is YamlMappingNode inputMapping
+                    && inputMapping.Children.TryGetValue(new YamlScalarNode("binding"), out var inputBindingNode)
+                    && inputBindingNode is YamlMappingNode inputBindingMapping)
+                {
+                    string actionDisplayName = "";
+                    if (mappingNode.Children.TryGetValue(new YamlScalarNode("displayName"), out var adnNode))
+                        actionDisplayName = adnNode.ToString();
+                    string ctx = $"Input binding{(string.IsNullOrEmpty(actionDisplayName) ? "" : $" ({actionDisplayName})")}";
+                    foreach (var kvp in inputBindingMapping.Children)
+                    {
+                        string val = kvp.Value.ToString();
+                        // All input binding values (variable refs or expressions) are READ
+                        foreach (Match m in VariableRefRegex.Matches(val))
+                        {
+                            refs.Add(new VariableReference { VariableName = m.Value, AccessType = VariableAccessType.Read, Context = ctx });
+                        }
+                    }
+                }
+
+                // Recurse into all children
+                foreach (var child in mappingNode.Children)
+                {
+                    CollectVariableReferencesFromNode(child.Value, refs);
+                }
+            }
+            else if (node is YamlSequenceNode sequenceNode)
+            {
+                foreach (var item in sequenceNode)
+                {
+                    CollectVariableReferencesFromNode(item, refs);
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns knowledge source details for KnowledgeSourceConfiguration topics.
         /// </summary>
         public (string SourceKind, string SkillConfiguration) GetKnowledgeSourceDetails()
@@ -1218,8 +1523,57 @@ namespace PowerDocu.Common
     }
 
     /// <summary>
-    /// Unified tool information, combining data from BotComponent TaskDialogs and AIPlugin prompt tools.
+    /// Describes a topic-to-topic call (BeginDialog or ReplaceDialog) with data bindings.
     /// </summary>
+    public class TopicCallInfo
+    {
+        public string SourceTopicSchemaName { get; set; }
+        public string SourceTopicName { get; set; }
+        public string TargetTopicSchemaName { get; set; }
+        public string TargetTopicName { get; set; }
+        public string CallKind { get; set; } // BeginDialog or ReplaceDialog
+        public Dictionary<string, string> InputBindings { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> OutputBindings { get; set; } = new Dictionary<string, string>();
+    }
+
+    /// <summary>
+    /// Describes a property in inputType or outputType on a topic.
+    /// </summary>
+    public class TopicTypeProperty
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+    }
+
+    /// <summary>
+    /// Classifies how a variable is accessed.
+    /// </summary>
+    public enum VariableAccessType
+    {
+        Read,
+        Write
+    }
+
+    /// <summary>
+    /// Describes a single variable reference within a topic, classified as Read or Write.
+    /// </summary>
+    public class VariableReference
+    {
+        public string VariableName { get; set; }
+        public VariableAccessType AccessType { get; set; }
+        public string Context { get; set; }
+    }
+
+    /// <summary>
+    /// Describes one topic's usage of a global variable.
+    /// </summary>
+    public class VariableUsageEntry
+    {
+        public string TopicName { get; set; }
+        public VariableAccessType AccessType { get; set; }
+        public string Context { get; set; }
+    }
+
     /// <summary>
     /// Information about a connected (child) agent referenced via InvokeConnectedAgentTaskAction.
     /// </summary>
