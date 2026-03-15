@@ -169,9 +169,17 @@ namespace PowerDocu.Common
             {
                 return connectionstring.Replace("@parameters('$connections')['shared_", "").Replace("']['connectionId']", "");
             }
-            else
+            else if (connectionstring.Contains("/providers/Microsoft.PowerApps/apis/shared_"))
             {
                 return connectionstring.Replace("/providers/Microsoft.PowerApps/apis/shared_", "").Split("_")[0];
+            }
+            else if (connectionstring.StartsWith("shared_"))
+            {
+                return connectionstring.Substring("shared_".Length);
+            }
+            else
+            {
+                return connectionstring;
             }
         }
 
