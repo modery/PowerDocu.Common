@@ -47,6 +47,63 @@ namespace PowerDocu.Common
             return connectorIcons.Find(x => x.Uniquename == uniqueName);
         }
 
+        /// <summary>
+        /// Resolves a raw connector identifier to a friendly display name using connectors.json.
+        /// Handles flow connection references (e.g. "commondataserviceforapps"),
+        /// shared_ prefixed names (e.g. "shared_office365"),
+        /// and agent dot-separated references (e.g. "agentName.shared_xxx.connectionId").
+        /// </summary>
+        public static string ResolveConnectorDisplayName(string rawName)
+        {
+            if (string.IsNullOrEmpty(rawName)) return rawName;
+            loadConnectorIcons();
+
+            // 1) Direct lookup by unique name
+            var icon = connectorIcons.Find(x => x.Uniquename.Equals(rawName, StringComparison.OrdinalIgnoreCase));
+            if (icon != null) return icon.Name;
+
+            // 2) Strip "shared_" prefix and try again
+            string stripped = rawName.StartsWith("shared_", StringComparison.OrdinalIgnoreCase)
+                ? rawName.Substring("shared_".Length)
+                : null;
+            if (stripped != null)
+            {
+                icon = connectorIcons.Find(x => x.Uniquename.Equals(stripped, StringComparison.OrdinalIgnoreCase));
+                if (icon != null) return icon.Name;
+            }
+
+            // 3) Agent connection references: "prefix.shared_connectorname.connectionId"
+            //    Extract segment containing "shared_"
+            if (rawName.Contains("."))
+            {
+                var segments = rawName.Split('.');
+                foreach (var seg in segments)
+                {
+                    if (seg.StartsWith("shared_", StringComparison.OrdinalIgnoreCase))
+                    {
+                        string connName = seg.Substring("shared_".Length);
+                        // Remove trailing GUID-like suffixes separated by hyphens
+                        // e.g. "service-now" stays, but we try the full name first
+                        icon = connectorIcons.Find(x => x.Uniquename.Equals(connName, StringComparison.OrdinalIgnoreCase));
+                        if (icon != null) return icon.Name;
+                        // Try stripping the part after the last hyphen-separated GUID
+                        int lastHyphen = connName.LastIndexOf('-');
+                        if (lastHyphen > 0)
+                        {
+                            string shorter = connName.Substring(0, lastHyphen);
+                            icon = connectorIcons.Find(x => x.Uniquename.Equals(shorter, StringComparison.OrdinalIgnoreCase));
+                            if (icon != null) return icon.Name;
+                        }
+                        // Return cleaned name even if not found in connectors.json
+                        return connName;
+                    }
+                }
+            }
+
+            // 4) Return the input as-is if nothing matched
+            return stripped ?? rawName;
+        }
+
         private static void loadConnectorIcons()
         {
             if (connectorIcons == null)
