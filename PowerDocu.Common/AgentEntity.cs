@@ -354,6 +354,47 @@ namespace PowerDocu.Common
             return "";
         }
 
+        public string GetResponseModelDisplayName()
+        {
+            var kind = GetResponseModel();
+            return kind switch
+            {
+                "CustomModels" => "Custom Models",
+                "CurrentModels" => "Current Models",
+                "CurrentModelsNoKind" => "Current Models",
+                "PreviewModels" => "Preview Models",
+                "ExperimentalModels" => "Experimental Models",
+                "TurboProductionModels" => "Turbo Production Models",
+                "TurboPreviewModels" => "Turbo Preview Models",
+                "TurboExperimentalModels" => "Turbo Experimental Models",
+                "ReasoningProductionModels" => "Reasoning Production Models",
+                "ReasoningPreviewModels" => "Reasoning Preview Models",
+                "ReasoningExperimentalModels" => "Reasoning Experimental Models",
+                "DeferredUpdateModels" => "Deferred Update Models",
+                "" => "",
+                _ => kind
+            };
+        }
+
+        public string GetModelNameHint()
+        {
+            try
+            {
+                var mapping = GetGptDefault().FirstOrDefault()?.GetYamlMappingNode();
+                if (mapping != null &&
+                    mapping.Children.TryGetValue(new YamlScalarNode("aISettings"), out var aiNode) &&
+                    aiNode is YamlMappingNode aiMapping &&
+                    aiMapping.Children.TryGetValue(new YamlScalarNode("model"), out var modelNode) &&
+                    modelNode is YamlMappingNode modelMapping &&
+                    modelMapping.Children.TryGetValue(new YamlScalarNode("modelNameHint"), out var hintNode))
+                {
+                    return hintNode.ToString();
+                }
+            }
+            catch { }
+            return "";
+        }
+
         public string GetAuthenticationModeDisplayName()
         {
             return AuthenticationMode switch
