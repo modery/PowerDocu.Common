@@ -25,6 +25,7 @@ namespace PowerDocu.Common
         public bool documentAppControls = true;
         public bool documentDefaultColumns = false;
         public bool addTableOfContents = false;
+        public bool showAllComponentsInGraph = true;
         public bool checkForUpdatesOnLaunch = true;
         private string configFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + AssemblyHelper.GetApplicationName() + @"\powerdocu.config.json";
 
@@ -59,6 +60,7 @@ namespace PowerDocu.Common
                     documentAppControls = config.documentAppControls;
                     documentDefaultColumns = config.documentDefaultColumns;
                     addTableOfContents = config.addTableOfContents;
+                    showAllComponentsInGraph = config.showAllComponentsInGraph;
                     checkForUpdatesOnLaunch = config.checkForUpdatesOnLaunch;
                 }
             }
