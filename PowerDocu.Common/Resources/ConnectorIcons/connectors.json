@@ -152,7 +152,7 @@
   {
     "Name": "Adobe PDF Services",
     "Uniquename": "adobepdftools",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1784/1.0.1784.4488/AdobePDFTools/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4653/adobepdftools/icon.png"
   },
   {
     "Name": "Advanced Data Operations",
@@ -163,6 +163,11 @@
     "Name": "Advanced Scraper (Independent Publisher)",
     "Uniquename": "advancedscraperip",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1657/1.0.1657.3444/advancedscraperip/icon.png"
+  },
+  {
+    "Name": "Aexum",
+    "Uniquename": "aexum",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1798/1.0.1798.4633/aexum/icon.png"
   },
   {
     "Name": "Affirmations (Independent Publisher)",
@@ -302,12 +307,12 @@
   {
     "Name": "Amazon Redshift",
     "Uniquename": "amazonredshift",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/AmazonRedshift/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/amazonredshift/icon.png"
   },
   {
     "Name": "Amazon S3",
     "Uniquename": "amazons3",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/AmazonS3/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/amazons3/icon.png"
   },
   {
     "Name": "Amazon S3 Bucket (Independent Publisher)",
@@ -317,7 +322,7 @@
   {
     "Name": "Amazon SQS",
     "Uniquename": "amazonsqs",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/AmazonSQS/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/amazonsqs/icon.png"
   },
   {
     "Name": "Ambee (Independent Publisher)",
@@ -422,22 +427,22 @@
   {
     "Name": "ArcGIS",
     "Uniquename": "arcgis",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1780/1.0.1780.4444/ArcGIS/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4601/arcgis/icon.png"
   },
   {
     "Name": "ArcGIS Enterprise",
     "Uniquename": "arcgisenterprise",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1780/1.0.1780.4444/arcgisenterprise/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4599/arcgisenterprise/icon.png"
   },
   {
     "Name": "ArcGIS PaaS",
     "Uniquename": "arcgispaas",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1779/1.0.1779.4446/arcgispaas/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4612/arcgispaas/icon.png"
   },
   {
     "Name": "AS2",
     "Uniquename": "as2",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/as2/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/as2/icon.png"
   },
   {
     "Name": "Asana",
@@ -547,17 +552,17 @@
   {
     "Name": "Azure AI Foundry Agent Service",
     "Uniquename": "azureagentservice",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1782/1.0.1782.4447/azureagentservice/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/azureagentservice/icon.png"
   },
   {
     "Name": "Azure AI Foundry Inference",
     "Uniquename": "azureaifoundryinference",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1780/1.0.1780.4444/azureaifoundryinference/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4613/azureaifoundryinference/icon.png"
   },
   {
     "Name": "Azure AI Search",
     "Uniquename": "azureaisearch",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1771/1.0.1771.4356/azureaisearch/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1771/1.0.1771.4367/azureaisearch/icon.png"
   },
   {
     "Name": "Azure App Service",
@@ -582,7 +587,7 @@
   {
     "Name": "Azure Blob Storage",
     "Uniquename": "azureblob",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/azureblob/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4648/azureblob/icon.png"
   },
   {
     "Name": "Azure Cognitive Service for Language",
@@ -627,12 +632,12 @@
   {
     "Name": "Azure Cosmos DB",
     "Uniquename": "documentdb",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/documentdb/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/documentdb/icon.png"
   },
   {
     "Name": "Azure Data Explorer",
     "Uniquename": "kusto",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/Kusto/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/kusto/icon.png"
   },
   {
     "Name": "Azure Data Factory",
@@ -647,7 +652,7 @@
   {
     "Name": "Azure Database for MySQL",
     "Uniquename": "azuremysql",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/azuremysql/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/azuremysql/icon.png"
   },
   {
     "Name": "Azure Databricks",
@@ -657,7 +662,7 @@
   {
     "Name": "Azure DevOps",
     "Uniquename": "visualstudioteamservices",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1784/1.0.1784.4505/visualstudioteamservices/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/visualstudioteamservices/icon.png"
   },
   {
     "Name": "Azure Digital Twins",
@@ -677,7 +682,7 @@
   {
     "Name": "Azure File Storage",
     "Uniquename": "azurefile",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/azurefile/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/azurefile/icon.png"
   },
   {
     "Name": "Azure IoT Central V2",
@@ -692,7 +697,7 @@
   {
     "Name": "Azure Key Vault",
     "Uniquename": "keyvault",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1773/1.0.1773.4385/keyvault/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/keyvault/icon.png"
   },
   {
     "Name": "Azure Log Analytics [DEPRECATED]",
@@ -707,7 +712,7 @@
   {
     "Name": "Azure Monitor Logs",
     "Uniquename": "azuremonitorlogs",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/AzureMonitorLogs/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/AzureMonitorLogs/icon.png"
   },
   {
     "Name": "Azure OpenAI",
@@ -732,7 +737,7 @@
   {
     "Name": "Azure SQL Data Warehouse",
     "Uniquename": "sqldw",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/sqldw/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4592/Sqldw/icon.png"
   },
   {
     "Name": "Azure Table Storage",
@@ -977,7 +982,7 @@
   {
     "Name": "Box",
     "Uniquename": "box",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/box/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/box/icon.png"
   },
   {
     "Name": "Box MCP Server",
@@ -1467,7 +1472,7 @@
   {
     "Name": "Content Conversion",
     "Uniquename": "conversionservice",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/conversionservice/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/conversionservice/icon.png"
   },
   {
     "Name": "Content Gate",
@@ -1522,7 +1527,7 @@
   {
     "Name": "Corda Blockchain [DEPRECATED]",
     "Uniquename": "blockchaincorda",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/blockchaincorda/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/blockchaincorda/icon.png"
   },
   {
     "Name": "Cornerstone Learning vILT",
@@ -1585,9 +1590,19 @@
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/u/shgogna/version-mismatches-special-train/1.0.1670.3520/crmbot/icon.png"
   },
   {
+    "Name": "Cronofy MCP",
+    "Uniquename": "cronofymcp",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4646/cronofymcp/icon.png"
+  },
+  {
     "Name": "Crossbeam",
     "Uniquename": "crossbeam",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1733/1.0.1733.4076/crossbeam/icon.png"
+  },
+  {
+    "Name": "CSC Corptax",
+    "Uniquename": "corptaxsandbox",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4527/corptaxsandbox/icon.png"
   },
   {
     "Name": "CSV Converter by Power2Apps",
@@ -1632,7 +1647,7 @@
   {
     "Name": "D365 Contact Center Admin MCP",
     "Uniquename": "d365contactcenteradminmcpserver",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4608/d365contactcenteradminmcpserver/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/d365contactcenteradminmcpserver/icon.png"
   },
   {
     "Name": "D7Messaging",
@@ -1705,6 +1720,11 @@
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1783/1.0.1783.4453/databricksinc/icon.png"
   },
   {
+    "Name": "DataFlows SMS",
+    "Uniquename": "dataflowssms",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4651/dataflowssms/icon.png"
+  },
+  {
     "Name": "DataMotion",
     "Uniquename": "securemessagedelivery",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1670/1.0.1670.3526/securemessagedelivery/icon.png"
@@ -1722,7 +1742,7 @@
   {
     "Name": "DB2",
     "Uniquename": "db2",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/DB2/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4431/db2/icon.png"
   },
   {
     "Name": "DBF2XML",
@@ -2012,7 +2032,7 @@
   {
     "Name": "Dropbox",
     "Uniquename": "dropbox",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/dropbox/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/dropbox/icon.png"
   },
   {
     "Name": "Duration Calculator (Independent Publisher)",
@@ -2037,17 +2057,17 @@
   {
     "Name": "Dynamics 365 (deprecated)",
     "Uniquename": "dynamicscrmonline",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/dynamicscrmonline/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/dynamicscrmonline/icon.png"
   },
   {
     "Name": "Dynamics 365 Business Central",
     "Uniquename": "dynamicssmbsaas",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/DynamicsSmbSaas/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/dynamicssmbsaas/icon.png"
   },
   {
     "Name": "Dynamics 365 Business Central (on-premises)",
     "Uniquename": "dynamicssmbonprem",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1777/1.0.1777.4429/dynamicssmbonprem/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/dynamicssmbonprem/icon.png"
   },
   {
     "Name": "Dynamics 365 Commerce - Ratings and Reviews",
@@ -2057,12 +2077,12 @@
   {
     "Name": "Dynamics 365 Commerce Merchandising [DEPRECATED]",
     "Uniquename": "commercemerchandising",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4565/commercemerchandising/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/commercemerchandising/icon.png"
   },
   {
     "Name": "Dynamics 365 Customer Insights",
     "Uniquename": "customerinsights",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4565/customerinsights/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/CustomerInsights/icon.png"
   },
   {
     "Name": "Dynamics 365 Customer Voice",
@@ -2082,7 +2102,7 @@
   {
     "Name": "Dynamics NAV",
     "Uniquename": "dynamicsnavision",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1777/1.0.1777.4429/dynamicsnavision/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/dynamicsnavision/icon.png"
   },
   {
     "Name": "Dynamics Translation Service",
@@ -2157,7 +2177,7 @@
   {
     "Name": "Edifact",
     "Uniquename": "edifact",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/edifact/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/edifact/icon.png"
   },
   {
     "Name": "Eduframe",
@@ -2172,7 +2192,7 @@
   {
     "Name": "Egnyte",
     "Uniquename": "egnyte",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4575/egnyte/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4629/egnyte/icon.png"
   },
   {
     "Name": "E-goi",
@@ -2262,12 +2282,12 @@
   {
     "Name": "Encodian - Barcode",
     "Uniquename": "encodianbarcode",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1789/1.0.1789.4532/encodianbarcode/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4670/encodianbarcode/icon.png"
   },
   {
     "Name": "Encodian - Convert",
     "Uniquename": "encodianconvert",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4531/encodianconvert/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4671/encodianconvert/icon.png"
   },
   {
     "Name": "Encodian - Excel",
@@ -2277,17 +2297,17 @@
   {
     "Name": "Encodian - General",
     "Uniquename": "encodiangeneral",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1780/1.0.1780.4449/encodiangeneral/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4613/encodiangeneral/icon.png"
   },
   {
     "Name": "Encodian - Image",
     "Uniquename": "encodianimage",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1780/1.0.1780.4451/encodianimage/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4672/encodianimage/icon.png"
   },
   {
     "Name": "Encodian - PDF",
     "Uniquename": "encodianpdf",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4532/encodianpdf/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4674/encodianpdf/icon.png"
   },
   {
     "Name": "Encodian - PowerPoint",
@@ -2295,14 +2315,19 @@
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1757/1.0.1757.4256/encodianpowerpoint/icon.png"
   },
   {
+    "Name": "Encodian - Sign",
+    "Uniquename": "encodiantrigr",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4673/encodiantrigr/icon.png"
+  },
+  {
     "Name": "Encodian - Utilities",
     "Uniquename": "encodianutilities",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1780/1.0.1780.4454/encodianutilities/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4675/encodianutilities/icon.png"
   },
   {
     "Name": "Encodian - Word",
     "Uniquename": "encodianword",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1780/1.0.1780.4444/encodianword/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4626/encodianword/icon.png"
   },
   {
     "Name": "Encodian [DEPRECATED]",
@@ -2313,11 +2338,6 @@
     "Name": "Encodian Filer",
     "Uniquename": "encodianfiler",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1733/1.0.1733.4076/encodianfiler/icon.png"
-  },
-  {
-    "Name": "Encodian Trigr",
-    "Uniquename": "encodiantrigr",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1733/1.0.1733.4076/encodiantrigr/icon.png"
   },
   {
     "Name": "Engagement Cloud",
@@ -2372,7 +2392,7 @@
   {
     "Name": "Ethereum Blockchain [DEPRECATED]",
     "Uniquename": "blockchainethereum",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4620/blockchainethereum/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/blockchainethereum/icon.png"
   },
   {
     "Name": "Etsy (Independent Publisher)",
@@ -2382,7 +2402,7 @@
   {
     "Name": "Event Hubs",
     "Uniquename": "eventhubs",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/eventhubs/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/eventhubs/icon.png"
   },
   {
     "Name": "Event Tickets",
@@ -2427,17 +2447,17 @@
   {
     "Name": "Excel [DEPRECATED]",
     "Uniquename": "excel",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/excel/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4431/excel/icon.png"
   },
   {
     "Name": "Excel Online (Business)",
     "Uniquename": "excelonlinebusiness",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/excelonlinebusiness/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4592/excelonlinebusiness/icon.png"
   },
   {
     "Name": "Excel Online (OneDrive)",
     "Uniquename": "excelonline",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/excelonline/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1751/1.0.1751.4219/excelonline/icon.png"
   },
   {
     "Name": "Exchange Rate (Independent Publisher)",
@@ -2468,6 +2488,16 @@
     "Name": "EXPOCAD",
     "Uniquename": "expocad",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/u/shgogna/version-mismatches-special-train/1.0.1670.3520/expocad/icon.png"
+  },
+  {
+    "Name": "Ezekia-MCP",
+    "Uniquename": "ezekiamcp",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4600/ezekiamcp/icon.png"
+  },
+  {
+    "Name": "Fabric MCP",
+    "Uniquename": "fabricmcp",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800/fabricmcp/icon.png"
   },
   {
     "Name": "Face API",
@@ -2552,7 +2582,7 @@
   {
     "Name": "File System",
     "Uniquename": "filesystem",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/filesystem/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/filesystem/icon.png"
   },
   {
     "Name": "File.io (Independent Publisher)",
@@ -2562,12 +2592,12 @@
   {
     "Name": "Files.com",
     "Uniquename": "filescom",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1795/1.0.1795.4848/filescom/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1798/1.0.1798.4612/filescom/icon.png"
   },
   {
     "Name": "Fin &amp; Ops Apps (Dynamics 365)",
     "Uniquename": "dynamicsax",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1795/1.0.1795.4835/DynamicsAx/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/DynamicsAX/icon.png"
   },
   {
     "Name": "Finalcad One Connect 4.0",
@@ -2697,7 +2727,12 @@
   {
     "Name": "FTP",
     "Uniquename": "ftp",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/ftp/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/ftp/icon.png"
+  },
+  {
+    "Name": "Fulcrum",
+    "Uniquename": "fulcrum",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1798/1.0.1798.4607/fulcrum/icon.png"
   },
   {
     "Name": "Fun Translations (Independent Publisher)",
@@ -2757,7 +2792,7 @@
   {
     "Name": "GitHub",
     "Uniquename": "github",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/github/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/github/icon.png"
   },
   {
     "Name": "Github Data (Independent Publisher)",
@@ -2787,7 +2822,7 @@
   {
     "Name": "Glaass Pro",
     "Uniquename": "glaasspro",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/glaasspro/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4627/glaasspro/icon.png"
   },
   {
     "Name": "Global Exchange Rates",
@@ -2802,7 +2837,7 @@
   {
     "Name": "Gmail",
     "Uniquename": "gmail",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/gmail/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/gmail/icon.png"
   },
   {
     "Name": "GMO Sign",
@@ -2842,7 +2877,7 @@
   {
     "Name": "Google Drive",
     "Uniquename": "googledrive",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1782/1.0.1782.4447/googledrive/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/googledrive/icon.png"
   },
   {
     "Name": "Google Gemini (Independent Publisher)",
@@ -2862,7 +2897,7 @@
   {
     "Name": "Google Sheets",
     "Uniquename": "googlesheet",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/googlesheet/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4588/googlesheet/icon.png"
   },
   {
     "Name": "Google Tasks",
@@ -3012,7 +3047,7 @@
   {
     "Name": "Hive CPQ Product Configurator",
     "Uniquename": "hivecpqproductconfig",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1759/1.0.1759.4267/hivecpqproductconfig/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4649/hivecpqproductconfig/icon.png"
   },
   {
     "Name": "Holopin",
@@ -3077,7 +3112,7 @@
   {
     "Name": "HTTP with Microsoft Entra ID (preauthorized)",
     "Uniquename": "webcontents",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1784/1.0.1784.4488/WebContents/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/webcontents/icon.png"
   },
   {
     "Name": "HubSpot CMS (Independent Publisher)",
@@ -3227,7 +3262,7 @@
   {
     "Name": "IBM 3270",
     "Uniquename": "si3270",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/si3270/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/si3270/icon.png"
   },
   {
     "Name": "IBM Watson Assistant (Independent Publisher)",
@@ -3387,7 +3422,7 @@
   {
     "Name": "Informix",
     "Uniquename": "informix",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/Informix/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/informix/icon.png"
   },
   {
     "Name": "InfoShare",
@@ -3542,7 +3577,7 @@
   {
     "Name": "Jira",
     "Uniquename": "jira",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1789/1.0.1789.4525/jira/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1801/1.0.1801.4622/jira/icon.png"
   },
   {
     "Name": "JIRA Search (Independent Publisher)",
@@ -3652,7 +3687,7 @@
   {
     "Name": "Lasso X",
     "Uniquename": "lassox",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/u/shgogna/version-mismatches-special-train/1.0.1670.3520/lassox/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4610/lassox/icon.png"
   },
   {
     "Name": "LatinShare Documents",
@@ -3847,7 +3882,7 @@
   {
     "Name": "LSEG",
     "Uniquename": "lseg",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1795/1.0.1795.4850/lseg/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4661/lseg/icon.png"
   },
   {
     "Name": "LSEG Financial Analytics",
@@ -4052,7 +4087,7 @@
   {
     "Name": "Microsoft Copilot Studio",
     "Uniquename": "microsoftcopilotstudio",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/MicrosoftCopilotStudio/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1801/1.0.1801.4622/microsoftcopilotstudio/icon.png"
   },
   {
     "Name": "Microsoft D365CE v9 OnPrem (Independent Publisher)",
@@ -4062,12 +4097,12 @@
   {
     "Name": "Microsoft Dataverse",
     "Uniquename": "commondataserviceforapps",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1789/1.0.1789.4619/commondataserviceforapps/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/commondataserviceforapps/icon.png"
   },
   {
     "Name": "Microsoft Dataverse [DEPRECATED]",
     "Uniquename": "commondataservice",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4565/commondataservice/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/commondataservice/icon.png"
   },
   {
     "Name": "Microsoft Defender ATP",
@@ -4152,22 +4187,22 @@
   {
     "Name": "Microsoft Security Copilot",
     "Uniquename": "securitycopilot",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/securitycopilot/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1767/1.0.1767.4344/securitycopilot/icon.png"
   },
   {
     "Name": "Microsoft Sentinel",
     "Uniquename": "azuresentinel",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/AzureSentinel/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/AzureSentinel/icon.png"
   },
   {
     "Name": "Microsoft Sentinel MCP",
     "Uniquename": "sentinelmcp",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4524/SentinelMCP/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/sentinelmcp/icon.png"
   },
   {
     "Name": "Microsoft Teams",
     "Uniquename": "teams",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1787/1.0.1787.4513/teams/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/teams/icon.png"
   },
   {
     "Name": "Microsoft Teams Virtual Events (deprecated) [DEPRECATED]",
@@ -4177,7 +4212,7 @@
   {
     "Name": "Microsoft To-Do (Business)",
     "Uniquename": "todo",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1778/1.0.1778.4420/todo/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4588/todo/icon.png"
   },
   {
     "Name": "Microsoft To-Do (Consumer)",
@@ -4233,6 +4268,11 @@
     "Name": "Mitto",
     "Uniquename": "mitto",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/u/shgogna/version-mismatches-special-train/1.0.1670.3520/mitto/icon.png"
+  },
+  {
+    "Name": "Mobile Text Alerts MCP Server",
+    "Uniquename": "mobiletextalertsmcps",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4647/mobiletextalertsmcps/icon.png"
   },
   {
     "Name": "Mobili Stotele",
@@ -4327,7 +4367,7 @@
   {
     "Name": "MQ",
     "Uniquename": "mq",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/MQ/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/mq/icon.png"
   },
   {
     "Name": "MS Graph Groups and Users",
@@ -4337,7 +4377,7 @@
   {
     "Name": "MSN Weather",
     "Uniquename": "msnweather",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/msnweather/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4588/msnweather/icon.png"
   },
   {
     "Name": "Mtarget SMS",
@@ -4367,7 +4407,7 @@
   {
     "Name": "MySQL",
     "Uniquename": "mysql",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/MySQL/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/mysql/icon.png"
   },
   {
     "Name": "myStrom (Independent Publisher)",
@@ -4622,17 +4662,17 @@
   {
     "Name": "Office 365 Outlook",
     "Uniquename": "office365",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4524/office365/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4544/office365/icon.png"
   },
   {
     "Name": "Office 365 Users",
     "Uniquename": "office365users",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4524/office365users/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4544/office365users/icon.png"
   },
   {
     "Name": "Office 365 Video [DEPRECATED]",
     "Uniquename": "office365video",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/office365video/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/office365video/icon.png"
   },
   {
     "Name": "OfficeAi Agent",
@@ -4827,7 +4867,7 @@
   {
     "Name": "Oracle Database",
     "Uniquename": "oracle",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/Oracle/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/oracle/icon.png"
   },
   {
     "Name": "ORB Intelligence (Independent Publisher)",
@@ -4862,7 +4902,7 @@
   {
     "Name": "Outlook.com",
     "Uniquename": "outlook",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1782/1.0.1782.4452/outlook/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/outlook/icon.png"
   },
   {
     "Name": "Outreach Insights",
@@ -4922,7 +4962,7 @@
   {
     "Name": "Partner Center Referrals",
     "Uniquename": "partnercenterref",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1780/1.0.1780.4444/partnercenterref/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1795/1.0.1795.4860/partnercenterref/icon.png"
   },
   {
     "Name": "PartnerLinq",
@@ -4960,6 +5000,11 @@
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1780/1.0.1780.4444/pdftools/icon.png"
   },
   {
+    "Name": "PDF Tools by Tachytelic (Independent Publisher)",
+    "Uniquename": "pdftoolsbytachytelic",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4621/pdftoolsbytachytelic/icon.png"
+  },
+  {
     "Name": "PDF4me",
     "Uniquename": "pdf4me",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/pdf4me/icon.png"
@@ -4967,7 +5012,7 @@
   {
     "Name": "PDF4me AI",
     "Uniquename": "pdf4meai",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4602/pdf4meai/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1798/1.0.1798.4613/pdf4meai/icon.png"
   },
   {
     "Name": "PDF4me Barcode",
@@ -5137,7 +5182,7 @@
   {
     "Name": "Planner",
     "Uniquename": "planner",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/planner/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4592/planner/icon.png"
   },
   {
     "Name": "Pling",
@@ -5257,7 +5302,7 @@
   {
     "Name": "Power BI",
     "Uniquename": "powerbi",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1774/1.0.1774.4397/powerbi/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/powerbi/icon.png"
   },
   {
     "Name": "Power Form 7",
@@ -5267,17 +5312,17 @@
   {
     "Name": "Power Platform for Admins",
     "Uniquename": "powerplatformforadmins",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1778/1.0.1778.4417/powerplatformforadmins/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1801/1.0.1801.4622/powerplatformforadmins/icon.png"
   },
   {
     "Name": "Power Platform for Admins V2",
     "Uniquename": "powerplatformadminv2",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1784/1.0.1784.4488/powerplatformadminv2/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/powerplatformadminv2/icon.png"
   },
   {
     "Name": "Power Query Dataflows",
     "Uniquename": "dataflows",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/Dataflows/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/Dataflows/icon.png"
   },
   {
     "Name": "Power Textor",
@@ -5357,7 +5402,7 @@
   {
     "Name": "Projectum Present It",
     "Uniquename": "projectum",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1674/1.0.1674.3602/projectum/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4606/projectum/icon.png"
   },
   {
     "Name": "ProjectWise Design Integration",
@@ -5717,32 +5762,32 @@
   {
     "Name": "RSign",
     "Uniquename": "rsign",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4608/rsign/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1798/1.0.1798.4619/rsign/icon.png"
   },
   {
     "Name": "RSS",
     "Uniquename": "rss",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/rss/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/rss/icon.png"
   },
   {
     "Name": "Salesforce",
     "Uniquename": "salesforce",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1795/1.0.1795.4845/salesforce/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/salesforce/icon.png"
   },
   {
     "Name": "SAP",
     "Uniquename": "sap",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1767/1.0.1767.4341/sap/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/sap/icon.png"
   },
   {
     "Name": "SAP ERP",
     "Uniquename": "saperp",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/SapERP/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/SapERP/icon.png"
   },
   {
     "Name": "SAP OData",
     "Uniquename": "sapodata",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4579/sapodata/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4610/SapOData/icon.png"
   },
   {
     "Name": "Sapling.ai (Independent Publisher)",
@@ -5782,7 +5827,7 @@
   {
     "Name": "Scrive eSign",
     "Uniquename": "scriveesign",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1762/1.0.1762.4298/scriveesign/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4605/scriveesign/icon.png"
   },
   {
     "Name": "Scryfall (Independent Publisher)",
@@ -5892,7 +5937,7 @@
   {
     "Name": "Service Bus",
     "Uniquename": "servicebus",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1760/1.0.1760.4281/servicebus/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1760/1.0.1760.4282/servicebus/icon.png"
   },
   {
     "Name": "Service Objects",
@@ -5922,12 +5967,12 @@
   {
     "Name": "SFTP - SSH",
     "Uniquename": "sftpwithssh",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1771/1.0.1771.4366/sftpwithssh/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/sftpwithssh/icon.png"
   },
   {
     "Name": "SFTP [DEPRECATED]",
     "Uniquename": "sftp",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/sftp/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/sftp/icon.png"
   },
   {
     "Name": "Shadify (Independent Publisher)",
@@ -5942,7 +5987,7 @@
   {
     "Name": "SharePoint",
     "Uniquename": "sharepointonline",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1769/1.0.1769.4352/sharepointonline/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1769/1.0.1769.4361/sharepointonline/icon.png"
   },
   {
     "Name": "SharePoint Embedded",
@@ -6002,7 +6047,7 @@
   {
     "Name": "Showpad eOS",
     "Uniquename": "showpad",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1735/1.0.1735.4103/showpad/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4603/showpad/icon.png"
   },
   {
     "Name": "SHRTCODE (Independent Publisher)",
@@ -6087,7 +6132,7 @@
   {
     "Name": "Skype for Business Online [DEPRECATED]",
     "Uniquename": "skypeforbiz",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/skypeforbiz/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/skypeforbiz/icon.png"
   },
   {
     "Name": "SkyPoint Cloud",
@@ -6162,12 +6207,12 @@
   {
     "Name": "SMTP",
     "Uniquename": "smtp",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/smtp/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/smtp/icon.png"
   },
   {
     "Name": "Snowflake",
     "Uniquename": "snowflakev2",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1769/1.0.1769.4347/snowflakev2/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/snowflakev2/icon.png"
   },
   {
     "Name": "Sociabble",
@@ -6252,7 +6297,7 @@
   {
     "Name": "SQL Server",
     "Uniquename": "sql",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/Sql/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4625/sql/icon.png"
   },
   {
     "Name": "Square Business (Independent Publisher)",
@@ -6502,7 +6547,7 @@
   {
     "Name": "Teradata",
     "Uniquename": "teradata",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/Teradata/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/teradata/icon.png"
   },
   {
     "Name": "Tesseron Asset Management",
@@ -6937,7 +6982,7 @@
   {
     "Name": "UserVoice",
     "Uniquename": "uservoice",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/UserVoice/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/uservoice/icon.png"
   },
   {
     "Name": "USGS Earthquake Hazards (Independent Publisher)",
@@ -7122,7 +7167,7 @@
   {
     "Name": "Windows 365",
     "Uniquename": "windows365",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1789/1.0.1789.4525/windows365/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1793/1.0.1793.4581/windows365/icon.png"
   },
   {
     "Name": "WithoutWire Inventory Platform",
@@ -7157,7 +7202,7 @@
   {
     "Name": "Word Online (Business)",
     "Uniquename": "wordonlinebusiness",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1796/1.0.1796.4575/WordOnlineBusiness/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1802/1.0.1802.4640/wordonlinebusiness/icon.png"
   },
   {
     "Name": "WordPress",
@@ -7177,7 +7222,7 @@
   {
     "Name": "Workday SOAP",
     "Uniquename": "workdaysoap",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1774/1.0.1774.4397/workdaysoap/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/workdaysoap/icon.png"
   },
   {
     "Name": "Working days (Independent Publisher)",
@@ -7257,12 +7302,12 @@
   {
     "Name": "X",
     "Uniquename": "twitter",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/twitter/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/twitter/icon.png"
   },
   {
     "Name": "X12",
     "Uniquename": "x12",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1774/1.0.1774.4397/x12/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/x12/icon.png"
   },
   {
     "Name": "Xbridger Document Manager",
@@ -7382,7 +7427,7 @@
   {
     "Name": "Zendesk",
     "Uniquename": "zendesk",
-    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/Zendesk/icon.png"
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1797/1.0.1797.4609/zendesk/icon.png"
   },
   {
     "Name": "Zenkraft",
@@ -7398,6 +7443,11 @@
     "Name": "Zenlogin (Independent Publisher)",
     "Uniquename": "zenlogin",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1732/1.0.1732.4070/zenlogin/icon.png"
+  },
+  {
+    "Name": "ZeroTrain AI Core",
+    "Uniquename": "zerotrainaicore",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1799/1.0.1799.4655/zerotrainaicore/icon.png"
   },
   {
     "Name": "Zippopotamus (Independent Publisher)",
@@ -7418,6 +7468,11 @@
     "Name": "Zoho Calendar",
     "Uniquename": "zohocalendar",
     "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1732/1.0.1732.4070/zohocalendar/icon.png"
+  },
+  {
+    "Name": "Zoho Forms",
+    "Uniquename": "zforms",
+    "Url": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1798/1.0.1798.4618/zforms/icon.png"
   },
   {
     "Name": "Zoho Invoice Basic (Independent Publisher)",
