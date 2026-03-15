@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,18 @@ namespace PowerDocu.Common
         public bool isSampleDataSource()
         {
             return ((string)Properties.FirstOrDefault(o => o.expressionOperator.Equals("IsSampleData"))?.expressionOperands[0]) == "True";
+        }
+
+        public bool isAuxiliaryDataSource()
+        {
+            if (string.IsNullOrEmpty(Name)) return false;
+            if (Name.StartsWith("default.cds_", StringComparison.OrdinalIgnoreCase) && Name.EndsWith("_views", StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (Name.EndsWith("_statecode", StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (Name.EndsWith("_statuscode", StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
         }
     }
 
