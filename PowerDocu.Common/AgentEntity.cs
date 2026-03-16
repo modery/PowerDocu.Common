@@ -332,7 +332,7 @@ namespace PowerDocu.Common
 
         public string GetOrchestration()
         {
-            return Configuration.settings.GenerativeActionsEnabled ? "Enabled" : "Disabled";
+            return Configuration?.settings?.GenerativeActionsEnabled == true ? "Enabled" : "Disabled";
         }
 
         public string GetResponseModel()
