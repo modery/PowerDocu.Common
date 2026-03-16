@@ -388,11 +388,26 @@ namespace PowerDocu.Common
                     modelNode is YamlMappingNode modelMapping &&
                     modelMapping.Children.TryGetValue(new YamlScalarNode("modelNameHint"), out var hintNode))
                 {
-                    return hintNode.ToString();
+                    return GetModelNameHintDisplayName(hintNode.ToString());
                 }
             }
             catch { }
             return "";
+        }
+
+        private static string GetModelNameHintDisplayName(string hint)
+        {
+            return hint switch
+            {
+                "GPT5Chat" => "GPT-5 Chat",
+                "GPT5Auto" => "GPT-5 Auto",
+                "GPT5Reasoning" => "GPT-5 Reasoning",
+                "sonnet4-5" => "Claude Sonnet 4.5",
+                "Sonnet46" => "Claude Sonnet 4.6",
+                "opus4-1" => "Claude Opus 4.5",
+                "" => "",
+                _ => hint
+            };
         }
 
         public string GetAuthenticationModeDisplayName()
