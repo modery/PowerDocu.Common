@@ -17,6 +17,9 @@ namespace PowerDocu.Common
         public Dictionary<string, string> Descriptions = new Dictionary<string, string>();
         public CustomizationsEntity Customizations;
         public List<EnvironmentVariableEntity> EnvironmentVariables = new List<EnvironmentVariableEntity>();
+        public List<AppActionEntity> AppActions = new List<AppActionEntity>();
+        public List<SettingDefinitionEntity> SettingDefinitions = new List<SettingDefinitionEntity>();
+        public List<FormulaDefinitionEntity> FormulaDefinitions = new List<FormulaDefinitionEntity>();
 
         public List<string> GetComponentTypes()
         {

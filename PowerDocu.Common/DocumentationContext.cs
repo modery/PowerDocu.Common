@@ -21,6 +21,7 @@ namespace PowerDocu.Common
         public ConfigHelper Config { get; set; }
         public string OutputPath { get; set; }
         public bool FullDocumentation { get; set; }
+        public string SourceZipPath { get; set; }
 
         /// <summary>
         /// Resolves a flow ID (GUID) to the flow's display name.

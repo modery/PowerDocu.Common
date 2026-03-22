@@ -49,6 +49,19 @@ namespace PowerDocu.Common
             return folder + "/" + file;
         }
 
+        public static string GetWebResourceDocHtmlPath(string solutionUniqueName)
+        {
+            string safeName = CharsetHelper.GetSafeName(solutionUniqueName);
+            return ("webresources-" + safeName + ".html").Replace(" ", "-");
+        }
+
+        public static string GetWebResourceDetailHtmlPath(string solutionUniqueName, string webResourceName)
+        {
+            string safeSolution = CharsetHelper.GetSafeName(solutionUniqueName);
+            string safeWr = CharsetHelper.GetSafeName(webResourceName);
+            return "WebResources/" + ("wr-" + safeWr + ".html").Replace(" ", "-");
+        }
+
         public static string GetSolutionDocHtmlPath(string solutionUniqueName)
         {
             string safeName = CharsetHelper.GetSafeName(solutionUniqueName);

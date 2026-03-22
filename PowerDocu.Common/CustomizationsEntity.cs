@@ -14,6 +14,8 @@ namespace PowerDocu.Common
         private List<AIModel> AIModels;
         private List<OptionSetEntity> optionSets;
         private List<AppModuleEntity> appModules;
+        private List<WebResourceEntity> webResources;
+        private List<RibbonCustomizationEntity> ribbonCustomizations;
 
         public string getAppNameBySchemaName(string schemaName)
         {
@@ -66,6 +68,52 @@ namespace PowerDocu.Common
             return AIModels;
         }
 
+        public List<ConnectorDefinition> getConnectors()
+        {
+            var connectors = new List<ConnectorDefinition>();
+            XmlNodeList connectorNodes = customizationsXml.SelectNodes("/ImportExportXml/Connectors/Connector");
+            if (connectorNodes != null)
+            {
+                foreach (XmlNode node in connectorNodes)
+                {
+                    connectors.Add(new ConnectorDefinition
+                    {
+                        Id = node.SelectSingleNode("connectorid")?.InnerText,
+                        Name = node.SelectSingleNode("name")?.InnerText,
+                        DisplayName = node.SelectSingleNode("displayname")?.InnerText,
+                        Description = node.SelectSingleNode("description")?.InnerText,
+                        ConnectorType = int.TryParse(node.SelectSingleNode("connectortype")?.InnerText, out var ct) ? ct : 0,
+                        IconBrandColor = node.SelectSingleNode("iconbrandcolor")?.InnerText,
+                        OpenApiDefinitionJson = null,
+                        ConnectionParametersJson = null,
+                        PolicyTemplateInstancesJson = null,
+                        IconBlobBase64 = null
+                    });
+                }
+            }
+            return connectors;
+        }
+
+        public List<ConnectionReferenceDefinition> getConnectionReferences()
+        {
+            var refs = new List<ConnectionReferenceDefinition>();
+            XmlNodeList refNodes = customizationsXml.SelectNodes("/ImportExportXml/connectionreferences/connectionreference");
+            if (refNodes != null)
+            {
+                foreach (XmlNode node in refNodes)
+                {
+                    refs.Add(new ConnectionReferenceDefinition
+                    {
+                        LogicalName = node.Attributes?["connectionreferencelogicalname"]?.Value,
+                        DisplayName = node.SelectSingleNode("connectionreferencedisplayname")?.InnerText,
+                        ConnectorId = node.SelectSingleNode("connectorid")?.InnerText,
+                        CustomConnectorId = node.SelectSingleNode("customconnectorid/connectorid")?.InnerText
+                    });
+                }
+            }
+            return refs;
+        }
+
         public List<EntityRelationship> getEntityRelationships()
         {
             if (entityRelationships == null)
@@ -101,6 +149,75 @@ namespace PowerDocu.Common
                 }
             }
             return optionSets;
+        }
+
+        public List<WebResourceEntity> getWebResources()
+        {
+            if (webResources == null)
+            {
+                webResources = new List<WebResourceEntity>();
+                XmlNodeList nodes = customizationsXml.SelectNodes("/ImportExportXml/WebResources/WebResource");
+                if (nodes != null)
+                {
+                    foreach (XmlNode node in nodes)
+                    {
+                        webResources.Add(new WebResourceEntity
+                        {
+                            Id = node.SelectSingleNode("WebResourceId")?.InnerText,
+                            Name = node.SelectSingleNode("Name")?.InnerText,
+                            DisplayName = node.SelectSingleNode("DisplayName")?.InnerText,
+                            WebResourceType = node.SelectSingleNode("WebResourceType")?.InnerText,
+                            IntroducedVersion = node.SelectSingleNode("IntroducedVersion")?.InnerText,
+                            IsCustomizable = node.SelectSingleNode("IsCustomizable")?.InnerText == "1",
+                            IsHidden = node.SelectSingleNode("IsHidden")?.InnerText == "1",
+                            FileName = node.SelectSingleNode("FileName")?.InnerText
+                        });
+                    }
+                    webResources.Sort((a, b) => (a.DisplayName ?? a.Name ?? "").CompareTo(b.DisplayName ?? b.Name ?? ""));
+                }
+            }
+            return webResources;
+        }
+
+        public List<RibbonCustomizationEntity> getRibbonCustomizations()
+        {
+            if (ribbonCustomizations == null)
+            {
+                ribbonCustomizations = new List<RibbonCustomizationEntity>();
+                foreach (XmlNode xmlEntity in customizationsXml.SelectNodes("/ImportExportXml/Entities/Entity"))
+                {
+                    XmlNode ribbonDiffXml = xmlEntity.SelectSingleNode("RibbonDiffXml");
+                    if (ribbonDiffXml == null) continue;
+
+                    XmlNodeList hideActions = ribbonDiffXml.SelectNodes("CustomActions/HideCustomAction");
+                    XmlNodeList commandDefs = ribbonDiffXml.SelectNodes("CommandDefinitions/CommandDefinition");
+                    XmlNodeList displayRules = ribbonDiffXml.SelectNodes("RuleDefinitions/DisplayRules/DisplayRule");
+                    XmlNodeList enableRules = ribbonDiffXml.SelectNodes("RuleDefinitions/EnableRules/EnableRule");
+
+                    int totalCustomizations = (hideActions?.Count ?? 0) + (commandDefs?.Count ?? 0) + (displayRules?.Count ?? 0) + (enableRules?.Count ?? 0);
+                    if (totalCustomizations == 0) continue;
+
+                    var ribbon = new RibbonCustomizationEntity
+                    {
+                        EntityName = xmlEntity.SelectSingleNode("Name")?.InnerText,
+                        CommandDefinitionCount = commandDefs?.Count ?? 0,
+                        DisplayRuleCount = displayRules?.Count ?? 0,
+                        EnableRuleCount = enableRules?.Count ?? 0
+                    };
+                    if (hideActions != null)
+                    {
+                        foreach (XmlNode ha in hideActions)
+                        {
+                            string location = ha.Attributes?.GetNamedItem("Location")?.InnerText;
+                            if (!string.IsNullOrEmpty(location))
+                                ribbon.HiddenActions.Add(location);
+                        }
+                    }
+                    ribbonCustomizations.Add(ribbon);
+                }
+                ribbonCustomizations.Sort((a, b) => (a.EntityName ?? "").CompareTo(b.EntityName ?? ""));
+            }
+            return ribbonCustomizations;
         }
 
         public List<RoleEntity> getRoles()
