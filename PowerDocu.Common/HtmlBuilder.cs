@@ -131,6 +131,12 @@ namespace PowerDocu.Common
             return $"<code>{Encode(code)}</code>";
         }
 
+        protected static string PreCodeBlock(string code)
+        {
+            if (String.IsNullOrEmpty(code)) return "";
+            return $"<pre><code>{Encode(code)}</code></pre>";
+        }
+
         // ------------------------------------------------------------------
         // Table helpers
         // ------------------------------------------------------------------
