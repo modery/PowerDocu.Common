@@ -16,6 +16,7 @@ namespace PowerDocu.Common
         public List<AppEntity> Apps { get; set; } = new List<AppEntity>();
         public List<AgentEntity> Agents { get; set; } = new List<AgentEntity>();
         public List<AppModuleEntity> AppModules { get; set; } = new List<AppModuleEntity>();
+        public List<BPFEntity> BusinessProcessFlows { get; set; } = new List<BPFEntity>();
         public List<TableEntity> Tables { get; set; } = new List<TableEntity>();
         public List<RoleEntity> Roles { get; set; } = new List<RoleEntity>();
         public ConfigHelper Config { get; set; }
@@ -175,6 +176,17 @@ namespace PowerDocu.Common
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Finds a parsed BPFEntity by its workflow ID.
+        /// </summary>
+        public BPFEntity GetBPFById(string bpfId)
+        {
+            if (string.IsNullOrEmpty(bpfId)) return null;
+            string normalizedId = bpfId.Trim('{', '}');
+            return BusinessProcessFlows?.FirstOrDefault(b =>
+                b.ID != null && b.ID.Trim('{', '}').Equals(normalizedId, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

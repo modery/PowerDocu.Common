@@ -105,6 +105,12 @@ namespace PowerDocu.Common
             return folder + "/" + safeName + ".docx";
         }
 
+        public static string GetWebResourceDocWordPath(string solutionUniqueName)
+        {
+            string safeName = CharsetHelper.GetSafeName(solutionUniqueName);
+            return "WebResources - " + safeName + ".docx";
+        }
+
         public static string GetSolutionDocWordPath(string solutionUniqueName)
         {
             string safeName = CharsetHelper.GetSafeName(solutionUniqueName);
@@ -153,6 +159,18 @@ namespace PowerDocu.Common
             string folder = "AIModelDoc " + safeName;
             string file = ("aimodel-" + safeName + ".md").Replace(" ", "-");
             return (folder + "/" + file).Replace(" ", "%20");
+        }
+
+        public static string GetWebResourceDocMdPath(string solutionUniqueName)
+        {
+            string safeName = CharsetHelper.GetSafeName(solutionUniqueName);
+            return ("webresources-" + safeName + ".md").Replace(" ", "-");
+        }
+
+        public static string GetWebResourceDetailMdPath(string solutionUniqueName, string webResourceName)
+        {
+            string safeWr = CharsetHelper.GetSafeName(webResourceName);
+            return ("WebResources/" + "wr-" + safeWr + ".md").Replace(" ", "-");
         }
 
         public static string GetSolutionDocMdPath(string solutionUniqueName)

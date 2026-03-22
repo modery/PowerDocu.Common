@@ -12,6 +12,7 @@ namespace PowerDocu.Common
         private List<TableEntity> tableEntities;
         private List<EntityRelationship> entityRelationships;
         private List<AIModel> AIModels;
+        private List<BPFEntity> businessProcessFlows;
         private List<OptionSetEntity> optionSets;
         private List<AppModuleEntity> appModules;
         private List<WebResourceEntity> webResources;
@@ -66,6 +67,90 @@ namespace PowerDocu.Common
                 AIModels.Sort((a, b) => a.getLocalizedName().CompareTo(b.getLocalizedName()));
             }
             return AIModels;
+        }
+
+        public List<BPFEntity> getBusinessProcessFlows()
+        {
+            if (businessProcessFlows == null)
+            {
+                businessProcessFlows = new List<BPFEntity>();
+                foreach (XmlNode workflowNode in customizationsXml.SelectNodes("/ImportExportXml/Workflows/Workflow"))
+                {
+                    XmlNode categoryNode = workflowNode.SelectSingleNode("Category");
+                    if (categoryNode == null || categoryNode.InnerText != "4")
+                        continue;
+
+                    var bpf = new BPFEntity
+                    {
+                        ID = workflowNode.Attributes?.GetNamedItem("WorkflowId")?.InnerText?.Trim('{', '}'),
+                        Name = workflowNode.Attributes?.GetNamedItem("Name")?.InnerText,
+                        XamlFileName = workflowNode.SelectSingleNode("XamlFileName")?.InnerText,
+                        PrimaryEntity = workflowNode.SelectSingleNode("PrimaryEntity")?.InnerText,
+                        UniqueName = workflowNode.SelectSingleNode("UniqueName")?.InnerText,
+                        BusinessProcessType = int.TryParse(workflowNode.SelectSingleNode("BusinessProcessType")?.InnerText, out int bpt) ? bpt : 0,
+                        StateCode = int.TryParse(workflowNode.SelectSingleNode("StateCode")?.InnerText, out int sc) ? sc : 0,
+                        StatusCode = int.TryParse(workflowNode.SelectSingleNode("StatusCode")?.InnerText, out int stc) ? stc : 0,
+                        IntroducedVersion = workflowNode.SelectSingleNode("IntroducedVersion")?.InnerText,
+                        IsCustomizable = workflowNode.SelectSingleNode("IsCustomizable")?.InnerText == "1",
+                        TriggerOnCreate = workflowNode.SelectSingleNode("TriggerOnCreate")?.InnerText == "1"
+                    };
+
+                    XmlNode localizedNamesNode = workflowNode.SelectSingleNode("LocalizedNames");
+                    if (localizedNamesNode != null)
+                    {
+                        foreach (XmlNode ln in localizedNamesNode.ChildNodes)
+                        {
+                            if (ln.Name == "LocalizedName")
+                            {
+                                string langCode = ln.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                                string desc = ln.Attributes?.GetNamedItem("description")?.InnerText;
+                                if (langCode != null && desc != null)
+                                    bpf.LocalizedNames[langCode] = desc;
+                            }
+                        }
+                    }
+
+                    XmlNode descriptionsNode = workflowNode.SelectSingleNode("Descriptions");
+                    if (descriptionsNode != null)
+                    {
+                        foreach (XmlNode dn in descriptionsNode.ChildNodes)
+                        {
+                            if (dn.Name == "Description")
+                            {
+                                string langCode = dn.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                                string desc = dn.Attributes?.GetNamedItem("description")?.InnerText;
+                                if (langCode != null && desc != null)
+                                    bpf.Descriptions[langCode] = desc;
+                            }
+                        }
+                    }
+
+                    XmlNode labelsNode = workflowNode.SelectSingleNode("labels");
+                    if (labelsNode != null)
+                    {
+                        foreach (XmlNode stepLabelsNode in labelsNode.ChildNodes)
+                        {
+                            if (stepLabelsNode.Name == "steplabels")
+                            {
+                                string stepId = stepLabelsNode.Attributes?.GetNamedItem("id")?.InnerText;
+                                XmlNode labelNode = stepLabelsNode.SelectSingleNode("label");
+                                string labelDesc = labelNode?.Attributes?.GetNamedItem("description")?.InnerText;
+                                if (stepId != null && labelDesc != null)
+                                    bpf.StageLabels[stepId] = labelDesc;
+                            }
+                        }
+                    }
+
+                    if (bpf.Descriptions.ContainsKey("1033"))
+                        bpf.Description = bpf.Descriptions["1033"];
+                    else if (bpf.Descriptions.Count > 0)
+                        bpf.Description = new List<string>(bpf.Descriptions.Values)[0];
+
+                    businessProcessFlows.Add(bpf);
+                }
+                businessProcessFlows.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
+            }
+            return businessProcessFlows;
         }
 
         public List<ConnectorDefinition> getConnectors()
