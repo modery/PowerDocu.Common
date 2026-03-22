@@ -30,6 +30,14 @@ namespace PowerDocu.Common
         public string Type;
         public List<Expression> Properties = new List<Expression>();
 
+        private static readonly HashSet<string> StandardDataverseTables = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "systemuser",
+            "team",
+            "businessunit",
+            "role"
+        };
+
         public bool isSampleDataSource()
         {
             return ((string)Properties.FirstOrDefault(o => o.expressionOperator.Equals("IsSampleData"))?.expressionOperands[0]) == "True";
@@ -45,6 +53,14 @@ namespace PowerDocu.Common
             if (Name.EndsWith("_statuscode", StringComparison.OrdinalIgnoreCase))
                 return true;
             return false;
+        }
+
+        public bool isStandardDataverseTable()
+        {
+            Expression tableDefExpr = Properties.FirstOrDefault(o => o.expressionOperator == "TableDefinition");
+            if (tableDefExpr == null) return false;
+            TableDefinitionInfo tdInfo = TableDefinitionHelper.Parse(tableDefExpr);
+            return tdInfo != null && !string.IsNullOrEmpty(tdInfo.LogicalName) && StandardDataverseTables.Contains(tdInfo.LogicalName);
         }
     }
 
