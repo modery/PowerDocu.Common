@@ -57,6 +57,87 @@ namespace PowerDocu.Common
                     }
                     File.Delete(tempFile);
                 }
+                //process app action definitions
+                List<ZipArchiveEntry> appActionFiles = ZipHelper.getFilesInPathFromZip(stream, "appactions/", "appaction.xml");
+                foreach (ZipArchiveEntry appActionFile in appActionFiles)
+                {
+                    string tempFile = Path.GetDirectoryName(filename) + @"\" + appActionFile.Name;
+                    appActionFile.ExtractToFile(tempFile, true);
+                    NotificationHelper.SendNotification("  - Processing app action definition ");
+                    using (FileStream appActionStream = new FileStream(tempFile, FileMode.Open))
+                    {
+                        AppActionEntity appAction = AppActionParser.parseAppActionDefinition(appActionStream);
+                        solution.AppActions.Add(appAction);
+                    }
+                    File.Delete(tempFile);
+                }
+                //process setting definitions
+                List<ZipArchiveEntry> settingDefFiles = ZipHelper.getFilesInPathFromZip(stream, "settingdefinitions/", "settingdefinition.xml");
+                foreach (ZipArchiveEntry settingDefFile in settingDefFiles)
+                {
+                    string tempFile = Path.GetDirectoryName(filename) + @"\" + settingDefFile.Name;
+                    settingDefFile.ExtractToFile(tempFile, true);
+                    NotificationHelper.SendNotification("  - Processing setting definition ");
+                    using (FileStream settingDefStream = new FileStream(tempFile, FileMode.Open))
+                    {
+                        SettingDefinitionEntity settingDef = SettingDefinitionParser.parseSettingDefinition(settingDefStream);
+                        solution.SettingDefinitions.Add(settingDef);
+                    }
+                    File.Delete(tempFile);
+                }
+                //process formula definitions
+                List<ZipArchiveEntry> formulaYamlFiles = ZipHelper.getFilesInPathFromZip(stream, "Formulas/", ".yaml");
+                foreach (ZipArchiveEntry formulaFile in formulaYamlFiles)
+                {
+                    string tempFile = Path.GetDirectoryName(filename) + @"\" + formulaFile.Name;
+                    formulaFile.ExtractToFile(tempFile, true);
+                    NotificationHelper.SendNotification("  - Processing formula definition ");
+                    try
+                    {
+                        string content = File.ReadAllText(tempFile);
+                        // YAML format: one line per formula: fieldname: =Expression
+                        string tableName = formulaFile.FullName.Replace("Formulas/", "").Replace("-FormulaDefinitions.yaml", "");
+                        foreach (string line in content.Split('\n'))
+                        {
+                            string trimmed = line.Trim();
+                            if (string.IsNullOrEmpty(trimmed)) continue;
+                            int colonIndex = trimmed.IndexOf(':');
+                            if (colonIndex > 0)
+                            {
+                                string columnName = trimmed.Substring(0, colonIndex).Trim();
+                                string formula = trimmed.Substring(colonIndex + 1).Trim();
+                                solution.FormulaDefinitions.Add(new FormulaDefinitionEntity
+                                {
+                                    TableName = tableName,
+                                    ColumnName = columnName,
+                                    Type = "PowerFx",
+                                    Content = formula
+                                });
+                            }
+                        }
+                    }
+                    catch { }
+                    File.Delete(tempFile);
+                }
+                List<ZipArchiveEntry> formulaXamlFiles = ZipHelper.getFilesInPathFromZip(stream, "Formulas/", ".xaml");
+                foreach (ZipArchiveEntry formulaFile in formulaXamlFiles)
+                {
+                    // XAML format: table-column.xaml (calculated/rollup fields)
+                    string baseName = formulaFile.FullName.Replace("Formulas/", "").Replace(".xaml", "");
+                    int dashIndex = baseName.IndexOf('-');
+                    if (dashIndex > 0)
+                    {
+                        string tableName = baseName.Substring(0, dashIndex);
+                        string columnName = baseName.Substring(dashIndex + 1);
+                        solution.FormulaDefinitions.Add(new FormulaDefinitionEntity
+                        {
+                            TableName = tableName,
+                            ColumnName = columnName,
+                            Type = "Calculated/Rollup",
+                            Content = null
+                        });
+                    }
+                }
             }
             else
             {
