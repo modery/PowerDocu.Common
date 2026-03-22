@@ -30,6 +30,8 @@ namespace PowerDocu.Common
         public List<AIPluginOperationEntity> AIPluginOperations { get; set; } = new List<AIPluginOperationEntity>();
         public List<CustomApiEntity> CustomApis { get; set; } = new List<CustomApiEntity>();
         public List<AIModel> AIModels { get; set; } = new List<AIModel>();
+        public List<ConnectorDefinition> Connectors { get; set; } = new List<ConnectorDefinition>();
+        public List<ConnectionReferenceDefinition> ConnectionReferences { get; set; } = new List<ConnectionReferenceDefinition>();
 
         public AgentEntity() { }
         public List<BotComponent> GetTopics()
@@ -98,6 +100,8 @@ namespace PowerDocu.Common
                 {
                     "InvokeConnectorTaskAction" => "Connector",
                     "InvokeFlowTaskAction" => "Flow",
+                    "InvokeExternalAgentTaskAction" when details.OperationDetailsKind == "ModelContextProtocolMetadata" => "MCP Server",
+                    "InvokeExternalAgentTaskAction" => "External Agent",
                     _ => details.ActionKind
                 };
                 string trigger = details.TriggerCondition == "false" ? "None" : "By agent";
@@ -105,6 +109,19 @@ namespace PowerDocu.Common
                 string description = !string.IsNullOrEmpty(details.ModelDescription)
                     ? details.ModelDescription
                     : tool.Description ?? "";
+
+                // Resolve connector definition via connection reference chain
+                ConnectorDefinition connectorDef = null;
+                if (!string.IsNullOrEmpty(details.ConnectionReference))
+                {
+                    var connRef = ConnectionReferences.FirstOrDefault(cr =>
+                        cr.LogicalName.Equals(details.ConnectionReference, StringComparison.OrdinalIgnoreCase));
+                    if (connRef != null)
+                    {
+                        connectorDef = Connectors.FirstOrDefault(c =>
+                            c.Id.Equals(connRef.CustomConnectorId, StringComparison.OrdinalIgnoreCase));
+                    }
+                }
 
                 var info = new AgentToolInfo
                 {
@@ -121,6 +138,11 @@ namespace PowerDocu.Common
                     ResponseActivity = details.ResponseActivity,
                     ResponseMode = details.ResponseMode,
                     OutputMode = details.OutputMode,
+                    OperationDetailsKind = details.OperationDetailsKind,
+                    ConnectionMode = details.ConnectionMode,
+                    ToolFilterKind = details.ToolFilterKind,
+                    AllowedTools = details.AllowedTools,
+                    Connector = connectorDef,
                     Inputs = details.Inputs,
                     Outputs = details.Outputs,
                     PromptText = null,
@@ -1172,10 +1194,12 @@ namespace PowerDocu.Common
         /// <summary>
         /// Returns tool/action details from TaskDialog YAML data.
         /// </summary>
-        public (string ActionKind, string ConnectionReference, string OperationId, string FlowId, string ModelDisplayName, string ModelDescription, string ResponseActivity, string ResponseMode, string OutputMode, string TriggerCondition, List<ToolInputInfo> Inputs, List<ToolOutputInfo> Outputs) GetToolDetails()
+        public (string ActionKind, string ConnectionReference, string OperationId, string FlowId, string ModelDisplayName, string ModelDescription, string ResponseActivity, string ResponseMode, string OutputMode, string TriggerCondition, string OperationDetailsKind, string ConnectionMode, string ToolFilterKind, List<string> AllowedTools, List<ToolInputInfo> Inputs, List<ToolOutputInfo> Outputs) GetToolDetails()
         {
             string actionKind = "", connectionRef = "", operationId = "", flowId = "", modelDisplayName = "", modelDescription = "";
             string responseActivity = "", responseMode = "", outputMode = "", triggerCondition = "";
+            string operationDetailsKind = "", connectionMode = "", toolFilterKind = "";
+            var allowedTools = new List<string>();
             var inputs = new List<ToolInputInfo>();
             var outputs = new List<ToolOutputInfo>();
             try
@@ -1207,6 +1231,31 @@ namespace PowerDocu.Common
                         operationId = opNode.ToString();
                     if (actionMapping.Children.TryGetValue(new YamlScalarNode("flowId"), out var fiNode))
                         flowId = fiNode.ToString();
+                    // Parse operationDetails for MCP and external agent tools
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("operationDetails"), out var odNode) && odNode is YamlMappingNode odMapping)
+                    {
+                        if (odMapping.Children.TryGetValue(new YamlScalarNode("kind"), out var odKindNode))
+                            operationDetailsKind = odKindNode.ToString();
+                        if (string.IsNullOrEmpty(operationId) && odMapping.Children.TryGetValue(new YamlScalarNode("operationId"), out var odOpNode))
+                            operationId = odOpNode.ToString();
+                        // Parse MCP tool filter (UseSpecificTools vs UseAllTools)
+                        if (odMapping.Children.TryGetValue(new YamlScalarNode("tools"), out var toolsNode) && toolsNode is YamlMappingNode toolsMapping)
+                        {
+                            if (toolsMapping.Children.TryGetValue(new YamlScalarNode("kind"), out var tfKindNode))
+                                toolFilterKind = tfKindNode.ToString();
+                            if (toolsMapping.Children.TryGetValue(new YamlScalarNode("tools"), out var toolsListNode) && toolsListNode is YamlSequenceNode toolsList)
+                            {
+                                foreach (var toolItem in toolsList)
+                                    allowedTools.Add(toolItem.ToString());
+                            }
+                        }
+                    }
+                    // Parse connectionProperties
+                    if (actionMapping.Children.TryGetValue(new YamlScalarNode("connectionProperties"), out var cpNode) && cpNode is YamlMappingNode cpMapping)
+                    {
+                        if (cpMapping.Children.TryGetValue(new YamlScalarNode("mode"), out var modeNode2))
+                            connectionMode = modeNode2.ToString();
+                    }
                 }
                 if (mapping.Children.TryGetValue(new YamlScalarNode("inputs"), out var inputsNode) && inputsNode is YamlSequenceNode inputsSequence)
                 {
@@ -1248,7 +1297,7 @@ namespace PowerDocu.Common
                 }
             }
             catch { }
-            return (actionKind, connectionRef, operationId, flowId, modelDisplayName, modelDescription, responseActivity, responseMode, outputMode, triggerCondition, inputs, outputs);
+            return (actionKind, connectionRef, operationId, flowId, modelDisplayName, modelDescription, responseActivity, responseMode, outputMode, triggerCondition, operationDetailsKind, connectionMode, toolFilterKind, allowedTools, inputs, outputs);
         }
 
         /// <summary>
@@ -1657,10 +1706,43 @@ namespace PowerDocu.Common
         public string ResponseActivity { get; set; }
         public string ResponseMode { get; set; }
         public string OutputMode { get; set; }
+        public string OperationDetailsKind { get; set; }
+        public string ConnectionMode { get; set; }
+        public string ToolFilterKind { get; set; }
+        public List<string> AllowedTools { get; set; } = new List<string>();
+        public ConnectorDefinition Connector { get; set; }
         public List<ToolInputInfo> Inputs { get; set; } = new List<ToolInputInfo>();
         public List<ToolOutputInfo> Outputs { get; set; } = new List<ToolOutputInfo>();
         public string PromptText { get; set; }
         public string ModelParameters { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a custom connector definition parsed from customizations.xml and Connector/ folder.
+    /// </summary>
+    public class ConnectorDefinition
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public int ConnectorType { get; set; }
+        public string IconBrandColor { get; set; }
+        public string OpenApiDefinitionJson { get; set; }
+        public string ConnectionParametersJson { get; set; }
+        public string PolicyTemplateInstancesJson { get; set; }
+        public string IconBlobBase64 { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a connection reference from customizations.xml that links an action to a connector.
+    /// </summary>
+    public class ConnectionReferenceDefinition
+    {
+        public string LogicalName { get; set; }
+        public string DisplayName { get; set; }
+        public string ConnectorId { get; set; }
+        public string CustomConnectorId { get; set; }
     }
 
 }

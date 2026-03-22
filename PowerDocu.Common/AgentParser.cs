@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.IO.Compression;
@@ -334,8 +335,10 @@ namespace PowerDocu.Common
                     agent.CustomApis = customApis;
                 }
 
-                //process customizations.xml to retrieve the AI Models
+                //process customizations.xml to retrieve AI Models, Connectors, and Connection References
                 ZipArchiveEntry customizationsDefinition = ZipHelper.getCustomizationsDefinitionFileFromZip(stream);
+                var connectors = new List<ConnectorDefinition>();
+                var connectionReferences = new List<ConnectionReferenceDefinition>();
                 if (customizationsDefinition != null)
                 {
                     tempFile = Path.GetDirectoryName(filename) + @"\" + customizationsDefinition.Name;
@@ -343,16 +346,75 @@ namespace PowerDocu.Common
                     NotificationHelper.SendNotification("  - Processing customizations.xml ");
                     using (FileStream customizations = new FileStream(tempFile, FileMode.Open))
                     {
-                        //todo start processing customizations.xml
                         CustomizationsEntity customizationsEntity = CustomizationsParser.parseCustomizationsDefinition(customizations);
                         AIModels = customizationsEntity.getAIModels().ToList();
+                        connectors = customizationsEntity.getConnectors();
+                        connectionReferences = customizationsEntity.getConnectionReferences();
                     }
                     File.Delete(tempFile);
                 }
-                // Assign AI Models to all agents
+
+                // Load OpenAPI definitions and connection parameters from Connector/ folder
+                foreach (var connector in connectors)
+                {
+                    if (!string.IsNullOrEmpty(connector.Name))
+                    {
+                        string openApiPath = $"Connector/{connector.Name}_openapidefinition.json";
+                        ZipArchiveEntry openApiEntry = ZipHelper.getFileFromZip(stream, openApiPath);
+                        if (openApiEntry != null)
+                        {
+                            tempFile = Path.GetDirectoryName(filename) + @"\" + openApiEntry.Name;
+                            openApiEntry.ExtractToFile(tempFile, true);
+                            connector.OpenApiDefinitionJson = File.ReadAllText(tempFile);
+                            File.Delete(tempFile);
+                        }
+                        string connParamsPath = $"Connector/{connector.Name}_connectionparameters.json";
+                        ZipArchiveEntry connParamsEntry = ZipHelper.getFileFromZip(stream, connParamsPath);
+                        if (connParamsEntry != null)
+                        {
+                            tempFile = Path.GetDirectoryName(filename) + @"\" + connParamsEntry.Name;
+                            connParamsEntry.ExtractToFile(tempFile, true);
+                            connector.ConnectionParametersJson = File.ReadAllText(tempFile);
+                            File.Delete(tempFile);
+                        }
+                        string policyPath = $"Connector/{connector.Name}_policytemplateinstances.json";
+                        ZipArchiveEntry policyEntry = ZipHelper.getFileFromZip(stream, policyPath);
+                        if (policyEntry != null)
+                        {
+                            tempFile = Path.GetDirectoryName(filename) + @"\" + policyEntry.Name;
+                            policyEntry.ExtractToFile(tempFile, true);
+                            string policyContent = File.ReadAllText(tempFile);
+                            if (!string.IsNullOrWhiteSpace(policyContent) && policyContent.Trim() != "null")
+                                connector.PolicyTemplateInstancesJson = policyContent;
+                            File.Delete(tempFile);
+                        }
+                        // Try common image extensions for the connector icon blob
+                        foreach (string ext in new[] { "Png", "png", "jpg", "jpeg", "svg" })
+                        {
+                            string iconPath = $"Connector/{connector.Name}_iconblob.{ext}";
+                            ZipArchiveEntry iconEntry = ZipHelper.getFileFromZip(stream, iconPath);
+                            if (iconEntry != null)
+                            {
+                                using (var ms = new MemoryStream())
+                                {
+                                    using (var entryStream = iconEntry.Open())
+                                    {
+                                        entryStream.CopyTo(ms);
+                                    }
+                                    connector.IconBlobBase64 = Convert.ToBase64String(ms.ToArray());
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Assign AI Models, Connectors, and Connection References to all agents
                 foreach (AgentEntity agent in Agents)
                 {
                     agent.AIModels = AIModels;
+                    agent.Connectors = connectors;
+                    agent.ConnectionReferences = connectionReferences;
                 }
             }
             else
