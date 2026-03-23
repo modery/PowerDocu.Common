@@ -23,6 +23,7 @@ namespace PowerDocu.Common
         public string OutputPath { get; set; }
         public bool FullDocumentation { get; set; }
         public string SourceZipPath { get; set; }
+        public ProgressTracker Progress { get; set; }
 
         /// <summary>
         /// Resolves a flow ID (GUID) to the flow's display name.
