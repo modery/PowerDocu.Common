@@ -138,6 +138,21 @@ namespace PowerDocu.Common
                         });
                     }
                 }
+                //process BPF workflow XAML definitions
+                List<ZipArchiveEntry> workflowXamlFiles = ZipHelper.getFilesInPathFromZip(stream, "Workflows/", ".xaml");
+                foreach (ZipArchiveEntry workflowXamlFile in workflowXamlFiles)
+                {
+                    string tempFile = Path.GetDirectoryName(filename) + @"\" + workflowXamlFile.Name;
+                    workflowXamlFile.ExtractToFile(tempFile, true);
+                    NotificationHelper.SendNotification("  - Processing BPF XAML definition ");
+                    try
+                    {
+                        string xamlContent = File.ReadAllText(tempFile);
+                        solution.WorkflowXamlFiles[workflowXamlFile.FullName] = xamlContent;
+                    }
+                    catch { }
+                    File.Delete(tempFile);
+                }
             }
             else
             {

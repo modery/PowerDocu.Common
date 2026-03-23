@@ -20,6 +20,7 @@ namespace PowerDocu.Common
         public List<AppActionEntity> AppActions = new List<AppActionEntity>();
         public List<SettingDefinitionEntity> SettingDefinitions = new List<SettingDefinitionEntity>();
         public List<FormulaDefinitionEntity> FormulaDefinitions = new List<FormulaDefinitionEntity>();
+        public Dictionary<string, string> WorkflowXamlFiles = new Dictionary<string, string>();
 
         public List<string> GetComponentTypes()
         {
