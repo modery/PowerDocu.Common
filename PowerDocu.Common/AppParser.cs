@@ -261,6 +261,9 @@ namespace PowerDocu.Common
 
         private void CheckForVariables(ControlEntity controlEntity, string input)
         {
+            //if input is a number, we can skip parsing it with PowerFx engine as it will not contain any variables and the parser will just add overhead
+            if (double.TryParse(input, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _))
+                return;
             // Use PowerFx parser to build an AST, which correctly handles comments and nesting
             var parseResult = engine.Parse(input);
             var visitor = new FormulaVisitor();
