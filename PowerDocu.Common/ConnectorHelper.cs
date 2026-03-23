@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,14 +22,12 @@ namespace PowerDocu.Common
         private static readonly string defaultConnectorJsonFolderPath = AssemblyHelper.GetExecutablePath() + @"\Resources\ConnectorIcons\";
         private const string connectorList = "https://learn.microsoft.com/en-us/connectors/connector-reference/";
         private static List<ConnectorIcon> connectorIcons;
+        private static readonly ConcurrentDictionary<string, string> _iconFilePaths = new();
 
         public static string getConnectorIconFile(string connectorName)
         {
-            if (File.Exists(folderPath + connectorName + ".png"))
-            {
-                return folderPath + connectorName + ".png";
-            }
-            return "";
+            return _iconFilePaths.GetOrAdd(connectorName, name =>
+                File.Exists(folderPath + name + ".png") ? folderPath + name + ".png" : "");
         }
         public static int numberOfConnectorIcons()
         {
