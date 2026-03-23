@@ -1,36 +1,111 @@
 using System;
+using System.Collections.Concurrent;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading;
 
 namespace PowerDocu.Common
 {
     public static class ImageHelper
     {
+        private static readonly ConcurrentDictionary<string, string> _base64Cache = new();
+        private static readonly ConcurrentDictionary<string, object> _conversionLocks = new();
         public static void ConvertImageTo32(string imagepath, string destinationpath)
         {
-            try
+            if (string.IsNullOrWhiteSpace(imagepath) || string.IsNullOrWhiteSpace(destinationpath))
             {
-                Bitmap bmp = new Bitmap(imagepath);
-                Bitmap resized = new Bitmap(bmp, new Size(32, (int)(32 * ((double)bmp.Height / bmp.Width))));
-                resized.Save(destinationpath, ImageFormat.Png);
-                resized.Dispose();
-                bmp.Dispose();
+                NotificationHelper.SendNotification("Image conversion skipped due to empty source or destination path.");
+                return;
             }
-            catch (Exception e)
+
+            if (!File.Exists(imagepath))
             {
-                throw new Exception("Image conversion failed for " + imagepath + ", " + destinationpath + "\n\n" + e.Message);
+                NotificationHelper.SendNotification("Image conversion skipped because source image was not found: " + imagepath);
+                return;
+            }
+
+            string destinationDirectory = Path.GetDirectoryName(destinationpath);
+            if (!string.IsNullOrEmpty(destinationDirectory) && !Directory.Exists(destinationDirectory))
+            {
+                Directory.CreateDirectory(destinationDirectory);
+            }
+
+            string lockKey = Path.GetFullPath(destinationpath).ToLowerInvariant();
+            object conversionLock = _conversionLocks.GetOrAdd(lockKey, _ => new object());
+
+            lock (conversionLock)
+            {
+                if (File.Exists(destinationpath))
+                {
+                    return;
+                }
+
+                try
+                {
+                    using Bitmap source = new Bitmap(imagepath);
+
+                    int targetWidth = 32;
+                    int targetHeight = source.Width == 0
+                        ? 32
+                        : Math.Max(1, (int)Math.Round(targetWidth * ((double)source.Height / source.Width)));
+
+                    using Bitmap resized = new Bitmap(targetWidth, targetHeight);
+                    using (Graphics graphics = Graphics.FromImage(resized))
+                    {
+                        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        graphics.SmoothingMode = SmoothingMode.HighQuality;
+                        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        graphics.CompositingQuality = CompositingQuality.HighQuality;
+                        graphics.DrawImage(source, 0, 0, targetWidth, targetHeight);
+                    }
+
+                    const int maxAttempts = 3;
+                    for (int attempt = 1; attempt <= maxAttempts; attempt++)
+                    {
+                        try
+                        {
+                            resized.Save(destinationpath, ImageFormat.Png);
+                            return;
+                        }
+                        catch when (attempt < maxAttempts)
+                        {
+                            Thread.Sleep(60);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    try
+                    {
+                        // Fallback: preserve graph rendering by using original icon if resizing fails.
+                        File.Copy(imagepath, destinationpath, true);
+                        NotificationHelper.SendNotification(
+                            "Image conversion fallback used for " + imagepath + ": " + e.Message
+                        );
+                    }
+                    catch (Exception fallbackException)
+                    {
+                        NotificationHelper.SendNotification(
+                            "Image conversion failed for " + imagepath + ", " + destinationpath + "\n\n" + e.Message + "\n\n" + fallbackException.Message
+                        );
+                    }
+                }
             }
         }
 
         public static string GetBase64(string filepath)
         {
-            if (File.Exists(filepath))
+            return _base64Cache.GetOrAdd(filepath, path =>
             {
-                byte[] imageArray = System.IO.File.ReadAllBytes(filepath);
-                return Convert.ToBase64String(imageArray);
-            }
-            return "";
+                if (File.Exists(path))
+                {
+                    byte[] imageArray = File.ReadAllBytes(path);
+                    return Convert.ToBase64String(imageArray);
+                }
+                return "";
+            });
         }
 
         public static Bitmap ConvertBase64ToBitmap(string base64String)
