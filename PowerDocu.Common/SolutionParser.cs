@@ -57,13 +57,13 @@ namespace PowerDocu.Common
                     }
                     File.Delete(tempFile);
                 }
-                //process app action definitions
+                //process Command Bar Buttons definitions
                 List<ZipArchiveEntry> appActionFiles = ZipHelper.getFilesInPathFromZip(stream, "appactions/", "appaction.xml");
                 foreach (ZipArchiveEntry appActionFile in appActionFiles)
                 {
                     string tempFile = Path.GetDirectoryName(filename) + @"\" + appActionFile.Name;
                     appActionFile.ExtractToFile(tempFile, true);
-                    NotificationHelper.SendNotification("  - Processing app action definition ");
+                    NotificationHelper.SendNotification("  - Processing Command Bar Buttons definition ");
                     using (FileStream appActionStream = new FileStream(tempFile, FileMode.Open))
                     {
                         AppActionEntity appAction = AppActionParser.parseAppActionDefinition(appActionStream);
