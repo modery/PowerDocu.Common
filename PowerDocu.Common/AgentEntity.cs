@@ -830,6 +830,44 @@ namespace PowerDocu.Common
             return variables.GroupBy(v => v.Variable + "|" + v.Context).Select(g => g.First()).OrderBy(v => v.Variable).ToList();
         }
 
+        /// <summary>
+        /// Builds a map from action DisplayName/Id to step label (e.g. "2.1.3") for all action nodes in the topic.
+        /// Used by all documentation builders to annotate variable usage with step references.
+        /// </summary>
+        public Dictionary<string, string> GetTopicActionStepMap()
+        {
+            var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            BuildActionStepMapRecursive(GetTopicActionNodes(), "", 0, map);
+            return map;
+        }
+
+        private static int BuildActionStepMapRecursive(
+            List<TopicActionNode> nodes, string stepPrefix, int startIndex, Dictionary<string, string> map)
+        {
+            int actionIndex = startIndex;
+            foreach (var node in nodes)
+            {
+                if (node.Kind == "Branch")
+                {
+                    actionIndex = BuildActionStepMapRecursive(node.Children, stepPrefix, actionIndex, map);
+                }
+                else
+                {
+                    actionIndex++;
+                    string stepLabel = string.IsNullOrEmpty(stepPrefix)
+                        ? actionIndex.ToString()
+                        : $"{stepPrefix}.{actionIndex}";
+                    if (!string.IsNullOrEmpty(node.DisplayName) && !map.ContainsKey(node.DisplayName))
+                        map[node.DisplayName] = stepLabel;
+                    if (!string.IsNullOrEmpty(node.Id) && !map.ContainsKey(node.Id))
+                        map[node.Id] = stepLabel;
+                    if (node.Children.Count > 0)
+                        BuildActionStepMapRecursive(node.Children, stepLabel, 0, map);
+                }
+            }
+            return actionIndex;
+        }
+
         private void CollectVariablesFromNode(YamlNode node, List<(string Variable, string Context)> variables)
         {
             if (node is YamlMappingNode mappingNode)
