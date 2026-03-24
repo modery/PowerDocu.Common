@@ -628,6 +628,174 @@ namespace PowerDocu.Common
         }
 
         /// <summary>
+        /// Returns the raw YAML trigger kind from beginDialog (e.g. OnRecognizedIntent).
+        /// </summary>
+        public string GetTopicTriggerKindRaw()
+        {
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("beginDialog"), out var bdNode)
+                    && bdNode is YamlMappingNode bdMapping
+                    && bdMapping.Children.TryGetValue(new YamlScalarNode("kind"), out var kindNode))
+                {
+                    return kindNode.ToString();
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the structured list of action nodes from this topic's beginDialog.actions sequence.
+        /// </summary>
+        public List<TopicActionNode> GetTopicActionNodes()
+        {
+            try
+            {
+                var mapping = GetYamlMappingNode();
+                if (mapping.Children.TryGetValue(new YamlScalarNode("beginDialog"), out var bdNode)
+                    && bdNode is YamlMappingNode bdMapping
+                    && bdMapping.Children.TryGetValue(new YamlScalarNode("actions"), out var actionsNode)
+                    && actionsNode is YamlSequenceNode actionsSeq)
+                {
+                    return ParseActionNodeList(actionsSeq);
+                }
+            }
+            catch { }
+            return [];
+        }
+
+        private List<TopicActionNode> ParseActionNodeList(YamlSequenceNode seq)
+        {
+            var result = new List<TopicActionNode>();
+            foreach (var item in seq)
+            {
+                if (item is YamlMappingNode m)
+                    result.Add(ParseActionNode(m));
+            }
+            return result;
+        }
+
+        private TopicActionNode ParseActionNode(YamlMappingNode mapping)
+        {
+            string kind = mapping.Children.TryGetValue(new YamlScalarNode("kind"), out var kNode) ? kNode.ToString() : "Unknown";
+            string id = mapping.Children.TryGetValue(new YamlScalarNode("id"), out var idNode) ? idNode.ToString() : "";
+            string displayName = mapping.Children.TryGetValue(new YamlScalarNode("displayName"), out var dnNode) ? dnNode.ToString() : "";
+            var node = new TopicActionNode { Kind = kind, Id = id, DisplayName = displayName };
+
+            switch (kind)
+            {
+                case "SetVariable":
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("variable"), out var varNode))
+                        node.Properties.Add(("Variable", varNode.ToString()));
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("value"), out var valNode))
+                        node.Properties.Add(("Value", valNode.ToString()));
+                    break;
+
+                case "Question":
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("activity"), out var qActNode))
+                    {
+                        string qText = qActNode is YamlMappingNode qActMap
+                            && qActMap.Children.TryGetValue(new YamlScalarNode("text"), out var tNode)
+                            ? tNode.ToString() : qActNode.ToString();
+                        node.Properties.Add(("Question", qText));
+                    }
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("variable"), out var qVarNode))
+                        node.Properties.Add(("Response Variable", qVarNode.ToString()));
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("questionType"), out var qtNode))
+                        node.Properties.Add(("Question Type", qtNode.ToString()));
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("choices"), out var choicesNode) && choicesNode is YamlSequenceNode choicesSeq)
+                    {
+                        var choiceLabels = new List<string>();
+                        foreach (var c in choicesSeq)
+                        {
+                            if (c is YamlMappingNode cm && cm.Children.TryGetValue(new YamlScalarNode("displayName"), out var cdnNode))
+                                choiceLabels.Add(cdnNode.ToString());
+                            else
+                                choiceLabels.Add(c.ToString());
+                        }
+                        if (choiceLabels.Count > 0)
+                            node.Properties.Add(("Choices", string.Join(", ", choiceLabels)));
+                    }
+                    break;
+
+                case "SendActivity":
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("activity"), out var actNode))
+                    {
+                        string actText = actNode is YamlMappingNode actMap
+                            && actMap.Children.TryGetValue(new YamlScalarNode("text"), out var tNode2)
+                            ? tNode2.ToString() : actNode.ToString();
+                        node.Properties.Add(("Message", actText));
+                    }
+                    break;
+
+                case "BeginDialog":
+                case "ReplaceDialog":
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("dialog"), out var dialogNode))
+                        node.Properties.Add(("Target Topic", ExtractTopicNameFromSchemaName(dialogNode.ToString())));
+                    ExtractActionBindings(mapping, node);
+                    break;
+
+                case "ConditionGroup":
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("conditions"), out var condNode) && condNode is YamlSequenceNode condSeq)
+                    {
+                        foreach (var cond in condSeq)
+                        {
+                            if (cond is YamlMappingNode condMap)
+                            {
+                                string condExpr = condMap.Children.TryGetValue(new YamlScalarNode("condition"), out var condExprNode)
+                                    ? condExprNode.ToString() : "";
+                                var branch = new TopicActionNode
+                                {
+                                    Kind = "Branch",
+                                    BranchLabel = string.IsNullOrEmpty(condExpr) ? "Else" : $"If: {condExpr}"
+                                };
+                                if (condMap.Children.TryGetValue(new YamlScalarNode("actions"), out var branchActNode) && branchActNode is YamlSequenceNode branchSeq)
+                                    branch.Children = ParseActionNodeList(branchSeq);
+                                node.Children.Add(branch);
+                            }
+                        }
+                    }
+                    break;
+
+                case "ForEach":
+                case "ForEachWithCondition":
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("items"), out var itemsNode))
+                        node.Properties.Add(("Items", itemsNode.ToString()));
+                    if (mapping.Children.TryGetValue(new YamlScalarNode("actions"), out var loopActNode) && loopActNode is YamlSequenceNode loopSeq)
+                        node.Children = ParseActionNodeList(loopSeq);
+                    break;
+
+                default:
+                    ExtractActionBindings(mapping, node);
+                    break;
+            }
+
+            return node;
+        }
+
+        private static void ExtractActionBindings(YamlMappingNode mapping, TopicActionNode node)
+        {
+            if (mapping.Children.TryGetValue(new YamlScalarNode("input"), out var inputNode)
+                && inputNode is YamlMappingNode inputMapping
+                && inputMapping.Children.TryGetValue(new YamlScalarNode("binding"), out var inputBindingNode)
+                && inputBindingNode is YamlMappingNode inputBindingMapping)
+            {
+                foreach (var kvp in inputBindingMapping.Children)
+                    node.Properties.Add(($"Input: {kvp.Key}", kvp.Value.ToString()));
+            }
+            if (mapping.Children.TryGetValue(new YamlScalarNode("output"), out var outputNode)
+                && outputNode is YamlMappingNode outputMapping
+                && outputMapping.Children.TryGetValue(new YamlScalarNode("binding"), out var outBindingNode)
+                && outBindingNode is YamlMappingNode outBindingMapping)
+            {
+                foreach (var kvp in outBindingMapping.Children)
+                    node.Properties.Add(($"Output: {kvp.Key}", kvp.Value.ToString()));
+            }
+        }
+
+        /// <summary>
         /// Returns a display name for the ComponentType.
         /// </summary>
         public string GetComponentTypeDisplayName()
@@ -674,6 +842,8 @@ namespace PowerDocu.Common
                     string displayName = "";
                     if (mappingNode.Children.TryGetValue(new YamlScalarNode("displayName"), out var dnNode))
                         displayName = dnNode.ToString();
+                    if (string.IsNullOrEmpty(displayName) && mappingNode.Children.TryGetValue(new YamlScalarNode("id"), out var svIdNode))
+                        displayName = svIdNode.ToString();
                     variables.Add((varNode.ToString(), $"SetVariable{(string.IsNullOrEmpty(displayName) ? "" : $" ({displayName})")}" ));
                 }
 
@@ -686,6 +856,8 @@ namespace PowerDocu.Common
                     string actionDisplayName = "";
                     if (mappingNode.Children.TryGetValue(new YamlScalarNode("displayName"), out var adnNode))
                         actionDisplayName = adnNode.ToString();
+                    if (string.IsNullOrEmpty(actionDisplayName) && mappingNode.Children.TryGetValue(new YamlScalarNode("id"), out var obIdNode))
+                        actionDisplayName = obIdNode.ToString();
                     foreach (var kvp in bindingMapping.Children)
                     {
                         string bindingValue = kvp.Value.ToString();
@@ -706,6 +878,8 @@ namespace PowerDocu.Common
                     string actionDisplayName = "";
                     if (mappingNode.Children.TryGetValue(new YamlScalarNode("displayName"), out var adnNode))
                         actionDisplayName = adnNode.ToString();
+                    if (string.IsNullOrEmpty(actionDisplayName) && mappingNode.Children.TryGetValue(new YamlScalarNode("id"), out var ibIdNode))
+                        actionDisplayName = ibIdNode.ToString();
                     foreach (var kvp in inputBindingMapping.Children)
                     {
                         string bindingValue = kvp.Value.ToString();
@@ -1743,6 +1917,21 @@ namespace PowerDocu.Common
         public string DisplayName { get; set; }
         public string ConnectorId { get; set; }
         public string CustomConnectorId { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a single action node within a topic's dialog flow,
+    /// including its kind, display name, type-specific properties, and child nodes.
+    /// </summary>
+    public class TopicActionNode
+    {
+        public string Kind { get; set; }
+        public string Id { get; set; }
+        public string DisplayName { get; set; }
+        public List<(string Key, string Value)> Properties { get; set; } = new List<(string Key, string Value)>();
+        public List<TopicActionNode> Children { get; set; } = new List<TopicActionNode>();
+        /// <summary>Label shown for condition branches (e.g. "If: Topic.X = 1" or "Else").</summary>
+        public string BranchLabel { get; set; }
     }
 
 }
