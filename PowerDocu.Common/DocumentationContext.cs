@@ -17,6 +17,7 @@ namespace PowerDocu.Common
         public List<AgentEntity> Agents { get; set; } = new List<AgentEntity>();
         public List<AppModuleEntity> AppModules { get; set; } = new List<AppModuleEntity>();
         public List<BPFEntity> BusinessProcessFlows { get; set; } = new List<BPFEntity>();
+        public List<DesktopFlowEntity> DesktopFlows { get; set; } = new List<DesktopFlowEntity>();
         public List<TableEntity> Tables { get; set; } = new List<TableEntity>();
         public List<RoleEntity> Roles { get; set; } = new List<RoleEntity>();
         public ConfigHelper Config { get; set; }
@@ -188,6 +189,16 @@ namespace PowerDocu.Common
             string normalizedId = bpfId.Trim('{', '}');
             return BusinessProcessFlows?.FirstOrDefault(b =>
                 b.ID != null && b.ID.Trim('{', '}').Equals(normalizedId, StringComparison.OrdinalIgnoreCase));
+        }
+        /// <summary>
+        /// Finds a parsed DesktopFlowEntity by its workflow ID.
+        /// </summary>
+        public DesktopFlowEntity GetDesktopFlowById(string flowId)
+        {
+            if (string.IsNullOrEmpty(flowId)) return null;
+            string normalizedId = flowId.Trim('{', '}');
+            return DesktopFlows?.FirstOrDefault(d =>
+                d.ID != null && d.ID.Trim('{', '}').Equals(normalizedId, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

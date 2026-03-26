@@ -17,6 +17,7 @@ namespace PowerDocu.Common
         private List<AppModuleEntity> appModules;
         private List<WebResourceEntity> webResources;
         private List<RibbonCustomizationEntity> ribbonCustomizations;
+        private List<DesktopFlowEntity> desktopFlows;
 
         public string getAppNameBySchemaName(string schemaName)
         {
@@ -151,6 +152,99 @@ namespace PowerDocu.Common
                 businessProcessFlows.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
             }
             return businessProcessFlows;
+        }
+
+        public List<DesktopFlowEntity> getDesktopFlows()
+        {
+            if (desktopFlows == null)
+            {
+                desktopFlows = new List<DesktopFlowEntity>();
+                foreach (XmlNode workflowNode in customizationsXml.SelectNodes("/ImportExportXml/Workflows/Workflow"))
+                {
+                    XmlNode categoryNode = workflowNode.SelectSingleNode("Category");
+                    if (categoryNode == null || categoryNode.InnerText != "6")
+                        continue;
+
+                    XmlNode uiFlowTypeNode = workflowNode.SelectSingleNode("UIFlowType");
+                    if (uiFlowTypeNode == null || !int.TryParse(uiFlowTypeNode.InnerText, out int uiFlowType) || uiFlowType < 0)
+                        continue;
+
+                    var flow = new DesktopFlowEntity
+                    {
+                        ID = workflowNode.Attributes?.GetNamedItem("WorkflowId")?.InnerText?.Trim('{', '}'),
+                        Name = workflowNode.Attributes?.GetNamedItem("Name")?.InnerText,
+                        UIFlowType = uiFlowType,
+                        SchemaVersion = workflowNode.SelectSingleNode("SchemaVersion")?.InnerText,
+                        StateCode = int.TryParse(workflowNode.SelectSingleNode("StateCode")?.InnerText, out int sc) ? sc : 0,
+                        StatusCode = int.TryParse(workflowNode.SelectSingleNode("StatusCode")?.InnerText, out int stc) ? stc : 0,
+                        IntroducedVersion = workflowNode.SelectSingleNode("IntroducedVersion")?.InnerText,
+                        IsCustomizable = workflowNode.SelectSingleNode("IsCustomizable")?.InnerText == "1",
+                        MetadataJson = workflowNode.SelectSingleNode("Metadata")?.InnerText,
+                        DependenciesJson = workflowNode.SelectSingleNode("Dependencies")?.InnerText,
+                        ConnectionReferencesJson = workflowNode.SelectSingleNode("ConnectionReferences")?.InnerText
+                    };
+
+                    // Localized names
+                    XmlNode localizedNamesNode = workflowNode.SelectSingleNode("LocalizedNames");
+                    if (localizedNamesNode != null)
+                    {
+                        foreach (XmlNode ln in localizedNamesNode.ChildNodes)
+                        {
+                            if (ln.Name == "LocalizedName")
+                            {
+                                string langCode = ln.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                                string desc = ln.Attributes?.GetNamedItem("description")?.InnerText;
+                                if (langCode != null && desc != null)
+                                    flow.LocalizedNames[langCode] = desc;
+                            }
+                        }
+                    }
+
+                    // Description from Descriptions node (if present)
+                    XmlNode descriptionsNode = workflowNode.SelectSingleNode("Descriptions");
+                    if (descriptionsNode != null)
+                    {
+                        foreach (XmlNode dn in descriptionsNode.ChildNodes)
+                        {
+                            if (dn.Name == "Description")
+                            {
+                                string langCode = dn.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                                string desc = dn.Attributes?.GetNamedItem("description")?.InnerText;
+                                if (langCode == "1033" && desc != null)
+                                {
+                                    flow.Description = desc;
+                                    break;
+                                }
+                                if (desc != null && string.IsNullOrEmpty(flow.Description))
+                                    flow.Description = desc;
+                            }
+                        }
+                    }
+
+                    // Parse Robin Script from <Definition> property
+                    string definition = workflowNode.SelectSingleNode("Definition")?.InnerText;
+                    if (!string.IsNullOrEmpty(definition))
+                    {
+                        RobinScriptParser.ParseRobinScript(definition, flow);
+                    }
+
+                    // Parse PowerFx settings from <Metadata> JSON
+                    if (!string.IsNullOrEmpty(flow.MetadataJson))
+                    {
+                        try
+                        {
+                            var metadataObj = Newtonsoft.Json.Linq.JObject.Parse(flow.MetadataJson);
+                            flow.PowerFxEnabled = metadataObj.Value<bool?>("isPowerFxEnabled") ?? false;
+                            flow.PowerFxVersion = metadataObj.Value<string>("powerFxVersion");
+                        }
+                        catch { }
+                    }
+
+                    desktopFlows.Add(flow);
+                }
+                desktopFlows.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
+            }
+            return desktopFlows;
         }
 
         public List<ConnectorDefinition> getConnectors()
