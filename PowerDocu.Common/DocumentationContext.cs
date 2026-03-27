@@ -117,7 +117,13 @@ namespace PowerDocu.Common
         {
             if (string.IsNullOrEmpty(schemaName)) return schemaName;
             TableEntity table = Tables?.FirstOrDefault(t => t.getName().Equals(schemaName, StringComparison.OrdinalIgnoreCase));
-            return table?.getLocalizedName() ?? schemaName;
+            if (table != null)
+            {
+                string localized = table.getLocalizedName();
+                if (!string.IsNullOrEmpty(localized)) return localized;
+                return table.getName();
+            }
+            return schemaName;
         }
 
         /// <summary>
