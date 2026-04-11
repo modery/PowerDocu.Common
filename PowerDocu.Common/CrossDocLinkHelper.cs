@@ -49,6 +49,14 @@ namespace PowerDocu.Common
             return folder + "/" + file;
         }
 
+        public static string GetDataflowDocHtmlPath(string dataflowName)
+        {
+            string safeName = CharsetHelper.GetSafeName(dataflowName);
+            string folder = "DataflowDoc " + safeName;
+            string file = ("dataflow-" + safeName + ".html").Replace(" ", "-");
+            return folder + "/" + file;
+        }
+
         public static string GetWebResourceDocHtmlPath(string solutionUniqueName)
         {
             string safeName = CharsetHelper.GetSafeName(solutionUniqueName);
@@ -105,6 +113,13 @@ namespace PowerDocu.Common
             return folder + "/" + safeName + ".docx";
         }
 
+        public static string GetDataflowDocWordPath(string dataflowName)
+        {
+            string safeName = CharsetHelper.GetSafeName(dataflowName);
+            string folder = "DataflowDoc " + safeName;
+            return folder + "/" + safeName + ".docx";
+        }
+
         public static string GetWebResourceDocWordPath(string solutionUniqueName)
         {
             string safeName = CharsetHelper.GetSafeName(solutionUniqueName);
@@ -158,6 +173,14 @@ namespace PowerDocu.Common
             string safeName = CharsetHelper.GetSafeName(aiModelName);
             string folder = "AIModelDoc " + safeName;
             string file = ("aimodel-" + safeName + ".md").Replace(" ", "-");
+            return (folder + "/" + file).Replace(" ", "%20");
+        }
+
+        public static string GetDataflowDocMdPath(string dataflowName)
+        {
+            string safeName = CharsetHelper.GetSafeName(dataflowName);
+            string folder = "DataflowDoc " + safeName;
+            string file = ("dataflow-" + safeName + ".md").Replace(" ", "-");
             return (folder + "/" + file).Replace(" ", "%20");
         }
 

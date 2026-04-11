@@ -18,6 +18,7 @@ namespace PowerDocu.Common
         public List<AppModuleEntity> AppModules { get; set; } = new List<AppModuleEntity>();
         public List<BPFEntity> BusinessProcessFlows { get; set; } = new List<BPFEntity>();
         public List<DesktopFlowEntity> DesktopFlows { get; set; } = new List<DesktopFlowEntity>();
+        public List<DataflowEntity> Dataflows { get; set; } = new List<DataflowEntity>();
         public List<TableEntity> Tables { get; set; } = new List<TableEntity>();
         public List<RoleEntity> Roles { get; set; } = new List<RoleEntity>();
         public ConfigHelper Config { get; set; }

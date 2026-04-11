@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using Newtonsoft.Json.Linq;
 
 namespace PowerDocu.Common
 {
@@ -18,6 +19,7 @@ namespace PowerDocu.Common
         private List<WebResourceEntity> webResources;
         private List<RibbonCustomizationEntity> ribbonCustomizations;
         private List<DesktopFlowEntity> desktopFlows;
+        private List<DataflowEntity> dataflows;
 
         public string getAppNameBySchemaName(string schemaName)
         {
@@ -245,6 +247,164 @@ namespace PowerDocu.Common
                 desktopFlows.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
             }
             return desktopFlows;
+        }
+
+        public List<DataflowEntity> getDataflows()
+        {
+            if (dataflows == null)
+            {
+                dataflows = new List<DataflowEntity>();
+                XmlNodeList dfNodes = customizationsXml.SelectNodes("/ImportExportXml/msdyn_dataflows/msdyn_dataflow");
+                if (dfNodes != null)
+                {
+                    foreach (XmlNode dfNode in dfNodes)
+                    {
+                        var df = new DataflowEntity
+                        {
+                            DataflowId = dfNode.Attributes?["msdyn_dataflowid"]?.Value,
+                            Name = dfNode.SelectSingleNode("msdyn_name")?.InnerText,
+                            OriginalDataflowId = dfNode.SelectSingleNode("msdyn_originaldataflowid")?.InnerText,
+                            InternalVersion = dfNode.SelectSingleNode("msdyn_internalversion")?.InnerText,
+                            IsCustomizable = dfNode.SelectSingleNode("iscustomizable")?.InnerText == "1",
+                            StateCode = int.TryParse(dfNode.SelectSingleNode("statecode")?.InnerText, out int sc) ? sc : 0,
+                            StatusCode = int.TryParse(dfNode.SelectSingleNode("statuscode")?.InnerText, out int stc) ? stc : 0,
+                            MashupDocument = dfNode.SelectSingleNode("msdyn_mashupdocument")?.InnerText
+                        };
+
+                        // Parse msdyn_mashupsettings JSON
+                        string mashupSettingsJson = dfNode.SelectSingleNode("msdyn_mashupsettings")?.InnerText;
+                        if (!string.IsNullOrEmpty(mashupSettingsJson))
+                        {
+                            try
+                            {
+                                var settings = JObject.Parse(mashupSettingsJson);
+                                df.DocumentLocale = settings.Value<string>("DocumentLocale");
+                                df.FastCombine = settings.Value<bool?>("FastCombine") ?? false;
+                                df.AllowNativeQueries = settings.Value<bool?>("AllowNativeQueries") ?? false;
+                                df.SkipAutomaticTypeAndHeaderDetection = settings.Value<bool?>("SkipAutomaticTypeAndHeaderDetection") ?? false;
+                                df.DisableAutoAnonymousConnectionUpsert = settings.Value<bool?>("DisableAutoAnonymousConnectionUpsert") ?? false;
+
+                                var hostContext = settings["HostContext"];
+                                if (hostContext != null)
+                                {
+                                    df.HostContextType = hostContext.Value<string>("Type");
+                                    df.HostEnvironmentId = hostContext["Details"]?.Value<string>("EnvironmentId");
+                                }
+
+                                // Parse QueriesMetadata
+                                var queriesMetadata = settings["QueriesMetadata"] as JObject;
+                                if (queriesMetadata != null)
+                                {
+                                    foreach (var kvp in queriesMetadata)
+                                    {
+                                        var qObj = kvp.Value as JObject;
+                                        if (qObj == null) continue;
+
+                                        var query = new DataflowQuery
+                                        {
+                                            QueryId = qObj.Value<string>("QueryId"),
+                                            QueryName = qObj.Value<string>("QueryName") ?? kvp.Key,
+                                            EntityName = qObj.Value<string>("EntityName"),
+                                            LoadEnabled = qObj.Value<bool?>("LoadEnabled") ?? false,
+                                            DeleteExistingDataOnLoad = qObj.Value<bool?>("DeleteExistingDataOnLoad") ?? false,
+                                            IsCalculatedEntity = qObj.Value<bool?>("LastKnownIsCalculatedEntity") ?? false,
+                                            IsLinkedEntity = qObj.Value<bool?>("LastKnownIsLinkedEntity") ?? false,
+                                            ResultTypeName = qObj.Value<string>("LastKnownResultTypeName")
+                                        };
+
+                                        // Parse FieldsMetadata
+                                        var fieldsMetadata = qObj["FieldsMetadata"] as JObject;
+                                        if (fieldsMetadata != null)
+                                        {
+                                            foreach (var fkvp in fieldsMetadata)
+                                            {
+                                                var fObj = fkvp.Value as JObject;
+                                                if (fObj == null) continue;
+
+                                                query.FieldMappings.Add(new DataflowFieldMapping
+                                                {
+                                                    DestinationFieldName = fkvp.Key,
+                                                    SourceColumnName = fObj.Value<string>("SourceColumnName"),
+                                                    DestinationFieldType = fObj.Value<string>("DestinationFieldType")
+                                                });
+                                            }
+                                        }
+
+                                        df.Queries.Add(query);
+                                    }
+                                }
+
+                                // Parse double-encoded DataflowMetadata
+                                string dataflowMetadataStr = settings.Value<string>("DataflowMetadata");
+                                if (!string.IsNullOrEmpty(dataflowMetadataStr))
+                                {
+                                    try
+                                    {
+                                        var metadata = JObject.Parse(dataflowMetadataStr);
+                                        df.DataflowType = metadata.Value<string>("DataflowType");
+                                        df.OwnerName = metadata.Value<string>("OwnerName");
+                                        df.CreatedTime = metadata.Value<string>("CreatedTime");
+                                        df.LastUpdateTime = metadata.Value<string>("LastUpdateTime");
+                                        df.PublishStatus = metadata["DataflowPublishMetadata"]?.Value<string>("PublishStatus");
+
+                                        var connectionOverrides = metadata["ConnectionOverrides"] as JArray;
+                                        if (connectionOverrides != null)
+                                        {
+                                            foreach (var co in connectionOverrides)
+                                            {
+                                                df.ConnectionOverrides.Add(new DataflowConnectionOverride
+                                                {
+                                                    Path = co.Value<string>("Path"),
+                                                    Kind = co.Value<string>("Kind"),
+                                                    Provider = co.Value<string>("Provider"),
+                                                    EnvironmentName = co.Value<string>("EnvironmentName")
+                                                });
+                                            }
+                                        }
+                                    }
+                                    catch { }
+                                }
+
+                                // Parse double-encoded Dataflow
+                                string dataflowStr = settings.Value<string>("Dataflow");
+                                if (!string.IsNullOrEmpty(dataflowStr))
+                                {
+                                    try
+                                    {
+                                        var dataflowObj = JObject.Parse(dataflowStr);
+                                        df.OutputFileFormat = dataflowObj.Value<string>("ppdf:outputFileFormat");
+                                    }
+                                    catch { }
+                                }
+                            }
+                            catch { }
+                        }
+
+                        // Parse msdyn_refreshsettings JSON
+                        string refreshSettingsJson = dfNode.SelectSingleNode("msdyn_refreshsettings")?.InnerText;
+                        if (!string.IsNullOrEmpty(refreshSettingsJson))
+                        {
+                            try
+                            {
+                                var refreshObj = JObject.Parse(refreshSettingsJson);
+                                df.RefreshSettings = new DataflowRefreshSettings
+                                {
+                                    RefreshPeriod = refreshObj.Value<string>("RefreshPeriod"),
+                                    ScheduleRefreshType = refreshObj.Value<string>("ScheduleRefreshType"),
+                                    StartDateTime = refreshObj.Value<string>("StartDateTime"),
+                                    TimeBasedRefreshPeriod = refreshObj.Value<string>("TimeBasedRefreshPeriod"),
+                                    TimeZoneId = refreshObj.Value<string>("TimeZoneId")
+                                };
+                            }
+                            catch { }
+                        }
+
+                        dataflows.Add(df);
+                    }
+                }
+                dataflows.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
+            }
+            return dataflows;
         }
 
         public List<ConnectorDefinition> getConnectors()
