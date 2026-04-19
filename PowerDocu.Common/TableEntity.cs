@@ -273,6 +273,38 @@ namespace PowerDocu.Common
         {
             return xmlColumn.SelectSingleNode("IsFilterable")?.InnerText.Equals("1") ?? false;
         }
+
+        /// <summary>
+        /// Gets the display label for an option set value on this column.
+        /// Searches the column's optionset/options for a matching value.
+        /// </summary>
+        public string GetOptionSetLabel(string intValue)
+        {
+            if (string.IsNullOrEmpty(intValue)) return null;
+            XmlNodeList options = xmlColumn.SelectNodes("optionset/options/option");
+            if (options == null) return null;
+            foreach (XmlNode option in options)
+            {
+                string val = option.Attributes?.GetNamedItem("value")?.InnerText;
+                if (val == intValue)
+                {
+                    // Try English label first (1033)
+                    XmlNode labels = option.SelectSingleNode("labels");
+                    if (labels != null)
+                    {
+                        foreach (XmlNode label in labels.ChildNodes)
+                        {
+                            if (label.Attributes?.GetNamedItem("languagecode")?.InnerText == "1033")
+                                return label.Attributes?.GetNamedItem("description")?.InnerText;
+                        }
+                        // Fallback to first label
+                        XmlNode firstLabel = labels.FirstChild;
+                        return firstLabel?.Attributes?.GetNamedItem("description")?.InnerText;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     public class FormEntity
