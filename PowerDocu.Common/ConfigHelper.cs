@@ -20,6 +20,7 @@ namespace PowerDocu.Common
         public bool documentBusinessProcessFlows = true;
         public bool documentDesktopFlows = true;
         public bool documentClassicWorkflows = true;
+        public bool documentDataflows = true;
         public bool documentApps = true;
         public bool documentAppProperties = true;
         public bool documentAppVariables = true;
@@ -57,6 +58,7 @@ namespace PowerDocu.Common
                     documentBusinessProcessFlows = config.documentBusinessProcessFlows;
                     documentDesktopFlows = config.documentDesktopFlows;
                     documentClassicWorkflows = config.documentClassicWorkflows;
+                    documentDataflows = config.documentDataflows;
                     documentFlows = config.documentFlows;
                     documentApps = config.documentApps;
                     documentAppProperties = config.documentAppProperties;
