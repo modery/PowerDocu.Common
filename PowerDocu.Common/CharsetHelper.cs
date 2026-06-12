@@ -64,7 +64,11 @@ namespace PowerDocu.Common
                 sb.Append(isUnsafe ? '-' : normalized);
             }
 
-            return sb.ToString();
+            // Collapse consecutive dashes (e.g., "Name - Value" → "Name-Value" after space replacement)
+            string result = sb.ToString();
+            while (result.Contains("--"))
+                result = result.Replace("--", "-");
+            return result.Trim('-');
         }
     }
 }

@@ -19,6 +19,7 @@ namespace PowerDocu.Common
         private List<WebResourceEntity> webResources;
         private List<RibbonCustomizationEntity> ribbonCustomizations;
         private List<DesktopFlowEntity> desktopFlows;
+        private List<ClassicWorkflowEntity> classicWorkflows;
         private List<DataflowEntity> dataflows;
 
         public string getAppNameBySchemaName(string schemaName)
@@ -247,6 +248,123 @@ namespace PowerDocu.Common
                 desktopFlows.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
             }
             return desktopFlows;
+        }
+
+        public List<ClassicWorkflowEntity> getClassicWorkflows()
+        {
+            if (classicWorkflows == null)
+            {
+                classicWorkflows = new List<ClassicWorkflowEntity>();
+                foreach (XmlNode workflowNode in customizationsXml.SelectNodes("/ImportExportXml/Workflows/Workflow"))
+                {
+                    XmlNode categoryNode = workflowNode.SelectSingleNode("Category");
+                    // Category 0 = Classic Workflow (background/synchronous)
+                    if (categoryNode == null || categoryNode.InnerText != "0")
+                        continue;
+
+                    var workflow = new ClassicWorkflowEntity
+                    {
+                        ID = workflowNode.Attributes?.GetNamedItem("WorkflowId")?.InnerText?.Trim('{', '}'),
+                        Name = workflowNode.Attributes?.GetNamedItem("Name")?.InnerText,
+                        XamlFileName = workflowNode.SelectSingleNode("XamlFileName")?.InnerText,
+                        PrimaryEntity = workflowNode.SelectSingleNode("PrimaryEntity")?.InnerText,
+                        UniqueName = workflowNode.SelectSingleNode("UniqueName")?.InnerText
+                            ?? workflowNode.Attributes?.GetNamedItem("Name")?.InnerText,
+                        Category = int.TryParse(categoryNode.InnerText, out int cat) ? cat : 0,
+                        Mode = int.TryParse(workflowNode.SelectSingleNode("Mode")?.InnerText, out int mode) ? mode : 0,
+                        Scope = int.TryParse(workflowNode.SelectSingleNode("Scope")?.InnerText, out int scope) ? scope : 1,
+                        OnDemand = workflowNode.SelectSingleNode("OnDemand")?.InnerText == "1",
+                        TriggerOnCreate = workflowNode.SelectSingleNode("TriggerOnCreate")?.InnerText == "1",
+                        TriggerOnDelete = workflowNode.SelectSingleNode("TriggerOnDelete")?.InnerText == "1",
+                        TriggerOnUpdateAttributeList = workflowNode.SelectSingleNode("TriggerOnUpdateAttributeList")?.InnerText,
+                        StateCode = int.TryParse(workflowNode.SelectSingleNode("StateCode")?.InnerText, out int sc) ? sc : 0,
+                        StatusCode = int.TryParse(workflowNode.SelectSingleNode("StatusCode")?.InnerText, out int stc) ? stc : 0,
+                        IntroducedVersion = workflowNode.SelectSingleNode("IntroducedVersion")?.InnerText,
+                        IsCustomizable = workflowNode.SelectSingleNode("IsCustomizable")?.InnerText == "1",
+                        Rank = int.TryParse(workflowNode.SelectSingleNode("Rank")?.InnerText, out int rank) ? rank : 0,
+                        OwnerId = workflowNode.SelectSingleNode("OwnerId")?.InnerText
+                    };
+
+                    // Parse LocalizedNames
+                    XmlNode localizedNamesNode = workflowNode.SelectSingleNode("LocalizedNames");
+                    if (localizedNamesNode != null)
+                    {
+                        foreach (XmlNode ln in localizedNamesNode.ChildNodes)
+                        {
+                            if (ln.Name == "LocalizedName")
+                            {
+                                string langCode = ln.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                                string desc = ln.Attributes?.GetNamedItem("description")?.InnerText;
+                                if (langCode != null && desc != null)
+                                    workflow.LocalizedNames[langCode] = desc;
+                            }
+                        }
+                    }
+
+                    // Parse Descriptions
+                    XmlNode descriptionsNode = workflowNode.SelectSingleNode("Descriptions");
+                    if (descriptionsNode != null)
+                    {
+                        foreach (XmlNode dn in descriptionsNode.ChildNodes)
+                        {
+                            if (dn.Name == "Description")
+                            {
+                                string langCode = dn.Attributes?.GetNamedItem("languagecode")?.InnerText;
+                                string desc = dn.Attributes?.GetNamedItem("description")?.InnerText;
+                                if (langCode != null && desc != null)
+                                    workflow.Descriptions[langCode] = desc;
+                            }
+                        }
+                    }
+
+                    if (workflow.Descriptions.ContainsKey("1033"))
+                        workflow.Description = workflow.Descriptions["1033"];
+                    else if (workflow.Descriptions.Count > 0)
+                        workflow.Description = new List<string>(workflow.Descriptions.Values)[0];
+
+                    classicWorkflows.Add(workflow);
+                }
+                classicWorkflows.Sort((a, b) => a.GetDisplayName().CompareTo(b.GetDisplayName()));
+            }
+            return classicWorkflows;
+        }
+
+        /// <summary>
+        /// Looks up custom workflow activity metadata (FriendlyName, Description, GroupName)
+        /// from the PluginAssemblies section of customizations.xml by the full type name.
+        /// </summary>
+        public (string FriendlyName, string Description, string GroupName) getWorkflowActivityMetadata(string fullTypeName)
+        {
+            if (string.IsNullOrEmpty(fullTypeName)) return (null, null, null);
+
+            // Search: /ImportExportXml/SolutionPluginAssemblies/PluginAssembly/PluginTypes/PluginType
+            // Also try: /ImportExportXml/PluginAssemblies/PluginAssembly/PluginTypes/PluginType
+            string[] xpaths = new[]
+            {
+                "/ImportExportXml/SolutionPluginAssemblies/PluginAssembly/PluginTypes/PluginType",
+                "/ImportExportXml/PluginAssemblies/PluginAssembly/PluginTypes/PluginType"
+            };
+
+            foreach (string xpath in xpaths)
+            {
+                XmlNodeList pluginTypes = customizationsXml.SelectNodes(xpath);
+                if (pluginTypes == null) continue;
+
+                foreach (XmlNode pt in pluginTypes)
+                {
+                    string typeName = pt.SelectSingleNode("TypeName")?.InnerText;
+                    if (typeName != null && typeName.Equals(fullTypeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return (
+                            pt.SelectSingleNode("FriendlyName")?.InnerText,
+                            pt.SelectSingleNode("Description")?.InnerText,
+                            pt.SelectSingleNode("WorkflowActivityGroupName")?.InnerText
+                        );
+                    }
+                }
+            }
+
+            return (null, null, null);
         }
 
         public List<DataflowEntity> getDataflows()
