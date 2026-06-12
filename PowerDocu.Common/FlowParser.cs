@@ -27,7 +27,7 @@ namespace PowerDocu.Common
             NotificationHelper.SendNotification(" - Processing " + filename);
             if (filename.EndsWith("zip", StringComparison.OrdinalIgnoreCase))
             {
-                using FileStream stream = new FileStream(filename, FileMode.Open);
+                using FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 List<ZipArchiveEntry> flowDefinitions = ZipHelper.getWorkflowFilesFromZip(stream);
                 //Getting any potential app definitions as well, so that we can define if the package is a simple Flow (only 1 FLow inside) or a Solution
                 List<ZipArchiveEntry> appDefinitions = ZipHelper.getFilesInPathFromZip(stream, "", ".msapp");

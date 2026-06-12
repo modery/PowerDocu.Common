@@ -27,7 +27,7 @@ namespace PowerDocu.Common
             NotificationHelper.SendNotification(" - Processing " + filename);
             if (filename.EndsWith(".zip"))
             {
-                using FileStream stream = new FileStream(filename, FileMode.Open);
+                using FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 List<ZipArchiveEntry> definitions = ZipHelper.getFilesInPathFromZip(stream, "", ".msapp");
                 packageType = PackageType.SolutionPackage;
                 foreach (ZipArchiveEntry definition in definitions)
@@ -35,7 +35,7 @@ namespace PowerDocu.Common
                     string tempFile = Path.GetDirectoryName(filename) + @"\" + definition.Name;
                     definition.ExtractToFile(tempFile, true);
                     NotificationHelper.SendNotification("  - Processing app " + definition.FullName);
-                    using (FileStream appDefinition = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream appDefinition = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         {
                             AppEntity app = new AppEntity();
@@ -56,7 +56,7 @@ namespace PowerDocu.Common
                 packageType = PackageType.AppPackage;
                 AppEntity app = new AppEntity();
                 currentApp = app;
-                using FileStream stream = new FileStream(filename, FileMode.Open);
+                using FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 parseAppProperties(stream);
                 parseAppControls(stream);
                 parseAppDataSources(stream);

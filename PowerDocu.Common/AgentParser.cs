@@ -19,7 +19,7 @@ namespace PowerDocu.Common
             NotificationHelper.SendNotification(" - Processing " + filename);
             if (filename.EndsWith(".zip"))
             {
-                using FileStream stream = new FileStream(filename, FileMode.Open);
+                using FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 List<ZipArchiveEntry> agentFiles = ZipHelper.getFilesInPathFromZip(stream, "bots/", ".xml");
                 //process agents - they are in subfolders in the bots directory
                 foreach (ZipArchiveEntry agentFile in agentFiles)
@@ -27,7 +27,7 @@ namespace PowerDocu.Common
                     NotificationHelper.SendNotification("  - Processing " + agentFile.FullName);
                     tempFile = Path.GetDirectoryName(filename) + @"\" + agentFile.Name;
                     agentFile.ExtractToFile(tempFile, true);
-                    using (FileStream agentStream = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream agentStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         // Parse bot.xml and create AgentEntity
                         var xmlDoc = new XmlDocument();
@@ -344,7 +344,7 @@ namespace PowerDocu.Common
                     tempFile = Path.GetDirectoryName(filename) + @"\" + customizationsDefinition.Name;
                     customizationsDefinition.ExtractToFile(tempFile, true);
                     NotificationHelper.SendNotification("  - Processing customizations.xml ");
-                    using (FileStream customizations = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream customizations = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         CustomizationsEntity customizationsEntity = CustomizationsParser.parseCustomizationsDefinition(customizations);
                         AIModels = customizationsEntity.getAIModels().ToList();

@@ -14,7 +14,7 @@ namespace PowerDocu.Common
             NotificationHelper.SendNotification(" - Processing " + filename);
             if (filename.EndsWith(".zip"))
             {
-                using FileStream stream = new FileStream(filename, FileMode.Open);
+                using FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
                 //process solution.xml
                 ZipArchiveEntry solutionDefinition = ZipHelper.getSolutionDefinitionFileFromZip(stream);
                 if (solutionDefinition != null)
@@ -22,7 +22,7 @@ namespace PowerDocu.Common
                     string tempFile = Path.GetDirectoryName(filename) + @"\" + solutionDefinition.Name;
                     solutionDefinition.ExtractToFile(tempFile, true);
                     NotificationHelper.SendNotification("  - Processing solution ");
-                    using (FileStream appDefinition = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream appDefinition = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         {
                             parseSolutionDefinition(appDefinition);
@@ -37,7 +37,7 @@ namespace PowerDocu.Common
                     string tempFile = Path.GetDirectoryName(filename) + @"\" + customizationsDefinition.Name;
                     customizationsDefinition.ExtractToFile(tempFile, true);
                     NotificationHelper.SendNotification("  - Processing customizations.xml ");
-                    using (FileStream customizations = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream customizations = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         solution.Customizations = CustomizationsParser.parseCustomizationsDefinition(customizations);
                     }
@@ -50,7 +50,7 @@ namespace PowerDocu.Common
                     string tempFile = Path.GetDirectoryName(filename) + @"\" + environmentVariableDefinition.Name;
                     environmentVariableDefinition.ExtractToFile(tempFile, true);
                     NotificationHelper.SendNotification("  - Processing environment variable definition ");
-                    using (FileStream environmentVariableDefinitionStream = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream environmentVariableDefinitionStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         EnvironmentVariableEntity environmentVariable = EnvironmentVariableParser.parseEnvironmentVariableDefinition(environmentVariableDefinitionStream);
                         solution.EnvironmentVariables.Add(environmentVariable);
@@ -64,7 +64,7 @@ namespace PowerDocu.Common
                     string tempFile = Path.GetDirectoryName(filename) + @"\" + appActionFile.Name;
                     appActionFile.ExtractToFile(tempFile, true);
                     NotificationHelper.SendNotification("  - Processing Command Bar Buttons definition ");
-                    using (FileStream appActionStream = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream appActionStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         AppActionEntity appAction = AppActionParser.parseAppActionDefinition(appActionStream);
                         solution.AppActions.Add(appAction);
@@ -78,7 +78,7 @@ namespace PowerDocu.Common
                     string tempFile = Path.GetDirectoryName(filename) + @"\" + settingDefFile.Name;
                     settingDefFile.ExtractToFile(tempFile, true);
                     NotificationHelper.SendNotification("  - Processing setting definition ");
-                    using (FileStream settingDefStream = new FileStream(tempFile, FileMode.Open))
+                    using (FileStream settingDefStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         SettingDefinitionEntity settingDef = SettingDefinitionParser.parseSettingDefinition(settingDefStream);
                         solution.SettingDefinitions.Add(settingDef);

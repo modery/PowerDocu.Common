@@ -448,7 +448,7 @@ namespace PowerDocu.Common
             var part = doc.MainDocumentPart.AddNewPart<StyleDefinitionsPart>();
             var root = new Styles();
             root.Save(part);
-            FileStream stylesTemplate = new FileStream(AssemblyHelper.GetExecutablePath() + @"\Resources\styles.xml", FileMode.Open, FileAccess.Read);
+            FileStream stylesTemplate = new FileStream(AssemblyHelper.GetExecutablePath() + @"\Resources\styles.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
             part.FeedData(stylesTemplate);
             return part;
         }
