@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -134,12 +135,32 @@ namespace PowerDocu.Common
                 {
                     ConnectorIcon connectorIcon = new ConnectorIcon
                     {
-                        Url = connector.SelectSingleNode(".//img").GetAttributeValue("src", ""),
+                        Url = NormalizeLearnUrl(connector.SelectSingleNode(".//img")?.GetAttributeValue("src", "")),
                         Uniquename = connector.SelectSingleNode(".//a").GetAttributeValue("href", "").Replace("../", "").Replace("/", "").Replace("connectorreference", "").Replace("en-usconnectors", ""),
                         Name = connector.SelectSingleNode(".//a/b").InnerText
                     };
                     connectorIcons.Add(connectorIcon);
                 }
+
+                // Some connectors do not expose an icon src in the reference table.
+                // Fall back to the dedicated connector page and read the icon from the header image.
+                const int fallbackMaxConcurrency = 5;
+                var fallbackSemaphore = new SemaphoreSlim(fallbackMaxConcurrency);
+                var fallbackTasks = connectorIcons
+                    .Where(icon => string.IsNullOrWhiteSpace(icon.Url) && !string.IsNullOrWhiteSpace(icon.Uniquename))
+                    .Select(async icon =>
+                    {
+                        await fallbackSemaphore.WaitAsync();
+                        try
+                        {
+                            icon.Url = await ResolveConnectorUrlFromConnectorPage(client, icon.Uniquename);
+                        }
+                        finally
+                        {
+                            fallbackSemaphore.Release();
+                        }
+                    });
+                await Task.WhenAll(fallbackTasks);
 
                 // Download icons in parallel with limited concurrency
                 const int maxConcurrency = 25;
@@ -149,6 +170,12 @@ namespace PowerDocu.Common
                     await semaphore.WaitAsync();
                     try
                     {
+                        if (string.IsNullOrWhiteSpace(connectorIcon.Url))
+                        {
+                            NotificationHelper.SendNotification($"No icon URL found for {connectorIcon.Name} ({connectorIcon.Uniquename}).");
+                            return;
+                        }
+
                         var response = await client.GetAsync(connectorIcon.Url);
                         response.EnsureSuccessStatusCode();
                         var bytes = await response.Content.ReadAsByteArrayAsync();
@@ -178,6 +205,82 @@ namespace PowerDocu.Common
                 connectorIcons = null;
             }
             return true;
+        }
+
+        private static async Task<string> ResolveConnectorUrlFromConnectorPage(HttpClient client, string uniqueName)
+        {
+            var connectorPageUrl = "https://learn.microsoft.com/en-us/connectors/" + uniqueName;
+            const int maxAttempts = 3;
+
+            for (int attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    var response = await client.GetAsync(connectorPageUrl);
+
+                    if ((response.StatusCode == HttpStatusCode.TooManyRequests || (int)response.StatusCode >= 500) && attempt < maxAttempts)
+                    {
+                        await Task.Delay(500 * attempt);
+                        continue;
+                    }
+
+                    response.EnsureSuccessStatusCode();
+                    var html = await response.Content.ReadAsStringAsync();
+                    var doc = new HtmlDocument();
+                    doc.LoadHtml(html);
+
+                    var imgNode = doc.DocumentNode.SelectSingleNode(
+                        "//div[contains(@class,'margin-block-sm') and contains(@class,'display-flex') and contains(@class,'align-items-center') and contains(@class,'justify-content-flex-start') and contains(@class,'flex-wrap-nowrap')]/img"
+                    ) ?? doc.DocumentNode.SelectSingleNode(
+                        "//img[contains(@src,'static.powerapps.com') and contains(@src,'/icon.')]"
+                    );
+
+                    if (imgNode == null) return "";
+
+                    var src = imgNode.GetAttributeValue("src", "");
+                    if (string.IsNullOrWhiteSpace(src))
+                    {
+                        src = imgNode.GetAttributeValue("data-src", "");
+                    }
+                    if (string.IsNullOrWhiteSpace(src))
+                    {
+                        var srcSet = imgNode.GetAttributeValue("srcset", "");
+                        if (!string.IsNullOrWhiteSpace(srcSet))
+                        {
+                            src = srcSet.Split(',').FirstOrDefault()?.Trim().Split(' ').FirstOrDefault() ?? "";
+                        }
+                    }
+
+                    return NormalizeLearnUrl(src);
+                }
+                catch
+                {
+                    if (attempt < maxAttempts)
+                    {
+                        await Task.Delay(500 * attempt);
+                        continue;
+                    }
+                }
+            }
+
+            return "";
+        }
+
+        private static string NormalizeLearnUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url)) return "";
+
+            if (url.StartsWith("//", StringComparison.Ordinal))
+            {
+                return "https:" + url;
+            }
+
+            if (url.StartsWith("/", StringComparison.Ordinal))
+            {
+                return "https://learn.microsoft.com" + url;
+            }
+
+            return url;
         }
 
     }
